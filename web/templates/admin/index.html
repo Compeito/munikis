@@ -1,0 +1,16 @@
+{% extends "admin/index.html" %}
+{% load render_bundle from webpack_loader %}
+{% load static %}
+
+{% block extrahead %}
+  {% render_bundle 'admin/statistics' %}
+  <script type="application/json" id="chartData">{{ chart_data|safe }}</script>
+  {{ block.super }}
+{% endblock %}
+
+{% block messages %}
+  {{ block.super }}
+  <div style="width: 80%;">
+    <canvas style="margin: 30px; width: 60%; height: 50%;" id="chart"></canvas>
+  </div>
+{% endblock %}

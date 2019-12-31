@@ -4,7 +4,6 @@ volumes:
   db_data:
   venv:
   sock:
-  node_modules:
 
 services:
   nginx:
@@ -60,7 +59,6 @@ services:
     env_file: .env
     command: python3 entrypoint.py
     volumes:
-      - node_modules:/code/node_modules
       - ./node:/code
       - ./web/assets:/code/assets
     working_dir: /code

@@ -1,7 +1,7 @@
 import Chart from 'chart.js'
 import 'chartjs-plugin-zoom'
 
-const VIEW_COUNT = 10
+const VIEW_COUNT = 20
 
 document.addEventListener('DOMContentLoaded', () => {
   const chartDataJSON = document.getElementById('chartData')
@@ -10,17 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const createChart = chartOption => {
     const ctx = document.getElementById(chartOption.id).getContext('2d')
     new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
         datasets: [
           {
             label: chartOption.label,
+            lineTension: 0,
             data: chartOption.data.map(item => {
               item.x = new Date(item.date)
               return item
             }),
-            borderColor: chartOption.color,
-            backgroundColor: chartOption.color,
+            borderColor: `rgba(${chartOption.color}, 1)`,
+            backgroundColor: `rgba(${chartOption.color}, 0.5)`,
           },
         ],
       },
@@ -42,22 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
               }
             },
           ],
-          yAxes: [
-            {
-              ticks: {
-                suggestedMax: 20,
-                beginAtZero: true,
-              },
-            },
-          ],
         },
         plugins: {
           zoom: {
             pan: {
               enabled: true,
               mode: 'x',
-              speed: 10,
-              threshold: 10,
             },
             zoom: {
               enabled: true,
@@ -73,13 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
     id: 'userChart',
     label: '新規登録者数',
     data: chartData.user,
-    color: 'blue'
+    color: '0, 0, 255'
   })
 
   createChart({
     id: 'videoChart',
     label: '動画投稿数',
     data: chartData.video,
-    color: 'red'
+    color: '255, 0, 0'
   })
 })

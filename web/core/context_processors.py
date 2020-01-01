@@ -5,7 +5,7 @@ import re
 from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count
-from django.db.models.functions import TruncDay
+from django.db.models.functions import TruncDate
 from django.http.request import HttpRequest
 from django.utils import timezone
 
@@ -33,22 +33,47 @@ def admin_chart(request: HttpRequest):
     if not request.path == '/admin/':
         return {'chart_data': {}}
 
-    week_ago = timezone.now() - timezone.timedelta(days=7)
+    def merge_dict(x: dict, y: dict):
+        z = x.copy()
+        z.update(y)
+        return z
+
+    # dateオブジェクトで最初の日(ユーザーと動画で古い方)から今日までキーが日付/値が0のデータを用意し、
+    # 実際のデータがある日をその数値で上書きする -> データがない日を0埋めする
+    first_day = min(Video.objects.first().profile.created_at, User.objects.first().date_joined).date()
+    empty_data_days = {}
+    for days in range((timezone.now().date() - first_day).days):
+        empty_data_days[first_day + timezone.timedelta(days=days)] = 0
+
+    video_data = (
+        Video.objects.annotate(date=TruncDate("profile__created_at"))
+            .values("date")
+            .annotate(count=Count("id"))
+            .order_by("-date")
+    )
+    video_data_dict = merge_dict(empty_data_days, {date['date']: date['count'] for date in video_data})
+
+    user_data = (
+        User.objects.annotate(date=TruncDate("date_joined"))
+            .values("date")
+            .annotate(count=Count("id"))
+            .order_by("-date")
+    )
+    user_data_dict = merge_dict(empty_data_days, {data['date']: data['count'] for data in user_data})
+
     chart_data = {
-        'video': list(
-            Video.objects.filter(profile__created_at__gte=week_ago)
-                .annotate(date=TruncDay("profile__created_at"))
-                .values("date")
-                .annotate(y=Count("id"))
-                .order_by("-date")
-        ),
-        'user': list(
-            User.objects.filter(date_joined__gte=week_ago)
-                .annotate(date=TruncDay("date_joined"))
-                .values("date")
-                .annotate(y=Count("id"))
-                .order_by("-date")
-        )
+        'video': [
+            {
+                'date': timezone.datetime.fromordinal(date.toordinal()),
+                'y': count
+            } for date, count in video_data_dict.items()
+        ],
+        'user': [
+            {
+                'date': timezone.datetime.fromordinal(date.toordinal()),
+                'y': count
+            } for date, count in user_data_dict.items()
+        ],
     }
 
     return {

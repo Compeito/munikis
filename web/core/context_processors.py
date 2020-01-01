@@ -42,7 +42,7 @@ def admin_chart(request: HttpRequest):
     # 実際のデータがある日をその数値で上書きする -> データがない日を0埋めする
     first_day = min(Video.objects.first().profile.created_at, User.objects.first().date_joined).date()
     empty_data_days = {}
-    for days in range((timezone.now().date() - first_day).days):
+    for days in range((timezone.now().date() - first_day).days + 1):
         empty_data_days[first_day + timezone.timedelta(days=days)] = 0
 
     video_data = (

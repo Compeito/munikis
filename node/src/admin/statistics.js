@@ -1,69 +1,85 @@
 import Chart from 'chart.js'
 import 'chartjs-plugin-zoom'
 
-document.addEventListener('DOMContentLoaded', () => {
-  const ctx = document.getElementById('chart').getContext('2d')
+const VIEW_COUNT = 10
 
+document.addEventListener('DOMContentLoaded', () => {
   const chartDataJSON = document.getElementById('chartData')
   const chartData = JSON.parse(chartDataJSON.innerText)
 
-  const chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      datasets: [
-        {
-          label: '動画投稿数',
-          data: chartData.video.map((d) => {
-            d.x = new Date(d.date)
-            return d
-          }),
-          backgroundColor: 'red',
-        },
-        {
-          label: '新規登録者数',
-          data: chartData.user.map((d) => {
-            d.x = new Date(d.date)
-            return d
-          }),
-          backgroundColor: 'blue',
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        xAxes: [
+  const createChart = chartOption => {
+    const ctx = document.getElementById(chartOption.id).getContext('2d')
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        datasets: [
           {
-            type: 'time',
-            time: {
-              unit: 'day',
-              round: 'day',
-              displayFormats: {
-                day: 'MMM D',
-              },
-            },
-          },
-        ],
-        yAxes: [
-          {
-            ticks: {
-              suggestedMax: 20,
-              beginAtZero: true,
-            },
+            label: chartOption.label,
+            data: chartOption.data.map(item => {
+              item.x = new Date(item.date)
+              return item
+            }),
+            borderColor: chartOption.color,
+            backgroundColor: chartOption.color,
           },
         ],
       },
-      plugins: {
-        zoom: {
-          pan: {
-            enabled: true,
-            mode: 'x',
-            rangeMax: {
-              x: 7,
+      options: {
+        responsive: true,
+        scales: {
+          xAxes: [
+            {
+              type: 'time',
+              time: {
+                unit: 'day',
+                displayFormats: {
+                  day: 'MMM D',
+                },
+              },
+              ticks: {
+                min: chartOption.data[chartOption.data.length - VIEW_COUNT].x,
+                max: chartOption.data[chartOption.data.length - 1].x,
+              }
             },
-          },
+          ],
+          yAxes: [
+            {
+              ticks: {
+                suggestedMax: 20,
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+        plugins: {
+          zoom: {
+            pan: {
+              enabled: true,
+              mode: 'x',
+              speed: 10,
+              threshold: 10,
+            },
+            zoom: {
+              enabled: true,
+              mode: ''
+            }
+          }
         }
-      }
-    },
+      },
+    })
+  }
+
+  createChart({
+    id: 'userChart',
+    label: '新規登録者数',
+    data: chartData.user,
+    color: 'blue'
+  })
+
+  createChart({
+    id: 'videoChart',
+    label: '動画投稿数',
+    data: chartData.video,
+    color: 'red'
   })
 })

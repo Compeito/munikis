@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load core_tags %}
+
+{% block page_title %}ラベル一覧{% endblock %}
+{% block ogp_page_title %}ラベル一覧{% endblock %}
+
+{% block content_2col %}
+  <div class="column is-multiline">
+    {% for label in labels %}
+      <div class="column">
+        <a href="/label/{{ label.slug }}">
+          <h1 class="title {{ label.css_classes }} is-size-3">
+            {{ label }}
+          </h1>
+        </a>
+        <div class="subtitle">{{ label.description|activate_url|safe }}</div>
+      </div>
+    {% endfor %}
+  {% include 'base/components/pagination.html' %}
+  </div>
+{% endblock %}

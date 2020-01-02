@@ -97,3 +97,15 @@ class LabelList(AltPaginationListView):
 
 
 label = LabelList.as_view()
+
+
+class LabelIndex(AltPaginationListView):
+    template_name = "browse/label_index.html"
+    context_object_name = "labels"
+    paginate_by = 15
+
+    def get_queryset(self):
+        return Label.objects.all().order_by('-id')
+
+
+label_index = LabelIndex.as_view()

@@ -26,12 +26,17 @@
                 </div>
               </a>
             </div>
+            {% if forloop.last %}
+              <div class="column is-narrow is-narrow-padding">
+                <a href="/label">
+                  <div class="tag is-rounded is-grey-lighter is-size-5-desktop is-size-6">
+                    <i class="fas fa-arrow-right with-text"></i>
+                    もっと見る
+                  </div>
+                </a>
+              </div>
+            {% endif %}
           {% endfor %}
-        </div>
-        <div class="column is-narrow is-narrow-padding">
-          <div class=" is-size-5-desktop is-size-6">
-            <a href="/label">→もっと見る</a>
-          </div>
         </div>
       </div>
     </div>

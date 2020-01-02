@@ -5,17 +5,24 @@
 {% block ogp_page_title %}ラベル一覧{% endblock %}
 
 {% block content_2col %}
-  <div class="column is-multiline">
+  <div class="column">
+    <h1 class="title">ラベル一覧</h1>
     {% for label in labels %}
-      <div class="column">
-        <a href="/label/{{ label.slug }}">
-          <h1 class="title {{ label.css_classes }} is-size-3">
-            {{ label }}
-          </h1>
-        </a>
-        <div class="subtitle">{{ label.description|activate_url|safe }}</div>
+      <div class="columns">
+        <div class="column">
+          <a href="/label/{{ label.slug }}">
+            <div class="tags has-addons">
+              <span class="{{ label.css_classes }} is-large">
+                {{ label }}
+              </span>
+              <span class="tag is-dark is-rounded is-large">
+                {{ label.videoprofile_set.count }}
+              </span>
+            </div>
+          </a>
+        </div>
       </div>
     {% endfor %}
-  {% include 'base/components/pagination.html' %}
+    {% include 'base/components/pagination.html' %}
   </div>
 {% endblock %}

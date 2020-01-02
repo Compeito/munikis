@@ -105,7 +105,7 @@ class LabelIndex(AltPaginationListView):
     paginate_by = 15
 
     def get_queryset(self):
-        return Label.objects.all().order_by('-id')
+        return Label.objects.all().order_by('-is_active', '-id')
 
 
 label_index = LabelIndex.as_view()

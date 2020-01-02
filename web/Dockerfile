@@ -12,6 +12,7 @@ RUN apt install -y build-essential libbz2-dev libdb-dev \
     libncursesw5-dev libsqlite3-dev libssl-dev zlib1g-dev \
     uuid-dev
 RUN apt install -y python3.7 python3.7-dev python3.7-distutils
+RUN apt install -y python3-pip
 RUN apt install -y ffmpeg git curl
 
 RUN mkdir /code
@@ -20,7 +21,7 @@ COPY Pipfile.lock /code/
 WORKDIR /code
 
 RUN ln -s /usr/bin/python3.7 /usr/bin/python
-RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python
+RUN python -m pip install -U pip
 RUN pip install pipenv
 
 ENV PIPENV_VENV_IN_PROJECT 1

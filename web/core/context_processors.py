@@ -39,12 +39,16 @@ def admin_chart(request: HttpRequest):
         return z
 
     # dateオブジェクトで最初の日(ユーザーと動画で古い方)から今日までキーが日付/値が0のデータを用意し、
-    # 実際のデータがある日をその数値で上書きする -> データがない日を0埋めする
-    first_day = min(Video.objects.first().profile.created_at, User.objects.first().date_joined).date()
-    empty_data_days = {}
-    for days in range((timezone.now().date() - first_day).days + 1):
-        empty_data_days[first_day + timezone.timedelta(days=days)] = 0
+    # 実際のデータがある日をその数値で上書きする -> 結果、データがない日を0埋めできる
+    first_day = min(Video.objects.first().profile.created_at, User.objects.first().date_joined)
+    first_day_localdate = timezone.localdate(first_day)
+    now_localdate = timezone.localdate(timezone.now())
 
+    empty_data_days = {}
+    for days in range((now_localdate - first_day_localdate).days + 1):
+        empty_data_days[first_day_localdate + timezone.timedelta(days=days)] = 0
+
+    # 以下、SQL上でCONVERT_TZされるため変換なしにAsia/Tokyoに基づいた数値が取れる
     video_data = (
         Video.objects.annotate(date=TruncDate("profile__created_at"))
             .values("date")

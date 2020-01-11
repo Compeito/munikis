@@ -89,7 +89,7 @@ class Video(models.Model):
         gif = ''
         if hasattr(self, 'data') and not self.is_ban:
             if self.data.thumbnail:
-                thumbnail = self.data.thumbnail
+                thumbnail = self.data.thumbnail.url
             if self.data.gif:
                 gif = self.data.gif.url
         return {'thumbnail': thumbnail, 'gif': gif}

@@ -1,17 +1,21 @@
-<video
-  id='video-player'
-  class='video-js vjs-big-play-centered'
-  controls
-  {% if video.profile.is_loop %}loop{% endif %}
-  preload='auto'
-  poster='{{ video.data.thumbnail.url }}'
-  data-video-id="{{ video.slug }}"
-  data-fps="{{ video.profile.fps }}"
-  data-duration="{{ video.data.duration }}"
->
-  <source src='{{ video.data.file.url }}' type='video/mp4'>
-  <p class='vjs-no-js'>
-    この動画を見るためにはJavaScriptを有効にして、ブラウザを最新版にして再度試してみてください
-    <a href='https://videojs.com/html5-video-support/' target='_blank'>HTML5動画のサポート</a>
-  </p>
-</video>
+{% if video.user == user or not video.is_ban %}
+  <video
+          id='video-player'
+          class='video-js vjs-big-play-centered'
+          controls
+          {% if video.profile.is_loop %}loop{% endif %}
+          preload='auto'
+          poster='{{ video.data.thumbnail.url }}'
+          data-video-id="{{ video.slug }}"
+          data-fps="{{ video.profile.fps }}"
+          data-duration="{{ video.data.duration }}"
+  >
+    <source src='{{ video.data.file.url }}' type='video/mp4'>
+    <p class='vjs-no-js'>
+      この動画を見るためにはJavaScriptを有効にして、ブラウザを最新版にして再度試してみてください
+      <a href='https://videojs.com/html5-video-support/' target='_blank'>HTML5動画のサポート</a>
+    </p>
+  </video>
+{% else %}
+  <img src="/assets/images/ogp.png"/>
+{% endif %}

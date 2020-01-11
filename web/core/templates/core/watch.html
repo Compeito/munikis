@@ -6,7 +6,15 @@
 {% block ogp_page_title %}{{ video.profile.meta_title }}{% endblock %}
 {% block description %}{{ video.profile.meta_description }}{% endblock %}
 {% block ogp_description %}{{ video.profile.meta_description }}{% endblock %}
-{% block ogp_image %}{{ video.data.thumbnail.url }}{% endblock %}
+
+{% block ogp_image %}
+  {% if not video.is_ban %}
+    {{ video.data.thumbnail.url }}
+  {% else %}
+    {{ '/assets/images/ogp.png'|to_absolute_path }}
+  {% endif %}
+{% endblock %}
+
 {% block ogp_twitter_creator %}
   {% if video.user.has_twitter_auth %}
     @{{ video.user.twitter_info.screen_name }}

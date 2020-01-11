@@ -56,6 +56,7 @@ class Video(models.Model):
     slug = models.CharField('動画ID', max_length=5, default=default_video_slug, editable=False)
 
     is_pickup = models.BooleanField('ピックアップ', default=False)
+    is_ban = models.BooleanField('運営による非公開', default=False)
     published_at = models.DateTimeField('公開時間', blank=True, null=True)
 
     views_count = models.PositiveIntegerField('再生回数', default=0)
@@ -221,6 +222,12 @@ class VideoProfile(CustomModel):
         if self.ordered_fps:
             return self.ordered_fps
         return self.video.data.fps
+
+    @property
+    def release_type_display(self):
+        if self.video.is_ban:
+            return '運営による非公開'
+        return self.get_release_type_display()
 
     @property
     def meta_title(self):

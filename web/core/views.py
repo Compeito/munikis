@@ -40,6 +40,9 @@ def watch(request, slug):
     if video.is_failed and video.user == request.user:
         messages.error(request, 'エンコード処理が正常に終了しませんでした。しばらく時間をおいてから、動画を削除して再投稿してみてください')
 
+    if video.is_ban:
+        messages.error(request, 'この動画は運営によって非公開に設定されました。投稿者以外は閲覧できません')
+
     return render(request, 'core/watch.html', {'video': video, 'related_videos': related_videos, 'form': CommentForm(),
                                                'modal_form': AddPointForm()})
 

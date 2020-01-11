@@ -84,6 +84,17 @@ class Video(models.Model):
         return hasattr(self, 'pure') and self.pure.is_encoding and self.pure.is_failed
 
     @property
+    def image_urls(self):
+        thumbnail = 'https://tsukuriga.net/assets/images/ogp.png'
+        gif = ''
+        if hasattr(self, 'data') and not self.is_ban:
+            if self.data.thumbnail:
+                thumbnail = self.data.thumbnail
+            if self.data.gif:
+                gif = self.data.gif.url
+        return {'thumbnail': thumbnail, 'gif': gif}
+
+    @property
     def encode_state_display(self):
         if self.is_encoded:
             return 'エンコード完了'

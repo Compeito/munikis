@@ -4,11 +4,11 @@
     <div class="video-thumbnail">
       <figure class="image is-16by9">
         <img
-          class="video-thumbnail-image"
-          src="{{ video.data.thumbnail.url|default:"https://placehold.it/640x360" }}"
-          alt="{{ video.profile.title }}"
-          data-thumbnail="{{ video.data.thumbnail.url }}"
-          data-gif="{% if video.data.gif %}{{ video.data.gif.url }}{% endif %}"
+                class="video-thumbnail-image"
+                src="{{ video.image_urls.thumbnail }}"
+                alt="{{ video.profile.title }}"
+                data-thumbnail="{{ video.image_urls.thumbnail }}"
+                data-gif="{{ video.image_urls.gif }}"
         >
       </figure>
       {% if video.type|is_in:"twitter,altwug" %}

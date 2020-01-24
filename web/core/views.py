@@ -1,20 +1,21 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.clickjacking import xframe_options_exempt
-from django.views.decorators.http import require_POST
-from django.http.response import Http404
-from django.db.models import Q
-
 import functools
 import operator
+import re
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.http.response import Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.http import require_POST
 
+from account.models import User
 from ajax.forms import CommentForm, AddPointForm
-from upload.models import Video
+from browse.utils import safe_videos
 from upload.decorators import users_video_required
 from upload.generic import VideoProfileUpdateView
-from browse.utils import safe_videos
-
+from upload.importer import TwitterImporter, ImportFileError
+from upload.models import Video
 from .forms import ThumbnailForm, DeleteVideoForm
 
 
@@ -117,3 +118,32 @@ def delete(request, slug):
 def embed(request, slug):
     video = get_object_or_404(Video, slug=slug)
     return render(request, 'core/embed.html', {'video': video})
+
+
+def framebyframe(request):
+    url = request.GET.get('url', '')
+    matched = re.search(TwitterImporter.pattern, url)
+
+    if matched:
+        tweet_id = matched.group('id')
+
+        admin_user: User = User.objects.filter(is_staff=True).first()
+        tweet = admin_user.api.GetStatus(tweet_id)
+
+        try:
+            url = TwitterImporter.get_video_url(tweet)
+            video = {
+                'data':
+                    {
+                        'file': {'url': url},
+                        'thumbnail': {'url': 'https://tsukuriga.net/assets/images/ogp.png'}
+                    }
+            }
+            return render(request, 'core/framebyframe.html', {'video': video})
+
+        except ImportFileError as e:
+            messages.error(request, str(e))
+
+    if url:
+        messages.error(request, 'URLの形式が不正です')
+    return render(request, 'core/framebyframe.html')

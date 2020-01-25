@@ -1,6 +1,7 @@
 import functools
 import operator
 import re
+import twitter
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -122,28 +123,28 @@ def embed(request, slug):
 
 def framebyframe(request):
     url = request.GET.get('url', '')
-    matched = re.search(TwitterImporter.pattern, url)
+    twitter_matched = re.search(TwitterImporter.pattern, url)
+    media_matched = re.search(r'https://storage\.tsukuriga\.net/altwug/.+/movie\.mp4', url)
 
-    if matched:
-        tweet_id = matched.group('id')
-
+    file_url = ''
+    thumbnail_url = 'https://tsukuriga.net/assets/images/ogp.png'
+    if twitter_matched:
+        tweet_id = twitter_matched.group('id')
         admin_user: User = User.objects.filter(is_staff=True).first()
-        tweet = admin_user.api.GetStatus(tweet_id)
-
         try:
-            url = TwitterImporter.get_video_url(tweet)
-            video = {
-                'data':
-                    {
-                        'file': {'url': url},
-                        'thumbnail': {'url': 'https://tsukuriga.net/assets/images/ogp.png'}
-                    }
-            }
-            return render(request, 'core/framebyframe.html', {'video': video})
-
+            tweet = admin_user.api.GetStatus(tweet_id)
+            file_url = TwitterImporter.get_video_url(tweet)
+        except twitter.error.TwitterError as e:
+            messages.error(request, 'ツイートの取得に失敗ました')
         except ImportFileError as e:
             messages.error(request, str(e))
-
-    if url:
+    elif media_matched:
+        file_url = url
+    else:
         messages.error(request, 'URLの形式が不正です')
-    return render(request, 'core/framebyframe.html')
+
+    data = {
+        'file': {'url': file_url},
+        'thumbnail': {'url': thumbnail_url}
+    }
+    return render(request, 'core/framebyframe.html', {'video': {'data': data}})

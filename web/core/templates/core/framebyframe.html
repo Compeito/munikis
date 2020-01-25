@@ -6,20 +6,24 @@
 {% block ogp_page_title %}ツイートコマ送りツール{% endblock %}
 
 {% block head %}
-  {% render_bundle 'core/framebyframe' %}
+  {% if video.data.file.url %}
+    {% render_bundle 'core/framebyframe' %}
+  {% endif %}
 {% endblock %}
 
 {% block header %}{% endblock %}
 
 {% block content_2col %}
   <div class="column">
-    {% include 'core/components/video-player.html' %}
+    {% if video.data.file.url %}
+      {% include 'core/components/video-player.html' %}
+    {% endif %}
     <section class="section">
-      <h1 class="title">コマ送りツール</h1>
+      <h1 class="title">ツイートコマ送りツール</h1>
       <div class="level is-mobile">
         <div class="level-left">
           <button id="prev-frame" type="button" class="button is-primary level-item"><</button>
-          <input id="fps" type="number" class="input level-item" value="12" style="width: 50px">
+          <input id="fps" type="number" class="input level-item" value="12" min="1" style="width: 50px">
           <button id="next-frame" type="button" class="button is-primary level-item">></button>
         </div>
       </div>

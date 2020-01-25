@@ -5,9 +5,12 @@ class Video {
   constructor(video) {
     this.$el = doc(video)
     this.frames = this.getFrames()
-    doc('#fps').addEventListener('change', () => {
-      this.frames = this.getFrames()
-    })
+    const $fpsInput = doc('#fps')
+    if ($fpsInput) {
+      $fpsInput.addEventListener('change', () => {
+        this.frames = this.getFrames()
+      })
+    }
   }
 
   getFrames() {
@@ -38,16 +41,18 @@ class Video {
     const currentFrame = this.getCurrentFrame()
     if (currentFrame >= this.frames.length - 1) {
       this.$el.currentTime = this.$el.duration
+    } else {
+      this.$el.currentTime = parseFloat(this.frames[currentFrame + 1])
     }
-    this.$el.currentTime = parseFloat(this.frames[currentFrame + 1])
   }
 
   back_frame() {
     const currentFrame = this.getCurrentFrame()
     if (currentFrame <= 0) {
       this.$el.currentTime = 0
+    } else {
+      this.$el.currentTime = parseFloat(this.frames[currentFrame - 1])
     }
-    this.$el.currentTime = parseFloat(this.frames[currentFrame - 1])
   }
 }
 

@@ -1,20 +1,24 @@
-import { doc, ready, range } from '../../utils'
+import { doc, range, ready } from '../../utils'
 
 
 class Video {
   constructor(video) {
     this.$el = doc(video)
-    const fps = parseInt(this.$el.dataset.fps)
-    const duration = parseFloat(this.$el.dataset.duration)
-    if (!fps || !duration) {
-      throw Error('動画情報が取得できませんでした')
-    }
-    const frameLength = 1 / fps
-    const framesCount = Math.floor(fps * duration)
-    this.frames = range(framesCount).map(i => i * frameLength)
+    this.frames = this.getFrames()
+    doc('#fps').addEventListener('change', () => {
+      this.frames = this.getFrames()
+    })
   }
 
-  get currentFrame() {
+  getFrames() {
+    const fps = parseInt(this.$el.dataset.fps) || parseInt(doc('#fps').value)
+    const duration = parseFloat(this.$el.dataset.duration) || this.$el.duration
+    const frameLength = 1 / fps
+    const framesCount = Math.floor(fps * duration)
+    return range(framesCount).map(i => i * frameLength)
+  }
+
+  getCurrentFrame() {
     let minDiffFrame = 0
     let diff = []
     this.frames.forEach((frameVal, frame) => {
@@ -31,13 +35,19 @@ class Video {
   }
 
   push_frame() {
-    if (this.currentFrame >= this.frames.length) return
-    this.$el.currentTime = parseFloat(this.frames[this.currentFrame + 1])
+    const currentFrame = this.getCurrentFrame()
+    if (currentFrame >= this.frames.length - 1) {
+      this.$el.currentTime = this.$el.duration
+    }
+    this.$el.currentTime = parseFloat(this.frames[currentFrame + 1])
   }
 
   back_frame() {
-    if (this.currentFrame <= 0) return
-    this.$el.currentTime = parseFloat(this.frames[this.currentFrame - 1])
+    const currentFrame = this.getCurrentFrame()
+    if (currentFrame <= 0) {
+      this.$el.currentTime = 0
+    }
+    this.$el.currentTime = parseFloat(this.frames[currentFrame - 1])
   }
 }
 

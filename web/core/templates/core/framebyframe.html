@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load render_bundle from webpack_loader %}
+{% load core_tags %}
+
+{% block page_title %}ツイートコマ送りツール{% endblock %}
+{% block ogp_page_title %}ツイートコマ送りツール{% endblock %}
+
+{% block head %}
+  {% if video.data.file.url %}
+    {% render_bundle 'core/framebyframe' %}
+  {% endif %}
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content_2col %}
+  <div class="column">
+    {% if video.data.file.url %}
+      {% include 'core/components/video-player.html' %}
+    {% endif %}
+    <section class="section">
+      <h1 class="title">ツイートコマ送りツール</h1>
+      <div class="level is-mobile">
+        <div class="level-left">
+          {% include 'core/components/video-menu/framebyframe-input.html' %}
+        </div>
+      </div>
+      <hr>
+      <div class="content">
+        <div class="subtitle">ツイートを手軽にコマ送りするツールです。sakugaなツイートに使ってみて下さい</div>
+        <h3>使い方</h3>
+        <p>以下のフォームにツイートのURLを入力して「送信」を押して下さい</p>
+        <form method="get">
+          <div class="field">
+            <label class="label">URL</label>
+            <div class="control">
+              <input type="url" name="url" class="input" value="{{ request.GET.url }}" required>
+            </div>
+            <button type="submit" class="button is-primary">送信</button>
+          </div>
+        </form>
+      </div>
+      <hr>
+    </section>
+  </div>
+{% endblock %}

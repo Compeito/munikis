@@ -1,6 +1,3 @@
-require('./watch/videojs-setup')
-require('./watch/framebyframe')
-
 import { doc, ready } from '../utils'
 
 ready(() => {

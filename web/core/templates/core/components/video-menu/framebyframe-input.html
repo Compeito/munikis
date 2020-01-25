@@ -1,0 +1,23 @@
+<button
+        id="prev-frame"
+        type="button"
+        class="button is-primary level-item"
+><
+</button>
+<div class="level-item">
+  <input
+          id="fps-input"
+          type="number"
+          class="input level-item"
+          value="{{ video.data.fps|default:12 }}"
+          min="1"
+          max="99"
+          style="width: 50px;"
+  >fps
+</div>
+<button
+        id="next-frame"
+        type="button"
+        class="button is-primary level-item"
+>>
+</button>

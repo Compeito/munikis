@@ -1,20 +1,22 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.clickjacking import xframe_options_exempt
-from django.views.decorators.http import require_POST
-from django.http.response import Http404
-from django.db.models import Q
-
 import functools
 import operator
+import re
+import twitter
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.http.response import Http404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.http import require_POST
 
+from account.models import User
 from ajax.forms import CommentForm, AddPointForm
-from upload.models import Video
+from browse.utils import safe_videos
 from upload.decorators import users_video_required
 from upload.generic import VideoProfileUpdateView
-from browse.utils import safe_videos
-
+from upload.importer import TwitterImporter, ImportFileError
+from upload.models import Video
 from .forms import ThumbnailForm, DeleteVideoForm
 
 
@@ -117,3 +119,32 @@ def delete(request, slug):
 def embed(request, slug):
     video = get_object_or_404(Video, slug=slug)
     return render(request, 'core/embed.html', {'video': video})
+
+
+def framebyframe(request):
+    url = request.GET.get('url', '')
+    twitter_matched = re.search(TwitterImporter.pattern, url)
+    media_matched = re.search(r'https://storage\.tsukuriga\.net/altwug/.+/movie\.mp4', url)
+
+    file_url = ''
+    thumbnail_url = 'https://tsukuriga.net/assets/images/ogp.png'
+    if twitter_matched:
+        tweet_id = twitter_matched.group('id')
+        admin_user: User = User.objects.filter(is_staff=True).first()
+        try:
+            tweet = admin_user.api.GetStatus(tweet_id)
+            file_url = TwitterImporter.get_video_url(tweet)
+        except twitter.error.TwitterError as e:
+            messages.error(request, 'ツイートの取得に失敗ました')
+        except ImportFileError as e:
+            messages.error(request, str(e))
+    elif media_matched:
+        file_url = url
+    elif url:
+        messages.error(request, 'URLの形式が不正です')
+
+    data = {
+        'file': {'url': file_url},
+        'thumbnail': {'url': thumbnail_url}
+    }
+    return render(request, 'core/framebyframe.html', {'video': {'data': data}})

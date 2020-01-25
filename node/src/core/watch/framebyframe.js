@@ -5,7 +5,7 @@ class Video {
   constructor(video) {
     this.$el = doc(video)
     this.frames = this.getFrames()
-    const $fpsInput = doc('#fps')
+    const $fpsInput = doc('#fps-input')
     if ($fpsInput) {
       $fpsInput.addEventListener('change', () => {
         this.frames = this.getFrames()

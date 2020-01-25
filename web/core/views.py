@@ -140,7 +140,7 @@ def framebyframe(request):
             messages.error(request, str(e))
     elif media_matched:
         file_url = url
-    else:
+    elif url:
         messages.error(request, 'URLの形式が不正です')
 
     data = {

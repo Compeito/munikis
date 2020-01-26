@@ -14,7 +14,7 @@ class Video {
   }
 
   getFrames() {
-    const fps = parseInt(this.$el.dataset.fps) || parseInt(doc('#fps').value)
+    const fps = parseInt(this.$el.dataset.fps) || parseInt(doc('#fps-input').value)
     const duration = parseFloat(this.$el.dataset.duration) || this.$el.duration
     const frameLength = 1 / fps
     const framesCount = Math.floor(fps * duration)

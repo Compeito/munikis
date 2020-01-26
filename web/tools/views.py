@@ -1,26 +1,25 @@
 import csv
 import json
-import operator
-import functools
+
 import base64
-
-from django.views.generic import CreateView
-from django.shortcuts import redirect, render
-from django.views.decorators.http import require_GET, require_POST
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
-from django.core.files.base import ContentFile
-from django.http.response import HttpResponse, JsonResponse
-from django.db.models import Q
-
+import functools
+import operator
 import requests
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
+from django.db.models import Q
+from django.http.response import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET, require_POST
+from django.views.generic import CreateView
 from moviepy.editor import ImageSequenceClip
 
 from ajax.utils import get_ip, get_anonymous_name
-from upload.utils import get_tempfile
 from browse.utils import safe_videos
 from core.utils import AltPaginationListView
+from upload.utils import get_tempfile
 from .forms import PostForm, GIFEncodingForm, GIFTweetForm
 from .models import Post
 
@@ -159,12 +158,12 @@ def statistics_csv(request):
 
 
 class Archive(AltPaginationListView):
-    template_name = "altwug/index.html"
+    template_name = "archive/index.html"
     context_object_name = "archives"
     paginate_by = 16
 
     def get_queryset(self):
         response = requests.get('https://storage.tsukuriga.net/altwug/dump.json')
         archives = json.loads(response.text)
-        q = self.request.GET.get('name', '')
-        return list(filter(lambda j: q in j['user'] or q in j['username'], archives))
+        name = self.request.GET.get('name', '')
+        return list(filter(lambda j: name in j['user'] or name in j['username'], archives))

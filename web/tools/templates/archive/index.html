@@ -11,7 +11,7 @@
       閲覧には「<a href="/framebyframe" target="_blank">ツイートコマ送りツール</a>」を使用しています
     </div>
     <div class="columns">
-      <form method="get" action="/search">
+      <form method="get">
         <div class="field has-addons">
           <p class="control is-expanded">
             <input class="input" type="text" name="name" value="{{ request.GET.name }}" placeholder="ユーザー名で検索" required>
@@ -33,6 +33,11 @@
                 <figure class="image is-16by9">
                   <img class="video-thumbnail-image" src="{{ archive.thumbnail }}">
                 </figure>
+                <div class="video-thumbnail-display is-top">
+                  <span class="video-thumbnail-display-item is-altwug">
+                    <i class="fas fa-frog"></i>
+                  </span>
+                </div>
               </div>
             </a>
           </div>

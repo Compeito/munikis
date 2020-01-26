@@ -27,7 +27,8 @@ export const getTweetOnClick = href => {
 }
 
 export const activateTweetButton = $button => {
-  $button.href = getTweetHref($button.dataset.text, location.origin + $button.dataset.href, $button.dataset.hashtags)
+  const url = $button.dataset.href ? (location.origin + $button.dataset.href) : undefined
+  $button.href = getTweetHref($button.dataset.text, url, $button.dataset.hashtags)
   $button.onclick = getTweetOnClick($button.href)
 }
 

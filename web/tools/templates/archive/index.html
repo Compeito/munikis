@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Altwugアーカイブ{% endblock %}
+{% block ogp_page_title %}Altwugアーカイブ{% endblock %}
+
+{% block content_2col %}
+  <div class="column">
+    <h1 class="title">Altwugアーカイブ</h1>
+    <div class="subtitle">
+      ツクリガの前サービス「Altwug」に投稿された作品を検索・閲覧するページです<br>
+      閲覧には「<a href="/framebyframe" target="_blank">ツイートコマ送りツール</a>」を使用しています
+    </div>
+    <div class="columns">
+      <form method="get">
+        <div class="field has-addons">
+          <p class="control is-expanded">
+            <input class="input" type="text" name="name" value="{{ request.GET.name }}" placeholder="ユーザー名で検索" required>
+          </p>
+          <p class="control">
+            <button type="submit" class="button is-info">
+              <i class="fas fa-search"></i>
+            </button>
+          </p>
+        </div>
+      </form>
+    </div>
+    <div class="columns is-multiline">
+      {% for archive in archives %}
+        <div class="column is-one-quarter">
+          <div class="video">
+            <a href="/framebyframe?url={{ archive.video }}">
+              <div class="video-thumbnail">
+                <figure class="image is-16by9">
+                  <img class="video-thumbnail-image" src="{{ archive.thumbnail }}">
+                </figure>
+                <div class="video-thumbnail-display is-top">
+                  <span class="video-thumbnail-display-item is-altwug">
+                    <i class="fas fa-frog"></i>
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      {% empty %}
+        <div class="column has-text-centered">
+          <p>動画はありません</p>
+        </div>
+      {% endfor %}
+    </div>
+    {% include 'base/components/pagination.html' %}
+  </div>
+{% endblock %}

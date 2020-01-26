@@ -1,4 +1,5 @@
 import csv
+import json
 import operator
 import functools
 import base64
@@ -13,11 +14,13 @@ from django.core.files.base import ContentFile
 from django.http.response import HttpResponse, JsonResponse
 from django.db.models import Q
 
+import requests
 from moviepy.editor import ImageSequenceClip
 
 from ajax.utils import get_ip, get_anonymous_name
 from upload.utils import get_tempfile
 from browse.utils import safe_videos
+from core.utils import AltPaginationListView
 from .forms import PostForm, GIFEncodingForm, GIFTweetForm
 from .models import Post
 
@@ -153,3 +156,15 @@ def statistics_csv(request):
         writer.writerow(row)
 
     return response
+
+
+class Archive(AltPaginationListView):
+    template_name = "altwug/index.html"
+    context_object_name = "archives"
+    paginate_by = 16
+
+    def get_queryset(self):
+        response = requests.get('https://storage.tsukuriga.net/altwug/dump.json')
+        archives = json.loads(response.text)
+        q = self.request.GET.get('name', '')
+        return list(filter(lambda j: q in j['user'] or q in j['username'], archives))

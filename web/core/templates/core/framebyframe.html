@@ -20,11 +20,13 @@
     {% endif %}
     <section class="section">
       <h1 class="title">ツイートコマ送りツール</h1>
-      <div class="level is-mobile">
-        <div class="level-left">
-          {% include 'core/components/video-menu/framebyframe-input.html' %}
+      {% if video.data.file.url %}
+        <div class="level is-mobile">
+          <div class="level-left">
+            {% include 'core/components/video-menu/framebyframe-input.html' %}
+          </div>
         </div>
-      </div>
+      {% endif %}
       <hr>
       <div class="content">
         <div class="subtitle">ツイートを手軽にコマ送りするツールです。sakugaなツイートに使ってみて下さい</div>

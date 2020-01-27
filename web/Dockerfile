@@ -4,7 +4,8 @@ ENV PYTHONUNBUFFERED 1
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-RUN sed -i.bak -e "s%http://archive.ubuntu.com/ubuntu/%http://linux.yz.yamagata-u.ac.jp/ubuntu/%g" /etc/apt/sources.list
+# https://qiita.com/fkshom/items/53de3a9b9278cd524099
+RUN sed -i.bak -e "s%http://[^ ]\+%http://ftp.jaist.ac.jp/pub/Linux/ubuntu/%g" /etc/apt/sources.list
 
 RUN apt update
 RUN apt install -y build-essential libbz2-dev libdb-dev \

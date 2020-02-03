@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-import os
 import environ
+import os
 import pymysql
 from django.db.backends.mysql.schema import DatabaseSchemaEditor
 
@@ -260,7 +260,7 @@ PWA_APP_THEME_COLOR = '#4a4a4a'
 PWA_APP_BACKGROUND_COLOR = '#ffffff'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
-PWA_APP_ORIENTATION = 'any'
+PWA_APP_ORIENTATION = 'portrait-primary'
 PWA_APP_START_URL = '/?pwa'
 PWA_APP_ICONS = [
     {

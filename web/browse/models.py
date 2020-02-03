@@ -1,9 +1,11 @@
-from django.db import models
-from django.utils import timezone
-from django.http.response import Http404
-from ajax.models import Comment, Point
-from math import sqrt, floor
 from datetime import datetime
+from math import sqrt, floor
+
+from django.db import models
+from django.http.response import Http404
+from django.utils import timezone
+
+from ajax.models import Comment, Point
 
 DAY_SETS = (
     (1, 'day', '24時間'),
@@ -128,7 +130,7 @@ class Ranking(models.Model):
         comments = Comment.objects.filter(video=self.video, created_at__gte=self.from_datetime)
         for comment in comments:
             users.append(comment.user)
-        return len(list(set(users)))+1
+        return len(list(set(users))) + 1
 
 
 class Label(models.Model):
@@ -155,6 +157,12 @@ class Label(models.Model):
     @property
     def css_classes(self):
         return f'tag is-rounded is-{self.color}'
+
+    @property
+    def safe_videos_count(self):
+        # 循環インポートが発生するため
+        from browse.utils import safe_videos
+        return safe_videos().filter(profile__labels=self).count()
 
     def __str__(self):
         return self.title

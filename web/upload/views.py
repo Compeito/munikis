@@ -1,13 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.contrib.auth.decorators import login_required
 from django.views.generic import FormView
 
 from upload.generic import VideoProfileUpdateView
-from .models import Video, VideoProfile
-from .importer import ImportFile, ImportFileError
 from .decorators import users_video_required, upload_limitation
 from .forms import VideoFileUploadForm, VideoImportForm
+from .importer import ImportFile, ImportFileError
+from .models import Video, VideoProfile
 
 
 def get_process(active_index):
@@ -99,12 +99,14 @@ class Update(FormView):
 
     def form_valid(self, form):
         video = self.request.video
+        if hasattr(video, 'pure'):
+            video.pure.delete()
+        if hasattr(video, 'data'):
+            video.data.delete()
 
         pure_video = form.save(commit=False)
         pure_video.video = video
         pure_video.save()
-
-        video.data.delete()
 
         video.published_at = timezone.now()
         video.type = 'updated'

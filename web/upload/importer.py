@@ -1,11 +1,9 @@
 import re
-
-import requests
 from django.core.files import File
 
-from .utils import RequestFile
-from .models import Video, VideoProfile, UploadedPureVideo
 from account.models import User
+from .models import Video, VideoProfile, UploadedPureVideo
+from .utils import RequestFile
 
 
 class ImportFileError(Exception):
@@ -25,7 +23,6 @@ class ImportFile(RequestFile):
 
     def _get_importer(self):
         patterns = (
-            AltwugImporter,
             TwitterImporter,
         )
 
@@ -89,30 +86,3 @@ class TwitterImporter:
             sorted_variants = sorted(variants, key=lambda x: x['bitrate'] if x['content_type'] == 'video/mp4' else 0)
             return sorted_variants[-1]['url']
         raise ImportFileError('指定したツイートは動画ツイートではありません')
-
-
-class AltwugImporter:
-    pattern = r'^https://altwug\.net/watch/(?P<id>.+)/$'
-
-    def __init__(self, video_id, user):
-        self.user = user
-        self.video_id = video_id
-
-        if not hasattr(self.user, 'altwugauth'):
-            raise ImportFileError('Altwugとの接続が必要です')
-
-    def __call__(self):
-        response = requests.get(f'https://altwug.net/api/v1/export/video/{self.video_id}/').json()
-
-        if not self.is_valid(response['verification_id']):
-            raise ImportFileError('動画の投稿者と連携アカウントが一致しません')
-
-        return {
-            'type': 'altwug',
-            'title': response['title'],
-            'description': response['description'],
-            'download_url': response['download_url'],
-        }
-
-    def is_valid(self, verification_id):
-        return self.user.altwugauth.verification_id == verification_id

@@ -1,19 +1,16 @@
 import traceback
 
-from django.shortcuts import redirect, render
-from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth import login
-from django.contrib import messages
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView, LogoutView
 from django.core.mail import send_mail
-
-from social_django.views import complete
+from django.shortcuts import redirect, render
 from social_core import exceptions as social_exceptions
+from social_django.views import complete
 
-from ..models import User
-from ..forms import SignUpForm, ImportUserForm
-from ..utils import ImportUser, ImportUserException
 from .decorators import account_create_limitation
+from ..forms import SignUpForm
 
 
 @account_create_limitation
@@ -62,36 +59,3 @@ class CustomLogoutView(LogoutView):
     def get_next_page(self):
         messages.success(self.request, 'ログアウトしました')
         return super().get_next_page()
-
-
-@account_create_limitation
-def import_user(request):
-    form = ImportUserForm()
-    if request.method == 'POST':
-        form = ImportUserForm(request.POST)
-
-        if form.is_valid():
-            username = form.cleaned_data['username']
-
-            imported = None
-            try:
-                # 既存ユーザーにインポートする場合は重複を無視する
-                if not request.user.is_authenticated and User.objects.filter(username=username).exists():
-                    raise ImportUserException('同じユーザー名がこのサイトで既に使用されています')
-
-                imported = ImportUser(username, form.cleaned_data['password'])
-            except ImportUserException as e:
-                form.add_error('username', e.args[0])
-
-            if imported is not None:
-                if not request.user.is_authenticated:
-                    imported.create_user()
-                else:
-                    imported.instance = request.user
-
-                imported.create_trophies()
-                imported.set_verification()
-                imported.login(request)
-                return redirect('/')
-
-    return render(request, 'auth/import.html', {'form': form})

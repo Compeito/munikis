@@ -1,0 +1,5 @@
+.venv/
+assets/webpack-stats.json
+assets/bundles/
+__pycache__
+*.log

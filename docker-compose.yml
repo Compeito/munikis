@@ -18,6 +18,7 @@ services:
 
   web:
     build: ./web
+    image: mkizka/tsukuriga
     env_file: .env
     entrypoint: pipenv run
     command: dev

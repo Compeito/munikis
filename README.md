@@ -1,7 +1,7 @@
 <img src="web/assets/images/ogp.png" width="400" height="auto"/>
 
 # Tsukuriga
-[Altwug.net](https://altwug.net)を継承する自主制作動画専用の投稿サイト  
+[Altwug.net](https://altwug.net)を継承する自主制作動画専用の投稿サイト
 名前は「作\(ツクり\)画(ガ)」から。アイコンは「乍」
 
 ## 貢献
@@ -30,7 +30,7 @@ $ docker-compose run web python manage.py migrate
 #### 開発サーバーの起動
 ```bash
 # Pipfileのdevコマンドで開発サーバーを起動
-$ docker-compose run -p 8080:8080 web dev
+$ docker-compose up -d
 ```
 
 #### コマンド一覧

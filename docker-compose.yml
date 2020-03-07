@@ -6,22 +6,6 @@ volumes:
   sock:
 
 services:
-  nginx:
-    image: nginx
-    env_file: .env
-    volumes:
-      - ./nginx/conf:/etc/nginx/conf.d
-      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
-      - ./nginx/log:/var/log/nginx
-      - ./nginx/assets:/assets
-      - sock:/sock
-    depends_on:
-      - web
-    restart: always
-    networks:
-      - shared
-      - backend
-
   db:
     image: mysql:5.7
     expose:
@@ -31,14 +15,12 @@ services:
       - db_data:/var/lib/mysql
       - ./db:/docker-entrypoint-initdb.d
     restart: always
-    networks:
-      - backend
 
   web:
     build: ./web
     env_file: .env
     entrypoint: pipenv run
-    command: start
+    command: dev
     volumes:
       - ./web:/code
       - venv:/code/.venv
@@ -47,12 +29,12 @@ services:
     dns:
       - 8.8.8.8
       - 8.8.4.4
+    ports:
+      - "8080:8080"
     depends_on:
       - db
       - node
     restart: always
-    networks:
-      - backend
 
   node:
     image: node
@@ -62,12 +44,3 @@ services:
       - ./node:/code
       - ./web/assets:/code/assets
     working_dir: /code
-    networks:
-      - backend
-
-networks:
-  shared:
-    external: true
-  backend:
-    driver: bridge
-

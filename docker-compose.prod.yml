@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx
+    env_file: .env
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./nginx/log:/var/log/nginx
+      - ./nginx/assets:/assets
+      - sock:/sock
+    depends_on:
+      - web
+    restart: always
+    networks:
+      - shared
+      - backend
+
+  db:
+    networks:
+      - backend
+
+  web:
+    entrypoint: pipenv run
+    command: start
+    networks:
+      - backend
+
+  node:
+    networks:
+      - backend
+
+networks:
+  shared:
+    external: true
+  backend:
+    driver: bridge

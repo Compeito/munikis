@@ -12,24 +12,9 @@
 * docker
 * docker-compose
 
-### セットアップ
-
-```bash
-# 必要に応じて環境変数を変更
-$ mv .env.example .env
-$ vim .env
-
-# Dockerイメージの作成
-$ docker-compose build web
-
-# パッケージのインストールとデータベースのマイグレーション
-$ docker-compose run web pipenv install --dev
-$ docker-compose run web python manage.py migrate
-```
-
 #### 開発サーバーの起動
 ```bash
-# Pipfileのdevコマンドで開発サーバーを起動
+$ ./scripts/setup.sh
 $ docker-compose up -d
 ```
 

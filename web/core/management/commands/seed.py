@@ -79,7 +79,7 @@ class Command(BaseCommand):
         fake_labels = [None]
         for i in range(10):
             fake_label = Label.objects.create(
-                slug=self.fake.slug(),
+                slug=Faker().slug(),
                 color=random.choice(Label.COLOR_SET)[0],
                 title=self.fake.word(),
                 description=self.fake.sentence()
@@ -97,6 +97,6 @@ class Command(BaseCommand):
                 author=test_user,
                 title=self.fake.sentence(),
                 text=self.fake.text(),
-                slug=self.fake.slug(),
+                slug=Faker().slug(),
                 featured_order=random.choice([0, 0, 0, 1])
             )

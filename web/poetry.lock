@@ -195,6 +195,18 @@ python-versions = "*"
 version = "0.7.0"
 
 [[package]]
+category = "dev"
+description = "Faker is a Python package that generates fake data for you."
+name = "faker"
+optional = false
+python-versions = ">=3.4"
+version = "4.0.1"
+
+[package.dependencies]
+python-dateutil = ">=2.4"
+text-unidecode = "1.3"
+
+[[package]]
 category = "main"
 description = "Clean single-source support for Python 3 and 2"
 name = "future"
@@ -506,6 +518,17 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 version = "2.4.6"
 
 [[package]]
+category = "dev"
+description = "Extensions to the standard Python datetime module"
+name = "python-dateutil"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+version = "2.8.1"
+
+[package.dependencies]
+six = ">=1.5"
+
+[[package]]
 category = "main"
 description = "Client Library for OpenStack Identity"
 name = "python-keystoneclient"
@@ -706,6 +729,14 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 six = ">=1.10.0"
 
 [[package]]
+category = "dev"
+description = "The most basic Text::Unidecode port"
+name = "text-unidecode"
+optional = false
+python-versions = "*"
+version = "1.3"
+
+[[package]]
 category = "main"
 description = "Django Middleware that can automatically remove trailing URL slashes and 301 redirect to the non-slash-terminated URL."
 name = "tocka-django-unslashed"
@@ -720,7 +751,6 @@ Django = ">=1.8"
 reference = "7be945ab4efd1ed40de86e05cf68302c904e0010"
 type = "git"
 url = "https://github.com/mkizka/django-unslashed.git"
-
 [[package]]
 category = "main"
 description = "Fast, Extensible Progress Meter"
@@ -771,10 +801,10 @@ description = "Module for decorators, wrappers and monkey patching."
 name = "wrapt"
 optional = false
 python-versions = "*"
-version = "1.12.0"
+version = "1.12.1"
 
 [metadata]
-content-hash = "5c8cd9788bb47f6ca9301480d99d32286b22519a4c4e0bbc18ec91102495a378"
+content-hash = "92ec365e21754924b4cc5d17e9bf28b142c29469281b43713216822f11ce57c7"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -852,6 +882,10 @@ django-storage-swift = [
 django-webpack-loader = [
     {file = "django-webpack-loader-0.7.0.tar.gz", hash = "sha256:7a3c88201aa54481f9399465615cbe7b9aece8081496a6d0287b7cb8e232f447"},
     {file = "django_webpack_loader-0.7.0-py2.py3-none-any.whl", hash = "sha256:d28a276ed3d89e97a313b74967e373693f8b86afe629f4c91eea91c5b4f2ec20"},
+]
+faker = [
+    {file = "Faker-4.0.1-py3-none-any.whl", hash = "sha256:ee24608768549c2c69e593e9d7a3b53c9498ae735534243ec8390cae5d529f8b"},
+    {file = "Faker-4.0.1.tar.gz", hash = "sha256:440d68fe0e46c1658b1975b2497abe0c24a7f772e3892253f31e713ffcc48965"},
 ]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
@@ -1029,6 +1063,10 @@ pyparsing = [
     {file = "pyparsing-2.4.6-py2.py3-none-any.whl", hash = "sha256:c342dccb5250c08d45fd6f8b4a559613ca603b57498511740e65cd11a2e7dcec"},
     {file = "pyparsing-2.4.6.tar.gz", hash = "sha256:4c830582a84fb022400b85429791bc551f1f4871c33f23e44f353119e92f969f"},
 ]
+python-dateutil = [
+    {file = "python-dateutil-2.8.1.tar.gz", hash = "sha256:73ebfe9dbf22e832286dafa60473e4cd239f8592f699aa5adaf10050e6e1823c"},
+    {file = "python_dateutil-2.8.1-py2.py3-none-any.whl", hash = "sha256:75bb3f31ea686f1197762692a9ee6a7550b59fc6ca3a1f4b5d7e32fb98e2da2a"},
+]
 python-keystoneclient = [
     {file = "python-keystoneclient-3.22.0.tar.gz", hash = "sha256:6e2b6d2a5ae5d7aa26d4e52d1c682e08417d2c5d73ccc54cb65c54903a868cb4"},
     {file = "python_keystoneclient-3.22.0-py2.py3-none-any.whl", hash = "sha256:b9f9e74219a44be7c9955c836ab9a7ae16bde7325db6db15b6e5fe140c11bc3a"},
@@ -1101,6 +1139,10 @@ stevedore = [
     {file = "stevedore-1.32.0-py2.py3-none-any.whl", hash = "sha256:a4e7dc759fb0f2e3e2f7d8ffe2358c19d45b9b8297f393ef1256858d82f69c9b"},
     {file = "stevedore-1.32.0.tar.gz", hash = "sha256:18afaf1d623af5950cc0f7e75e70f917784c73b652a34a12d90b309451b5500b"},
 ]
+text-unidecode = [
+    {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},
+    {file = "text_unidecode-1.3-py2.py3-none-any.whl", hash = "sha256:1311f10e8b895935241623731c2ba64f4c455287888b18189350b67134a822e8"},
+]
 tocka-django-unslashed = []
 tqdm = [
     {file = "tqdm-4.43.0-py2.py3-none-any.whl", hash = "sha256:0d8b5afb66e23d80433102e9bd8b5c8b65d34c2a2255b2de58d97bd2ea8170fd"},
@@ -1118,5 +1160,5 @@ werkzeug = [
     {file = "Werkzeug-1.0.0.tar.gz", hash = "sha256:169ba8a33788476292d04186ab33b01d6add475033dfc07215e6d219cc077096"},
 ]
 wrapt = [
-    {file = "wrapt-1.12.0.tar.gz", hash = "sha256:0ec40d9fd4ec9f9e3ff9bdd12dbd3535f4085949f4db93025089d7a673ea94e8"},
+    {file = "wrapt-1.12.1.tar.gz", hash = "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"},
 ]

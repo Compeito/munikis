@@ -8,7 +8,7 @@ docker-compose-prod down
 docker-compose-prod build
 
 # 依存関係の更新とDBマイグレーション
-docker-compose-prod run web bash -c "poetry install --no-dev && python manage.py migrate"
+docker-compose-prod run web bash -c "poetry install --no-dev --no-root && python manage.py migrate"
 
 # js/cssの再ビルドと配置
 rm -rf nginx/assets/bundles/*

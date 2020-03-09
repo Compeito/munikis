@@ -29,7 +29,7 @@ RUN poetry config virtualenvs.in-project true
 WORKDIR /code
 COPY pyproject.toml /code/
 COPY poetry.lock /code/
-RUN poetry install --no-dev
+RUN poetry install --no-dev --no-root
 
 ENTRYPOINT ["poetry", "run"]
 CMD ["uwsgi", "--ini", "/code/uwsgi.ini"]

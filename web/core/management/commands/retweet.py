@@ -30,13 +30,16 @@ class Command(BaseCommand):
             for tweet in tweets[::-1]:
                 if count >= 5:
                     break
-                if not tweet.retweeted:
-                    try:
+                try:
+                    if not tweet.retweeted:
                         tsukuriga_user.api.PostRetweet(tweet.id)
                         print(f'RT: https://twitter.com/_/status/{tweet.id}')
                         count += 1
-                        sleep(5 * 60)
-                    except KeyboardInterrupt:
-                        break
-                    except:
-                        pass
+                    if not tweet.user.following:
+                        tsukuriga_user.api.CreateFriendship(tweet.user.id)
+                        print(f'FOLLOW: https://twitter.com/{tweet.user.screen_name}')
+                    sleep(5 * 60)
+                except KeyboardInterrupt:
+                    break
+                except:
+                    pass

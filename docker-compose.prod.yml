@@ -22,6 +22,7 @@ services:
       - backend
 
   web:
+    command: uwsgi --ini /code/uwsgi.ini
     networks:
       - backend
 

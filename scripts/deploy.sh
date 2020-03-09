@@ -1,7 +1,8 @@
 #!/bin/sh
 
-alias docker-compose-prod='docker-compose -f docker-compose.yml -f docker-compose.prod.yml'
 cd `dirname $0`/../
+
+alias docker-compose-prod='docker-compose -f docker-compose.yml -f docker-compose.prod.yml'
 docker-compose-prod down
 
 # イメージの再ビルド

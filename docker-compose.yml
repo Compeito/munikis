@@ -4,6 +4,7 @@ volumes:
   db_data:
   venv:
   sock:
+  node_modules:
 
 services:
   db:
@@ -43,4 +44,5 @@ services:
     volumes:
       - ./node:/code
       - ./web/assets:/code/assets
+      - node_modules:/code/node_modules
     working_dir: /code

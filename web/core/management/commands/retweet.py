@@ -36,7 +36,7 @@ class Command(BaseCommand):
                         print(f'RT: https://twitter.com/_/status/{tweet.id}')
                         count += 1
                     if not tweet.user.following:
-                        tsukuriga_user.api.CreateFriendship(tweet.user.id)
+                        tsukuriga_user.api.CreateFriendship(tweet.user.id, follow=False)
                         print(f'FOLLOW: https://twitter.com/{tweet.user.screen_name}')
                     sleep(5 * 60)
                 except KeyboardInterrupt:

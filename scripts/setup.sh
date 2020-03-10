@@ -1,6 +1,12 @@
 #!/bin/sh
 
+set -e
 cd `dirname $0`/../
+
+eval "$(cat .env <(echo) <(declare -x))"
+if [ $DEBUG != 'true' ]; then
+  exit 1
+fi
 
 docker-compose down && docker-compose build web
 docker-compose up --no-deps -d db

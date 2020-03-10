@@ -15,10 +15,26 @@ from upload.models import Video, VideoProfile, VideoData
 
 class Command(BaseCommand):
     help = '初期データを作成するコマンド'
+    used_username = []
+    used_slug = []
 
     @staticmethod
     def random_bool():
         return random.randint(0, 1) == 0
+
+    def unique_username(self):
+        while True:
+            username = self.fake.profile()['username'][:20]
+            if username not in self.used_username:
+                self.used_username.append(username)
+                return username
+
+    def unique_slug(self):
+        while True:
+            slug = Faker().slug()
+            if slug not in self.used_slug:
+                self.used_slug.append(slug)
+                return slug
 
     @property
     def fake(self):
@@ -68,7 +84,7 @@ class Command(BaseCommand):
         for i in range(20):
             fake_profile = self.fake.profile()
             fake_user = User.objects.create(
-                username=fake_profile['username'][:20],
+                username=self.unique_username(),
                 name=fake_profile['name'],
                 description=self.fake.text(),
                 is_accept_mail=self.random_bool(),
@@ -79,7 +95,7 @@ class Command(BaseCommand):
         fake_labels = [None]
         for i in range(10):
             fake_label = Label.objects.create(
-                slug=Faker().slug(),
+                slug=self.unique_slug(),
                 color=random.choice(Label.COLOR_SET)[0],
                 title=self.fake.word(),
                 description=self.fake.sentence()
@@ -97,6 +113,6 @@ class Command(BaseCommand):
                 author=test_user,
                 title=self.fake.sentence(),
                 text=self.fake.text(),
-                slug=Faker().slug(),
+                slug=self.unique_slug(),
                 featured_order=random.choice([0, 0, 0, 1])
             )

@@ -10,7 +10,12 @@ class NotificationListView(AltPaginationListView):
     paginate_by = 10
 
     def get_queryset(self):
-        notifications = Notification.objects.filter(recipient=self.request.user).order_by('-created_at')
+        notifications = (
+            Notification.objects
+                .prefetch_related('sender', 'target', 'target__video', 'target__user')
+                .filter(recipient=self.request.user)
+                .order_by('-created_at')
+        )
         return [n for n in notifications if n.target]
 
 

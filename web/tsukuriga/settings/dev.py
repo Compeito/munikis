@@ -17,7 +17,7 @@ INSTALLED_APPS.extend([
 MIDDLEWARE += 'debug_toolbar.middleware.DebugToolbarMiddleware',
 
 # django-debug-toolbar
-INTERNAL_IPS = ['127.0.0.1']
+INTERNAL_IPS = ['127.0.0.1', '192.168.99.1']
 
 # django-cors-headers
 CORS_ORIGIN_WHITELIST += ['http://localhost:8080']

@@ -11,6 +11,7 @@ from faker import Faker
 from account.models import User
 from ajax.models import Comment, Point, Favorite
 from browse.models import Label, VideoProfileLabelRelation
+from notify.models import Notification
 from pages.models import Page
 from upload.models import Video, VideoProfile, VideoData
 
@@ -91,7 +92,7 @@ class Command(BaseCommand):
         gif = open(os.path.join(settings.BASE_DIR, 'seeds', 'thumbnail.gif'), 'rb')
         for i in range(20):
             fake_video = Video(
-                user_id=random.randint(1, 20),
+                user_id=i + 1,
                 is_pickup=self.random_bool(),
                 published_at=timezone.now(),
                 views_count=random.randint(0, 1000),
@@ -177,4 +178,20 @@ class Command(BaseCommand):
             fake_pages.append(fake_page)
             print(f'記事...{i + 1}')
         Page.objects.bulk_create(fake_pages)
-        print('記事作成')
+        print('記事作成完了')
+
+        fake_notifications = []
+        for i in range(20):
+            if random.randint(0, 1) == 1:
+                target = Comment.objects.order_by('?').first()
+            else:
+                target = Favorite.objects.order_by('?').first()
+            fake_notification = Notification(
+                recipient_id=1,
+                sender_id=i + 1,
+                target=target
+            )
+            fake_notifications.append(fake_notification)
+            print(f'通知作成...{i+1}')
+        Notification.objects.bulk_create(fake_notifications)
+        print('通知作成完了')

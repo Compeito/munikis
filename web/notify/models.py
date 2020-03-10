@@ -1,10 +1,10 @@
-from django.db import models
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.utils import timezone
-from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
+from django.db import models
 from django.template.loader import get_template
+from django.utils import timezone
 
 
 class Notification(models.Model):
@@ -19,13 +19,6 @@ class Notification(models.Model):
     target = GenericForeignKey('target_content_type', 'target_object_id')
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField('作成日', default=timezone.now)
-
-    def is_new(self):
-        if not self.is_read:
-            self.is_read = True
-            self.save()
-            return True
-        return False
 
     @property
     def type(self):

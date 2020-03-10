@@ -15,22 +15,22 @@ from upload.models import Video, VideoProfile, VideoData
 
 
 class Command(BaseCommand):
-    help = '初期データを作成するコマンド'
-    used_username = []
-    used_slug = []
+    help: str = '初期データを作成するコマンド'
+    used_username: List[str] = []
+    used_slug: List[str] = []
 
     @staticmethod
-    def random_bool():
+    def random_bool() -> bool:
         return random.randint(0, 1) == 0
 
-    def unique_username(self):
+    def unique_username(self) -> str:
         while True:
             username = self.fake.profile()['username'][:20]
             if username not in self.used_username:
                 self.used_username.append(username)
                 return username
 
-    def unique_slug(self):
+    def unique_slug(self) -> str:
         while True:
             slug = Faker().slug()
             if slug not in self.used_slug:
@@ -38,7 +38,7 @@ class Command(BaseCommand):
                 return slug
 
     @property
-    def fake(self):
+    def fake(self) -> Faker:
         return Faker('ja_JP')
 
     def create_video(self, user: User, label: Label, raters: List[User]) -> None:
@@ -85,7 +85,7 @@ class Command(BaseCommand):
                 )
                 fake_video.favorite_set.create(user=rater)
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options) -> None:
         test_user = User.objects.create_superuser(
             username='test',
             email='test@example.com',

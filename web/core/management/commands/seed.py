@@ -1,5 +1,6 @@
 import os.path
 import random
+from typing import List
 
 from django.conf import settings
 from django.core.files import File
@@ -40,7 +41,7 @@ class Command(BaseCommand):
     def fake(self):
         return Faker('ja_JP')
 
-    def create_video(self, user, label):
+    def create_video(self, user: User, label: Label, raters: List[User]) -> None:
         with open(os.path.join(settings.BASE_DIR, 'seeds', 'movie.mp4'), 'rb') as movie, \
             open(os.path.join(settings.BASE_DIR, 'seeds', 'thumbnail.jpg'), 'rb') as thumbnail, \
             open(os.path.join(settings.BASE_DIR, 'seeds', 'thumbnail.gif'), 'rb') as gif:
@@ -71,6 +72,18 @@ class Command(BaseCommand):
                 fps=random.randint(1, 30),
                 duration=random.randint(1, 1000) / 10
             )
+            for rater in raters:
+                fake_video.comment_set.create(
+                    user=rater,
+                    is_anonymous=self.random_bool(),
+                    text=self.fake.text()[:150],
+                )
+                fake_video.point_set.create(
+                    user=rater,
+                    ip=self.fake.ipv4(),
+                    count=random.randint(1, 1000)
+                )
+                fake_video.favorite_set.create(user=rater)
 
     def handle(self, *args, **options):
         test_user = User.objects.create_superuser(
@@ -80,7 +93,7 @@ class Command(BaseCommand):
             name='test',
         )
 
-        fake_users = []
+        fake_users = [test_user]
         for i in range(20):
             fake_profile = self.fake.profile()
             fake_user = User.objects.create(
@@ -103,10 +116,18 @@ class Command(BaseCommand):
             fake_labels.append(fake_label)
 
         for user in fake_users:
-            self.create_video(user, random.choice(fake_labels))
+            self.create_video(
+                user,
+                random.choice(fake_labels),
+                random.choices(fake_users, k=5),
+            )
 
         for i in range(50):
-            self.create_video(test_user, random.choice(fake_labels))
+            self.create_video(
+                test_user,
+                random.choice(fake_labels),
+                random.choices(fake_users, k=5),
+            )
 
         for i in range(20):
             Page.objects.create(

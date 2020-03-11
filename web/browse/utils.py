@@ -12,3 +12,11 @@ def safe_videos():
                 data__isnull=False
             )
     )
+
+
+def unsafe_videos():
+    return (
+        Video.objects
+            .prefetch_related('user', 'profile', 'data', 'point_set', 'favorite_set')
+            .filter(profile__isnull=False)
+    )

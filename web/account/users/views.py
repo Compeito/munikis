@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 
 from ..models import User
 from ajax.models import Favorite
-from upload.models import Video
+from browse.utils import safe_videos, unsafe_videos
 from core.utils import AltPaginationListView
 
 
@@ -21,10 +21,10 @@ class Profile(AltPaginationListView):
     paginate_by = 12
 
     def get_queryset(self):
-        account = get_object_or_404(User, username=self.kwargs['username'])
-        if account == self.request.user:
-            return account.video_set.all().order_by('-profile__created_at')
-        return account.video_set.filter(profile__release_type='published').order_by('-profile__created_at')
+        username = self.kwargs['username']
+        if username == self.request.user.username:
+            return unsafe_videos().filter(user__username=username).order_by('-profile__created_at')
+        return safe_videos().filter(user__username=username).order_by('-profile__created_at')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

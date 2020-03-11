@@ -3,8 +3,9 @@
 set -e
 cd `dirname $0`/../
 
-eval "$(cat .env <(echo) <(declare -x))"
-if [ $DEBUG != 'true' ]; then
+echo "データ全て削除して開発用初期データを挿入します。よろしいですか？[y/N]"
+read ANSWER
+if [ "$ANSWER" != "y" ]; then
   exit 1
 fi
 

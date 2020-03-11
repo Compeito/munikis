@@ -9,7 +9,7 @@
   </div>
   <div class="dropdown-menu" id="ranking-dropdown-day" role="menu">
     <div class="dropdown-content">
-      {% for pathname, label in Ranking.DAYS %}
+      {% for pathname, label in ranking.DAYS %}
         <a class="dropdown-item" href="/ranking/{{ ref.type }}/{{ pathname }}">
           {{ label }}
         </a>

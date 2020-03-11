@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 {% load core_tags %}
 
-{% block page_title %}ランキング：{{ rankings.0.get_day_display }}{{ rankings.0.get_type_display }}{% endblock %}
-{% block ogp_page_title %}ランキング：{{ rankings.0.get_day_display }}{{ rankings.0.get_type_display }}{% endblock %}
+{% block page_title %}ランキング：{{ ranking.get_day_display }}{{ ranking.get_type_display }}{% endblock %}
+{% block ogp_page_title %}ランキング：{{ ranking.get_day_display }}{{ ranking.get_type_display }}{% endblock %}
 
 {% block content_2col %}
   <div class="column">
     <h1 class="title">ランキング</h1>
-    {% if rankings %}
+    {% if videos %}
       <div class="level is-mobile">
         <div class="level-left">
           <div class="level-item">
-            {% include 'browse/components/ranking-type-dropdown.html' with ref=rankings.0 %}
+            {% include 'browse/components/ranking-type-dropdown.html' with ref=ranking %}
           </div>
           <div class="level-item">
-            {% include 'browse/components/ranking-day-dropdown.html' with ref=rankings.0 %}
+            {% include 'browse/components/ranking-day-dropdown.html' with ref=ranking %}
           </div>
         </div>
       </div>
-      {% include 'browse/components/video-list.html' with videos=rankings|to_attr_list:"video" %}
+      {% include 'browse/components/video-list.html' %}
     {% else %}
       <div class="column has-text-centered">
         <p>現在集計中です。しばらく待ってから再度アクセスして下さい</p>

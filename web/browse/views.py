@@ -51,7 +51,7 @@ search = Search.as_view()
 
 class RankingList(AltPaginationListView):
     template_name = 'browse/ranking.html'
-    context_object_name = 'rankings'
+    context_object_name = 'videos'
     paginate_by = 12
 
     ranking_type = 'popular'
@@ -65,11 +65,16 @@ class RankingList(AltPaginationListView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        return Ranking.objects.filter(type=self.ranking_type, day=self.ranking_day).order_by('-point')
+        return (
+            safe_videos()
+                .prefetch_related('ranking_set')
+                .filter(ranking__day='week', ranking__type='popular')
+                .order_by('-ranking__point')
+        )
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['Ranking'] = Ranking
+        context['ranking'] = self.object_list[0].ranking_set.first()
         return context
 
 

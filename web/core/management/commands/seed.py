@@ -90,9 +90,9 @@ class Command(BaseCommand):
         movie = open(os.path.join(settings.BASE_DIR, 'seeds', 'movie.mp4'), 'rb')
         thumbnail = open(os.path.join(settings.BASE_DIR, 'seeds', 'thumbnail.jpg'), 'rb')
         gif = open(os.path.join(settings.BASE_DIR, 'seeds', 'thumbnail.gif'), 'rb')
-        for i in range(20):
+        for i in range(70):
             fake_video = Video(
-                user_id=i + 1,
+                user_id=1 if i < 49 else i - 48,
                 is_pickup=self.random_bool(),
                 published_at=timezone.now(),
                 views_count=random.randint(0, 1000),
@@ -192,6 +192,6 @@ class Command(BaseCommand):
                 target=target
             )
             fake_notifications.append(fake_notification)
-            print(f'通知作成...{i+1}')
+            print(f'通知作成...{i + 1}')
         Notification.objects.bulk_create(fake_notifications)
         print('通知作成完了')

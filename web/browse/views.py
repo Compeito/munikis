@@ -13,10 +13,10 @@ from core.utils import AltPaginationListView
 def home(request):
     recent_videos = safe_videos().order_by('-published_at')[:50]
     recent_videos = sorted(recent_videos, key=lambda x: random.random())[:8]
-    top_rankings = RankingList().get_queryset()[:8]
+    ranking_videos = RankingList().get_queryset()[:8]
     pickup_videos = safe_videos().filter(is_pickup=True).order_by('-published_at')[:6]
     return render(request, 'browse/index.html',
-                  {'recent_videos': recent_videos, 'top_rankings': top_rankings, 'pickup_videos': pickup_videos})
+                  {'recent_videos': recent_videos, 'ranking_videos': ranking_videos, 'pickup_videos': pickup_videos})
 
 
 class Recent(AltPaginationListView):

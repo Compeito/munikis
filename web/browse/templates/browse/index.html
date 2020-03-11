@@ -50,7 +50,7 @@
     </section>
     <section class="section">
       {% include 'browse/components/section-title.html' with title="ランキング" href="/ranking" %}
-      {% include 'browse/components/video-list.html' with videos=top_rankings|to_attr_list:"video" %}
+      {% include 'browse/components/video-list.html' with videos=ranking_videos %}
     </section>
   </div>
 {% endblock %}

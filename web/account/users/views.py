@@ -45,8 +45,8 @@ class FavoritesList(AltPaginationListView):
     paginate_by = 12
 
     def get_queryset(self):
-        favorites = Favorite.objects.filter(user__username=self.kwargs['username']).order_by('-created_at')
-        return [favorite.video for favorite in favorites]
+        username = self.kwargs['username']
+        return safe_videos().filter(favorite__user__username=username).order_by('-favorite__created_at')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

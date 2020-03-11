@@ -21,7 +21,9 @@ from .forms import ThumbnailForm, DeleteVideoForm
 
 
 def watch(request, slug):
-    video = get_object_or_404(Video, slug=slug)
+    video = get_object_or_404(
+        Video.objects.prefetch_related('profile__labels'), slug=slug
+    )
 
     if not video.user == request.user and video.profile.release_type == 'unpublished':
         raise Http404

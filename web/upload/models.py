@@ -240,11 +240,11 @@ class VideoProfile(CustomModel):
             return '運営による非公開'
         return self.get_release_type_display()
 
-    @property
+    @cached_property
     def meta_title(self):
         return f'{self.title} | ' + (f'[{self.labels.first().title}]のアニメーション' if self.labels.exists() else 'アニメーション')
 
-    @property
+    @cached_property
     def meta_description(self):
         labels_str = ",".join([l.title for l in self.labels.all()])
         suffix = f'[{labels_str}]の自主制作アニメ、パラパラ漫画' if labels_str else '自主制作アニメ、パラパラ漫画'

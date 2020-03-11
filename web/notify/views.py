@@ -18,7 +18,7 @@ class NotificationListView(AltPaginationListView):
         )
         # prefetch_relatedでtargetを指定しているためか以下のnotificationsの各要素で
         # n.target_content_type_idなどがNoneになっているため、save出来ない
-        notifications = [n for n in notifications if n.target_content_type_id]
+        notifications = [n for n in notifications if n.target]
 
         for n in notifications:
             n.is_new = False

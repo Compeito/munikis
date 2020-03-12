@@ -13,6 +13,7 @@ from django.views.decorators.http import require_POST
 
 from account.models import User
 from ajax.forms import CommentForm, AddPointForm
+from browse.models import Label
 from browse.utils import safe_videos
 from upload.decorators import users_video_required
 from upload.forms import VideoProfileForm, LabelInlineFormSet
@@ -57,6 +58,14 @@ def watch(request, slug):
 def edit(request, slug):
     form = VideoProfileForm(request.POST or None, instance=request.video.profile)
     formset = LabelInlineFormSet(request.POST or None, instance=request.video.profile)
+
+    using_labels = request.video.profile.labels.all().values_list('id', flat=True)
+    for formset_form in formset.forms:
+        # 描画時にN+1の挙動になるものの解決策分からず
+        formset_form.fields['label'].queryset = Label.objects.filter(
+            Q(is_active=True) | Q(id__in=using_labels)
+        )
+
     if request.method == 'POST' and form.is_valid() and formset.is_valid():
         form.save()
         formset.save()

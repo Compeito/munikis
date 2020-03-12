@@ -41,7 +41,7 @@ class VideoProfileForm(forms.ModelForm):
 
 
 class VideoProfileLabelRelationForm(forms.ModelForm):
-    label = forms.ModelChoiceField(queryset=Label.objects.filter(is_active=True), required=False)
+    label = forms.ModelChoiceField(queryset=Label.objects.none(), required=False)
 
     class Meta:
         model = VideoProfileLabelRelation

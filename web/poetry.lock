@@ -130,14 +130,6 @@ six = ">=1.2"
 
 [[package]]
 category = "main"
-description = "django-maintenance-mode shows a 503 error page when maintenance-mode is on."
-name = "django-maintenance-mode"
-optional = false
-python-versions = "*"
-version = "0.14.0"
-
-[[package]]
-category = "main"
 description = "A comprehensive Markdown editor built for Django."
 name = "django-markdownx"
 optional = false
@@ -739,7 +731,6 @@ Django = ">=1.8"
 reference = "7be945ab4efd1ed40de86e05cf68302c904e0010"
 type = "git"
 url = "https://github.com/mkizka/django-unslashed.git"
-
 [[package]]
 category = "main"
 description = "Fast, Extensible Progress Meter"
@@ -793,7 +784,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
-content-hash = "b8928624a1ab61d0ab223bf34fd513c31cb43f5fe92ea032a98a369a29c9ec97"
+content-hash = "864543229e545ced95747b645b0f3752632923df35755ff3f9da1c644c2a1105"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -848,10 +839,6 @@ django-environ = [
 django-extensions = [
     {file = "django-extensions-2.2.8.tar.gz", hash = "sha256:2699cc1d6fb4bd393c0b5832fea4bc685f2ace5800b3c9ff222b2080f161ac04"},
     {file = "django_extensions-2.2.8-py2.py3-none-any.whl", hash = "sha256:1a03c4e8bade575f8c2be6c76456f8a2be3f9b02ab9f47d3535afa9562dc0493"},
-]
-django-maintenance-mode = [
-    {file = "django-maintenance-mode-0.14.0.tar.gz", hash = "sha256:f3fef1760fdcda5e0bf6c2966aadc77eea6f328580a9c751920daba927281a68"},
-    {file = "django_maintenance_mode-0.14.0-py2-none-any.whl", hash = "sha256:b4cc24a469ed10897826a28f05d64e6166a58d130e4940ac124ce198cd4cc778"},
 ]
 django-markdownx = [
     {file = "django-markdownx-3.0.1.tar.gz", hash = "sha256:e18e395cad0ade96afbb250a81cad15618e417ac3c0d9c37d964be3d8fd57bcf"},

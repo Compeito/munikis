@@ -130,18 +130,6 @@ six = ">=1.2"
 
 [[package]]
 category = "main"
-description = "Extra class-based views for Django"
-name = "django-extra-views"
-optional = false
-python-versions = "*"
-version = "0.13.0"
-
-[package.dependencies]
-Django = ">=1.11"
-six = ">=1.5.2"
-
-[[package]]
-category = "main"
 description = "django-maintenance-mode shows a 503 error page when maintenance-mode is on."
 name = "django-maintenance-mode"
 optional = false
@@ -751,6 +739,7 @@ Django = ">=1.8"
 reference = "7be945ab4efd1ed40de86e05cf68302c904e0010"
 type = "git"
 url = "https://github.com/mkizka/django-unslashed.git"
+
 [[package]]
 category = "main"
 description = "Fast, Extensible Progress Meter"
@@ -804,7 +793,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
-content-hash = "92ec365e21754924b4cc5d17e9bf28b142c29469281b43713216822f11ce57c7"
+content-hash = "b8928624a1ab61d0ab223bf34fd513c31cb43f5fe92ea032a98a369a29c9ec97"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -859,9 +848,6 @@ django-environ = [
 django-extensions = [
     {file = "django-extensions-2.2.8.tar.gz", hash = "sha256:2699cc1d6fb4bd393c0b5832fea4bc685f2ace5800b3c9ff222b2080f161ac04"},
     {file = "django_extensions-2.2.8-py2.py3-none-any.whl", hash = "sha256:1a03c4e8bade575f8c2be6c76456f8a2be3f9b02ab9f47d3535afa9562dc0493"},
-]
-django-extra-views = [
-    {file = "django-extra-views-0.13.0.tar.gz", hash = "sha256:3c88f1e6714ec174142b6e76605fa1d5d1615c6ae2eb00568c095da778cc1245"},
 ]
 django-maintenance-mode = [
     {file = "django-maintenance-mode-0.14.0.tar.gz", hash = "sha256:f3fef1760fdcda5e0bf6c2966aadc77eea6f328580a9c751920daba927281a68"},

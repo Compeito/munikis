@@ -3,9 +3,8 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.generic import FormView
 
-from upload.generic import VideoProfileUpdateView
 from .decorators import users_video_required, upload_limitation
-from .forms import VideoFileUploadForm, VideoImportForm
+from .forms import VideoFileUploadForm, VideoImportForm, VideoProfileForm, LabelInlineFormSet
 from .importer import ImportFile, ImportFileError
 from .models import Video, VideoProfile
 
@@ -68,22 +67,22 @@ def import_upload(request):
     return render(request, 'upload/import.html', {'process': get_process(1), 'form': form})
 
 
-class Detail(VideoProfileUpdateView):
-    template_name = 'upload/profile.html'
-
-    def get_success_url(self):
-        return f'/upload/complete/{self.request.video.slug}'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['process'] = get_process(2)
-        return context
-
-
 @login_required
 @users_video_required
 def detail(request, slug):
-    return Detail.as_view()(request, slug)
+    form = VideoProfileForm(request.POST or None, instance=request.video.profile)
+    formset = LabelInlineFormSet(request.POST or None, instance=request.video.profile)
+    if request.method == 'POST' and form.is_valid() and formset.is_valid():
+        form.save()
+        formset.save()
+        return redirect(f'/upload/complete/{request.video.slug}')
+
+    context = {
+        'form': form,
+        'formset': formset,
+        'process': get_process(2)
+    }
+    return render(request, 'upload/profile.html', context)
 
 
 @login_required

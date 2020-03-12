@@ -1,6 +1,7 @@
 import functools
 import operator
 import re
+
 import twitter
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -12,9 +13,10 @@ from django.views.decorators.http import require_POST
 
 from account.models import User
 from ajax.forms import CommentForm, AddPointForm
+from browse.models import Label
 from browse.utils import safe_videos
 from upload.decorators import users_video_required
-from upload.generic import VideoProfileUpdateView
+from upload.forms import VideoProfileForm, LabelInlineFormSet
 from upload.importer import TwitterImporter, ImportFileError
 from upload.models import Video
 from .forms import ThumbnailForm, DeleteVideoForm
@@ -51,23 +53,30 @@ def watch(request, slug):
                                                'modal_form': AddPointForm()})
 
 
-class Edit(VideoProfileUpdateView):
-    template_name = 'core/edit.html'
-
-    def get_success_url(self):
-        return f'/watch/{self.request.video.slug}'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['video'] = self.request.video
-        context['modal_form'] = DeleteVideoForm()
-        return context
-
-
 @login_required
 @users_video_required
 def edit(request, slug):
-    return Edit.as_view()(request, slug)
+    form = VideoProfileForm(request.POST or None, instance=request.video.profile)
+    formset = LabelInlineFormSet(request.POST or None, instance=request.video.profile)
+
+    using_labels = request.video.profile.labels.all().values_list('id', flat=True)
+    for formset_form in formset.forms:
+        # 描画時にN+1の挙動になるものの解決策分からず
+        formset_form.fields['label'].queryset = Label.objects.filter(
+            Q(is_active=True) | Q(id__in=using_labels)
+        )
+
+    if request.method == 'POST' and form.is_valid() and formset.is_valid():
+        form.save()
+        formset.save()
+        return redirect(f'/watch/{request.video.slug}')
+
+    context = {
+        'form': form,
+        'formset': formset,
+        'modal_form': DeleteVideoForm()
+    }
+    return render(request, 'core/edit.html', context)
 
 
 @login_required

@@ -1,6 +1,6 @@
-from django.shortcuts import get_object_or_404, redirect
-from django.http.response import HttpResponseBadRequest
 from django.contrib import messages
+from django.http.response import HttpResponseBadRequest
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 
 from .models import Video
@@ -8,7 +8,7 @@ from .models import Video
 
 def users_video_required(view):
     def wrapper(request, slug, *args, **kwargs):
-        video = get_object_or_404(Video, slug=slug)
+        video = get_object_or_404(Video.objects.select_related('user', 'profile', 'data'), slug=slug)
         if not video.user == request.user:
             return HttpResponseBadRequest('ユーザー情報が投稿者と一致しません')
         request.video = video

@@ -1,16 +1,12 @@
-import re
 import html
 import math
+import re
 
 from django.db import models
+from django.template.defaultfilters import linebreaks
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.views import generic
-from django.conf import settings
-from django.template.defaultfilters import linebreaks
-
-from maintenance_mode.backends import AbstractStateBackend
-from maintenance_mode.io import read_file, write_file
 
 from account.validators import username_regex
 
@@ -80,23 +76,6 @@ class CustomModel(models.Model):
 
     class Meta:
         abstract = True
-
-
-class LocalFileBackend(AbstractStateBackend):
-    """デフォルトのLocalFileBackendの各メソッドのvalueに.strip()を追加しただけのもの"""
-
-    def get_value(self):
-        value = read_file(settings.MAINTENANCE_MODE_STATE_FILE_PATH, '0')
-        if value.strip() not in ['0', '1']:
-            raise ValueError('state file content value is not 0|1')
-        value = bool(int(value))
-        return value
-
-    def set_value(self, value):
-        value = str(int(value))
-        if value.strip() not in ['0', '1']:
-            raise ValueError('state file content value is not 0|1')
-        write_file(settings.MAINTENANCE_MODE_STATE_FILE_PATH, value)
 
 
 def activate_url_from(text):

@@ -31,7 +31,6 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('maintenance/', include('maintenance_mode.urls')),
     path('', include('pwa.urls')),
     path('', include('account.urls')),
     path('pages', include('pages.urls')),

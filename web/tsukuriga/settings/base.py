@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-import environ
 import os
+
+import environ
 import pymysql
 from django.db.backends.mysql.schema import DatabaseSchemaEditor
 
@@ -51,8 +52,6 @@ INSTALLED_APPS = [
     'markdownx',
     # django-cleanup
     'django_cleanup',
-    # django-maintenance-mode
-    'maintenance_mode',
     # django-cors-headers
     'corsheaders',
     # django-pwa
@@ -78,7 +77,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
 
 ROOT_URLCONF = 'tsukuriga.urls'
@@ -233,13 +231,6 @@ REMOVE_SLASH = True
 MARKDOWNX_MEDIA_PATH = 'pages/'
 
 MARKDOWNX_MARKDOWNIFY_FUNCTION = 'pages.utils.markdownify'
-
-# django-maintenance-mode
-MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
-MAINTENANCE_MODE_IGNORE_SUPERUSER = True
-MAINTENANCE_MODE_IGNORE_STAFF = True
-MAINTENANCE_MODE_STATE_FILE_PATH = os.path.join(BASE_DIR, 'tsukuriga', 'settings', 'maintenance_mode_state.txt')
-MAINTENANCE_MODE_STATE_BACKEND = 'core.utils.LocalFileBackend'
 
 # upload.models
 ENCODE_OPTIONS = {

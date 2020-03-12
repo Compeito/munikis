@@ -17,12 +17,12 @@ moviepy = "^1.0.1"
 django-storage-swift = "^1.2.19"
 django-markdownx = "^3.0.1"
 django-environ = "^0.4.5"
-pymysql = "^0.9.3"
 django-cleanup = "^4.0.0"
 pymdown-extensions = "^6.3"
 django-cors-headers = "^3.2.1"
 uwsgi = "^2.0.18"
 django-pwa = "^1.0.8"
+mysqlclient = "^1.4.6"
 
 [tool.poetry.dev-dependencies]
 django-extensions = "^2.2.8"

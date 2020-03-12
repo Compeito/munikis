@@ -1,6 +1,5 @@
 from django import forms
-
-from extra_views import InlineFormSetFactory
+from django.forms import inlineformset_factory
 
 from browse.models import Label, VideoProfileLabelRelation
 from .models import UploadedPureVideo, VideoProfile
@@ -49,11 +48,12 @@ class VideoProfileLabelRelationForm(forms.ModelForm):
         fields = ('label',)
 
 
-class LabelInline(InlineFormSetFactory):
-    model = VideoProfileLabelRelation
-    form_class = VideoProfileLabelRelationForm
-    fields = ('label',)
-    factory_kwargs = {'can_delete': False, 'max_num': 3}
+LabelInlineFormSet = inlineformset_factory(
+    parent_model=VideoProfile,
+    model=VideoProfileLabelRelation,
+    form=VideoProfileLabelRelationForm,
+    extra=3, max_num=3, can_delete=False
+)
 
 
 class VideoImportForm(forms.Form):

@@ -1,8 +1,9 @@
 {% load bulma_tags %}
 <div class="field">
   <label class="label">ラベル</label>
-  {% for formset in inlines %}
-    {{ formset|bulma_inline }}
+  {{ formset.management_form }}
+  {% for form in formset %}
+    {{ form|bulma_inline }}
   {% endfor %}
   <div class="help">0～3つまで選択できます。重複して選択することは出来ません</div>
 </div>

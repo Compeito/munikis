@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 
 import environ
-import pymysql
 from django.db.backends.mysql.schema import DatabaseSchemaEditor
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -124,7 +123,6 @@ DATABASES = {
         },
     }
 }
-pymysql.install_as_MySQLdb()
 DatabaseSchemaEditor.sql_create_table += " ROW_FORMAT=DYNAMIC"
 
 # Password validation

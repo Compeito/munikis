@@ -22,6 +22,7 @@ pymdown-extensions = "^6.3"
 django-cors-headers = "^3.2.1"
 uwsgi = "^2.0.18"
 django-pwa = "^1.0.8"
+mysqlclient = "^1.4.6"
 
 [tool.poetry.dev-dependencies]
 django-extensions = "^2.2.8"

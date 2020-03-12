@@ -312,4 +312,3 @@ modules.xml
 # End of https://www.gitignore.io/api/django,pycharm+all,node
 
 webpack-stats.json
-maintenance_mode_state.txt

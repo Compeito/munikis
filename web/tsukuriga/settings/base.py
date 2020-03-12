@@ -203,9 +203,6 @@ SOCIAL_AUTH_PIPELINE = (
 SOCIAL_AUTH_TWITTER_KEY = env('TWITTER_KEY', default='')
 SOCIAL_AUTH_TWITTER_SECRET = env('TWITTER_SECRET', default='')
 
-MACKEREL_HOST_ID = env('MACKEREL_HOST_ID', default='')
-MACKEREL_KEY = env('MACKEREL_KEY', default='')
-
 AUTH_USER_MODEL = 'account.User'
 
 # django-webpack-loader

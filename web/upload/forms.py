@@ -1,5 +1,6 @@
 from django import forms
 from django.forms import inlineformset_factory
+from django.utils import timezone
 
 from browse.models import Label, VideoProfileLabelRelation
 from .models import UploadedPureVideo, VideoProfile
@@ -34,6 +35,13 @@ class VideoProfileForm(forms.ModelForm):
         label='公開状態', choices=VideoProfile.RELEASE_TYPES[:-1],
         help_text='限定公開は新着順など一部ページに表示されなくなります'
     )
+
+    def save(self, commit=True):
+        video = self.instance.video
+        if video.published_at is None:
+            video.published_at = timezone.now()
+            video.save()
+        return super().save(commit)
 
     class Meta:
         model = VideoProfile

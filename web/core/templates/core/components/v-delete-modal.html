@@ -1,5 +1,5 @@
 {% load bulma_tags %}
-<div id="v-delete-modal" class="modal" data-correct="{{ video.slug }}" ref="deleteModal" v-cloak>
+<div id="v-delete-modal" class="modal" data-correct="{{ slug }}" ref="deleteModal" v-cloak>
   <div class="modal-background" @click="hideModal"></div>
   <div class="modal-card">
     <header class="modal-card-head">
@@ -8,9 +8,9 @@
     <section class="modal-card-body">
       <p>
         一度削除した動画は元に戻せません。削除して問題ない場合は、
-        動画ID(<code>{{ video.slug }}</code>)を入力して「削除する」を押してください
+        動画ID(<code>{{ slug }}</code>)を入力して「削除する」を押してください
       </p>
-      <form method="post" action="/delete/{{ video.slug }}">
+      <form method="post" action="/delete/{{ slug }}">
         {% csrf_token %}
         {{ modal_form|bulma }}
         <button type="submit" class="button is-danger" :disabled="!isDeletable">削除する</button>

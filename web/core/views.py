@@ -74,6 +74,7 @@ def edit(request, slug):
     context = {
         'form': form,
         'formset': formset,
+        'slug': slug,
         'modal_form': DeleteVideoForm()
     }
     return render(request, 'core/edit.html', context)

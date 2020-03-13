@@ -15,12 +15,13 @@
         {% include 'upload/components/label-select-form.html' %}
         {{ form|bulma }}
         <button type="submit" class="button is-info">更新</button>
-        <a href="/thumbnail/{{ video.slug }}" class="button is-primary">サムネイル編集</a>
+        <a href="/thumbnail/{{ slug }}" class="button is-primary">サムネイル編集</a>
         <button
-          type="button"
-          class="button is-danger is-pulled-right modal-opener"
-          data-target="v-delete-modal"
-        >削除する</button>
+                type="button"
+                class="button is-danger is-pulled-right modal-opener"
+                data-target="v-delete-modal"
+        >削除する
+        </button>
       </form>
     </div>
     {% include 'core/components/v-delete-modal.html' %}

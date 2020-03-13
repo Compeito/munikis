@@ -56,10 +56,21 @@ class VideoProfileLabelRelationForm(forms.ModelForm):
         fields = ('label',)
 
 
+class BaseLabelInlineFormSet(forms.BaseInlineFormSet):
+    def clean(self):
+        values = []
+        for form in self.forms:
+            value = form['label'].value()
+            if value in values:
+                form.add_error('__all__', '値が重複しています')
+            values.append(value)
+
+
 LabelInlineFormSet = inlineformset_factory(
     parent_model=VideoProfile,
     model=VideoProfileLabelRelation,
     form=VideoProfileLabelRelationForm,
+    formset=BaseLabelInlineFormSet,
     extra=3, max_num=3, can_delete=False
 )
 

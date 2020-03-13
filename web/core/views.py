@@ -59,16 +59,17 @@ def edit(request, slug):
     form = VideoProfileForm(request.POST or None, instance=request.video.profile)
     formset = LabelInlineFormSet(request.POST or None, instance=request.video.profile)
 
-    using_labels = request.video.profile.labels.all().values_list('id', flat=True)
     for formset_form in formset.forms:
         # 描画時にN+1の挙動になるものの解決策分からず
         formset_form.fields['label'].queryset = Label.objects.filter(
-            Q(is_active=True) | Q(id__in=using_labels)
+            Q(is_active=True) | Q(id__in=request.video.profile.labels.all())
         )
 
     if request.method == 'POST' and form.is_valid() and formset.is_valid():
         form.save()
         formset.save()
+
+        messages.success(request, '更新されました')
         return redirect(f'/watch/{request.video.slug}')
 
     context = {

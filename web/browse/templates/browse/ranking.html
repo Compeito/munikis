@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load core_tags %}
 
-{% block page_title %}ランキング：{{ ranking.get_day_display }}{{ ranking.get_type_display }}{% endblock %}
-{% block ogp_page_title %}ランキング：{{ ranking.get_day_display }}{{ ranking.get_type_display }}{% endblock %}
+{% block page_title %}ランキング：{{ ranking_day.label }}{{ ranking_type.label }}{% endblock %}
+{% block ogp_page_title %}ランキング：{{ ranking_day.label }}{{ ranking_type.label }}{% endblock %}
 
 {% block content_2col %}
   <div class="column">
@@ -11,10 +11,10 @@
       <div class="level is-mobile">
         <div class="level-left">
           <div class="level-item">
-            {% include 'browse/components/ranking-type-dropdown.html' with ref=ranking %}
+            {% include 'browse/components/ranking-type-dropdown.html' %}
           </div>
           <div class="level-item">
-            {% include 'browse/components/ranking-day-dropdown.html' with ref=ranking %}
+            {% include 'browse/components/ranking-day-dropdown.html' %}
           </div>
         </div>
       </div>

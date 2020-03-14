@@ -74,8 +74,9 @@ class RankingList(AltPaginationListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        if self.object_list.count():
-            context['ranking'] = self.object_list[0].ranking_set.first()
+        context['Ranking'] = Ranking
+        context['ranking_type'] = Ranking.TypeChoices[self.ranking_type]
+        context['ranking_day'] = Ranking.DayChoices[self.ranking_day]
         return context
 
 

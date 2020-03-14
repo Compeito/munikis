@@ -68,13 +68,14 @@ class RankingList(AltPaginationListView):
         return (
             safe_videos()
                 .prefetch_related('ranking_set')
-                .filter(ranking__day='week', ranking__type='popular')
+                .filter(ranking__type=self.ranking_type, ranking__day=self.ranking_day)
                 .order_by('-ranking__point')
         )
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['ranking'] = self.object_list[0].ranking_set.first()
+        if self.object_list.count():
+            context['ranking'] = self.object_list[0].ranking_set.first()
         return context
 
 

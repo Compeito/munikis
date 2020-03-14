@@ -71,27 +71,32 @@ ready(() => {
     const gif = $thumb.dataset.gif
     const jpg = $thumb.dataset.thumbnail
     if (!gif) return
-
-    const isInWindow = ($dom) => {
-      const rect = $dom.getBoundingClientRect()
-      return 0 < rect.top && rect.bottom < window.innerHeight
-    }
-
-    const scrollCallBack = e => {
-      if (!isInWindow($wrapper)) {
+    const isMobile = window.innerWidth < 769
+    if (isMobile) {
+      window.addEventListener('scroll', e => {
+        const centerOfView = window.innerHeight / 2
+        const wrapperRect = $wrapper.getBoundingClientRect()
+        if (wrapperRect.top < centerOfView && centerOfView < wrapperRect.bottom) {
+          if ($thumb.src !== gif) {
+            $thumb.src = gif
+          }
+        } else {
+          if ($thumb.src !== jpg) {
+            $thumb.src = jpg
+          }
+        }
+      })
+    } else {
+      $wrapper.addEventListener('mouseover', e => {
+        if ($thumb.src !== gif) {
+          $thumb.src = gif
+        }
+      })
+      $wrapper.addEventListener('mouseout', e => {
         if ($thumb.src !== jpg) {
           $thumb.src = jpg
         }
-        return
-      }
-      setTimeout(() => {
-        if (isInWindow($wrapper) && $thumb.src !== gif) {
-          $thumb.src = gif
-        }
-      }, 500)
+      })
     }
-
-    scrollCallBack()
-    window.addEventListener('scroll', scrollCallBack)
   })
 })

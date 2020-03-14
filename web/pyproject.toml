@@ -6,7 +6,7 @@ authors = ["mkizka"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-django = "2.1.15"
+django = "^3.0.4"
 social-auth-app-django = "^3.1.0"
 django-webpack-loader = "^0.7.0"
 django-bulma = "^0.6.0"

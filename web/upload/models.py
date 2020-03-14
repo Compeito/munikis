@@ -206,12 +206,13 @@ class VideoProfile(CustomModel):
     アップロード直後に情報が保持されるモデル
     基本的にユーザーが編集可
     """
-    RELEASE_TYPES = (
-        ('published', '公開'),
-        ('limited', '限定公開'),
-        ('unpublished', '未公開'),
-    )
-    release_type = models.CharField('公開状態', max_length=20, choices=RELEASE_TYPES, default=RELEASE_TYPES[-1][0])
+
+    class ReleaseType(models.TextChoices):
+        published = 'published', '公開'
+        limited = 'limited', '限定公開'
+        unpublished = 'unpublished', '未公開'
+
+    release_type = models.CharField('公開状態', max_length=20, choices=ReleaseType.choices, default=ReleaseType.unpublished)
 
     video = models.OneToOneField(Video, verbose_name='動画', on_delete=models.CASCADE, related_name='profile')
     labels = models.ManyToManyField(Label, verbose_name='ラベル', blank=True, through=VideoProfileLabelRelation)

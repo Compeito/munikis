@@ -7,43 +7,39 @@ from django.utils import timezone
 
 from ajax.models import Comment, Point
 
-DAY_SETS = (
-    (1, 'day', '24時間'),
-    (7, 'week', '週間'),
-    (30, 'month', '月間'),
-    (-1, 'all', '全期間'),
-)
-
-
-def day_to_count(name):
-    for count, pathname, label in DAY_SETS:
-        if pathname == name:
-            return count
-
 
 class Ranking(models.Model):
-    DAYS = tuple([
-        (pathname, label) for count, pathname, label in DAY_SETS
-    ])
-    TYPES = (
-        ('popular', '人気順'),
-        ('favorites', 'お気に入り順'),
-    )
+    class DayChoices(models.TextChoices):
+        day = 'day', '24時間'
+        week = 'week', '週間'
+        month = 'month', '月間'
+        all = 'all', '全期間'
+
+    class TypeChoices(models.TextChoices):
+        popular = 'popular', '人気順'
+        favorites = 'favorites', 'お気に入り順'
+
     point = models.IntegerField('算出ポイント', default=0)
     video = models.ForeignKey('upload.Video', verbose_name='動画', on_delete=models.CASCADE)
-    day = models.CharField('期間(日)', default=1, max_length=20, choices=DAYS)
-    type = models.CharField('集計タイプ', default='popular', max_length=20, choices=TYPES)
+    day = models.CharField('期間(日)', default=1, max_length=20, choices=DayChoices.choices)
+    type = models.CharField('集計タイプ', default='popular', max_length=20, choices=TypeChoices.choices)
 
     @staticmethod
     def raise_http404_for_sort(t, d):
-        type_labels = [v for v, k in Ranking.TYPES]
-        day_labels = [v for v, k in Ranking.DAYS]
+        type_labels = [v for v, k in Ranking.TypeChoices.choices]
+        day_labels = [v for v, k in Ranking.DayChoices.choices]
         if t not in type_labels or d not in day_labels:
             raise Http404
 
     @property
     def day_count(self):
-        return day_to_count(self.day)
+        counts = {
+            self.DayChoices.day: 1,
+            self.DayChoices.week: 7,
+            self.DayChoices.month: 30,
+            self.DayChoices.all: -1,
+        }
+        return counts[self.day]
 
     @property
     def from_datetime(self):

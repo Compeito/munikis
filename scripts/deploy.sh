@@ -8,6 +8,11 @@ alias docker-compose-prod='docker-compose -f docker-compose.yml -f docker-compos
 # イメージの再ビルド
 docker-compose-prod build
 
+# DB以外のボリュームの削除
+docker volume rm tsukuriga_venv
+docker volume rm tsukuriga_node_modules
+docker volume rm tsukuriga_sock
+
 # 依存関係の更新とDBマイグレーション
 docker-compose-prod up --no-deps -d db
 docker-compose-prod run --no-deps --rm web python manage.py migrate

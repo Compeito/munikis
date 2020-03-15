@@ -65,12 +65,29 @@ class Video(models.Model):
     source_url = models.URLField('インポート元URL', null=True, blank=True)
 
     @property
-    def type_icon(self):
-        icons = {
+    def badges(self):
+        type_icons = {
             'twitter': 'fab fa-twitter',
             'altwug': 'fas fa-frog',
+            'limited': 'fas fa-lock',
         }
-        return icons[self.type]
+        release_icons = {
+            'unpublished': 'fas fa-exclamation-triangle',
+        }
+        badges = []
+        if self.type in type_icons.keys():
+            badges.append({
+                'css': f'is-{self.type}',
+                'icon': type_icons[self.type],
+                'label': self.get_type_display(),
+            })
+        if self.profile.release_type in release_icons.keys():
+            badges.append({
+                'css': f'is-{self.profile.release_type}',
+                'icon': release_icons[self.profile.release_type],
+                'label': self.profile.get_release_type_display,
+            })
+        return badges
 
     @property
     def is_encoded(self):

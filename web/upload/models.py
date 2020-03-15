@@ -1,20 +1,20 @@
+import mimetypes
 import os
 import random
-import mimetypes
 from uuid import uuid4
 
-from django.db import models
 from django.conf import settings
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
-from django.utils.functional import cached_property
+from django.db import models
 from django.utils import timezone
+from django.utils.functional import cached_property
 from moviepy.editor import VideoFileClip
 
-from .validators import FileValidator, video_file_validator, zip_validator
-from .utils import get_tempfile
 from browse.models import Ranking, Label, VideoProfileLabelRelation
 from core.utils import CustomModel, gen_unique_slug
+from .utils import get_tempfile
+from .validators import FileValidator, video_file_validator, zip_validator
 
 
 def default_video_slug():
@@ -124,8 +124,8 @@ class Video(models.Model):
         return self.comment_set.exclude(user=self.user).values('user').distinct().count()
 
     def calculate_rankings(self):
-        for ranking_day, i in Ranking.DAYS:
-            for ranking_type, j in Ranking.TYPES:
+        for ranking_day in Ranking.DayChoices:
+            for ranking_type in Ranking.TypeChoices:
                 ranking = self.ranking_set.create(day=ranking_day, type=ranking_type)
                 ranking.calculate()
                 ranking.save()

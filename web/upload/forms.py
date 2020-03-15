@@ -61,7 +61,7 @@ class BaseLabelInlineFormSet(forms.BaseInlineFormSet):
         values = []
         for form in self.forms:
             value = form['label'].value()
-            if value in values:
+            if value and value in values:
                 form.add_error('__all__', '値が重複しています')
             values.append(value)
 

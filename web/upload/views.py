@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views.generic import FormView
 
+from browse.models import Label
 from .decorators import users_video_required, upload_limitation
 from .forms import VideoFileUploadForm, VideoImportForm, VideoProfileForm, LabelInlineFormSet
 from .importer import ImportFile, ImportFileError
@@ -72,6 +74,13 @@ def import_upload(request):
 def detail(request, slug):
     form = VideoProfileForm(request.POST or None, instance=request.video.profile)
     formset = LabelInlineFormSet(request.POST or None, instance=request.video.profile)
+
+    for formset_form in formset.forms:
+        # 描画時にN+1の挙動になるものの解決策分からず
+        formset_form.fields['label'].queryset = Label.objects.filter(
+            Q(is_active=True) | Q(id__in=request.video.profile.labels.all())
+        )
+
     if request.method == 'POST' and form.is_valid() and formset.is_valid():
         form.save()
         formset.save()

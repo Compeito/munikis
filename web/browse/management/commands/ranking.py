@@ -8,8 +8,10 @@ class Command(BaseCommand):
     help = ''
 
     def handle(self, *args, **options):
-        for ranking in Ranking.objects.all():
-            ranking.delete()
+        Ranking.objects.all().delete()
 
+        rankings = []
         for video in safe_videos():
-            video.calculate_rankings()
+            ranking = video.calculate_rankings()
+            rankings.append(ranking)
+        Ranking.objects.bulk_create(rankings)

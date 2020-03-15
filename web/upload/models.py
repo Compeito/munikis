@@ -124,11 +124,13 @@ class Video(models.Model):
         return self.comment_set.exclude(user=self.user).values('user').distinct().count()
 
     def calculate_rankings(self):
+        rankings = []
         for ranking_day in Ranking.DayChoices:
             for ranking_type in Ranking.TypeChoices:
                 ranking = Ranking(video=self, day=ranking_day, type=ranking_type)
                 ranking.calculate()
-                return ranking
+                rankings.append(ranking)
+        return rankings
 
     @property
     def published_at_str(self):

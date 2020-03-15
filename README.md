@@ -14,7 +14,7 @@
 
 #### 開発サーバーの起動
 ```bash
-$ ./scripts/setup.sh
+$ sh ./scripts/setup.sh
 $ docker-compose up -d
 ```
 

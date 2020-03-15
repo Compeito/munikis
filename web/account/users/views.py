@@ -22,7 +22,7 @@ class Profile(AltPaginationListView):
 
     def get_queryset(self):
         username = self.kwargs['username']
-        if username == self.request.user.username:
+        if username == self.request.user.username or self.request.user.is_staff:
             return unsafe_videos().filter(user__username=username).order_by('-profile__created_at')
         return safe_videos().filter(user__username=username).order_by('-profile__created_at')
 

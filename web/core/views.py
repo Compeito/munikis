@@ -24,7 +24,8 @@ from .forms import ThumbnailForm, DeleteVideoForm
 
 def watch(request, slug):
     video = get_object_or_404(
-        Video.objects.prefetch_related('profile__labels'), slug=slug
+        Video.objects.select_related('user', 'profile', 'data').prefetch_related('profile__labels'),
+        slug=slug
     )
 
     if (

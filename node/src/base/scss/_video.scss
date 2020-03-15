@@ -13,39 +13,46 @@
       display: none;
     }
 
-    &:hover {
-      .video-thumbnail-display {
-        @include flex;
-        position: absolute;
+    .video-thumbnail-display {
+      @include flex;
+      position: absolute;
 
-        &.is-bottom {
-          right: 2px;
-          bottom: 2px;
+      &.is-bottom {
+        right: 2px;
+        bottom: 2px;
+      }
+
+      &.is-top {
+        right: 2px;
+        top: 2px;
+      }
+
+      .video-thumbnail-display-item {
+        margin-left: 5px;
+        padding: 2px 3px;
+        background-color: black;
+        color: #eeeeee;
+        opacity: 0.8;
+        border-radius: 0.3rem;
+
+        &.is-limited {
+          background-color: $grey;
         }
 
-        &.is-top {
-          right: 2px;
-          top: 2px;
+        &.is-unpublished {
+          background-color: $yellow;
         }
 
-        .video-thumbnail-display-item {
-          margin-left: 5px;
-          padding: 2px 3px;
-          background-color: black;
-          color: #eeeeee;
-          opacity: 0.8;
-          border-radius: 0.3rem;
+        &.is-twitter {
+          background-color: $info;
+        }
 
-          &.is-twitter {
-            background-color: $info;
-          }
-
-          &.is-altwug {
-            background-color: $purple;
-          }
+        &.is-altwug {
+          background-color: $purple;
         }
       }
     }
+
   }
 
   .video-footer {

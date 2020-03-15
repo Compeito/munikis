@@ -11,13 +11,13 @@
                 data-gif="{{ video.image_urls.gif }}"
         >
       </figure>
-      {% if video.type|is_in:"twitter,altwug" %}
-        <div class="video-thumbnail-display is-top">
-          <span class="video-thumbnail-display-item is-{{ video.type }}" title="{{ video.get_type_display }}">
-            <i class="{{ video.type_icon }}"></i>
+      <div class="video-thumbnail-display is-top">
+        {% for badge in video.badges %}
+          <span class="video-thumbnail-display-item {{ badge.css }}" title="{{ badge.label }}">
+            <i class="{{ badge.icon }}"></i>
           </span>
-        </div>
-      {% endif %}
+        {% endfor %}
+      </div>
       <div class="video-thumbnail-display is-bottom">
         <span class="video-thumbnail-display-item">{{ video.data.fps }}fps</span>
         <span class="video-thumbnail-display-item">{{ video.data.duration_str }}</span>

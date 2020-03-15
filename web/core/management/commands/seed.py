@@ -96,7 +96,7 @@ class Command(BaseCommand):
                 is_pickup=self.random_bool(),
                 published_at=timezone.now(),
                 views_count=random.randint(0, 1000),
-                type=random.choice(Video.VIDEO_TYPES)[0]
+                type=random.choice(Video.VideoType.choices)[0]
             )
             fake_videos.append(fake_video)
             print(f'動画作成...{i + 1}')

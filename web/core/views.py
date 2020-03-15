@@ -18,7 +18,7 @@ from browse.utils import safe_videos
 from upload.decorators import users_video_required
 from upload.forms import VideoProfileForm, LabelInlineFormSet
 from upload.importer import TwitterImporter, ImportFileError
-from upload.models import Video
+from upload.models import Video, VideoProfile
 from .forms import ThumbnailForm, DeleteVideoForm
 
 
@@ -27,7 +27,11 @@ def watch(request, slug):
         Video.objects.prefetch_related('profile__labels'), slug=slug
     )
 
-    if not video.user == request.user and video.profile.release_type == 'unpublished':
+    if (
+        not request.user.is_staff and
+        not video.user == request.user and
+        video.profile.release_type == VideoProfile.ReleaseType.unpublished
+    ):
         raise Http404
 
     label_videos = []
@@ -48,6 +52,9 @@ def watch(request, slug):
 
     if video.is_ban:
         messages.error(request, 'この動画は運営によって非公開に設定されました。投稿者以外は閲覧できません')
+
+    if video.profile.release_type == VideoProfile.ReleaseType.unpublished:
+        messages.warning(request, 'この動画は未公開のままになっています。メニューの[動画情報の編集]から公開してみましょう')
 
     return render(request, 'core/watch.html', {'video': video, 'related_videos': related_videos, 'form': CommentForm(),
                                                'modal_form': AddPointForm()})

@@ -27,10 +27,10 @@ def watch(request, slug):
         Video.objects.select_related('user', 'profile', 'data').prefetch_related('profile__labels'),
         slug=slug
     )
+    is_users_access = video.user == request.user
 
     if (
-        not request.user.is_staff and
-        not video.user == request.user and
+        not request.user.is_staff and not is_users_access and
         video.profile.release_type == VideoProfile.ReleaseType.unpublished
     ):
         raise Http404
@@ -48,13 +48,13 @@ def watch(request, slug):
     video.views_count += 1
     video.save()
 
-    if video.is_failed and video.user == request.user:
+    if video.is_failed and is_users_access:
         messages.error(request, 'エンコード処理が正常に終了しませんでした。メニューの[動画ファイルの再投稿]から再投稿してみてください')
 
     if video.is_ban:
         messages.error(request, 'この動画は運営によって非公開に設定されました。投稿者以外は閲覧できません')
 
-    if video.profile.release_type == VideoProfile.ReleaseType.unpublished:
+    if video.profile.release_type == VideoProfile.ReleaseType.unpublished and is_users_access:
         messages.warning(request, 'この動画は未公開のままになっています。メニューの[動画情報の編集]から公開してみましょう')
 
     return render(request, 'core/watch.html', {'video': video, 'related_videos': related_videos, 'form': CommentForm(),

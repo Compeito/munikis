@@ -46,12 +46,13 @@ class Video(models.Model):
     """
     関連モデルを統括する基礎モデル
     """
-    VIDEO_TYPES = (
-        ('normal', '通常投稿'),
-        ('updated', '通常投稿(再投稿済み)'),
-        ('twitter', 'ツイッターからインポート'),
-        ('altwug', 'Altwugからインポート'),
-    )
+
+    class VideoType(models.TextChoices):
+        normal = 'normal', '通常投稿'
+        updated = 'updated', '通常投稿(再投稿済み)'
+        twitter = 'twitter', 'ツイッターからインポート'
+        altwug = 'altwug', 'Altwugからインポート'
+
     user = models.ForeignKey('account.User', verbose_name='投稿者', on_delete=models.CASCADE)
     slug = models.CharField('動画ID', max_length=5, default=default_video_slug, editable=False)
 
@@ -60,7 +61,7 @@ class Video(models.Model):
     published_at = models.DateTimeField('公開時間', blank=True, null=True)
 
     views_count = models.PositiveIntegerField('再生回数', default=0)
-    type = models.CharField('動画タイプ', max_length=20, choices=VIDEO_TYPES, default=VIDEO_TYPES[0][0])
+    type = models.CharField('動画タイプ', max_length=20, choices=VideoType.choices, default=VideoType.normal)
     source_url = models.URLField('インポート元URL', null=True, blank=True)
 
     @property

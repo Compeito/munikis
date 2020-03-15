@@ -126,9 +126,9 @@ class Video(models.Model):
     def calculate_rankings(self):
         for ranking_day in Ranking.DayChoices:
             for ranking_type in Ranking.TypeChoices:
-                ranking = self.ranking_set.create(day=ranking_day, type=ranking_type)
+                ranking = Ranking(video=self, day=ranking_day, type=ranking_type)
                 ranking.calculate()
-                ranking.save()
+                return ranking
 
     @property
     def published_at_str(self):

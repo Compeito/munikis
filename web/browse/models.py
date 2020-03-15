@@ -58,7 +58,7 @@ class Ranking(models.Model):
         raise NotImplementedError(calculator_name + 'メソッドが定義されていません')
 
     def calc_favorites(self):
-        return len(self.video.favorite_set.filter(created_at__gte=self.from_datetime))
+        return self.video.favorite_set.filter(created_at__gte=self.from_datetime).count()
 
     def calc_popular(self):
         """

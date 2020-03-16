@@ -3,6 +3,7 @@ from django.views.decorators.http import require_GET, require_POST
 from django.utils import timezone
 
 from upload.models import Video, VideoProfile
+from account.models import User
 from .models import Comment, Point
 from .forms import CommentForm, AddPointForm
 from .utils import json_response, get_ip
@@ -120,3 +121,30 @@ def list_favorites(request, slug):
         'favorites': [f.json() for f in favorites],
         'isCreated': is_created
     }, status=200)
+
+
+@require_POST
+@login_required
+def toggle_friendship(request, username):
+    if request.user.username == username:
+        return json_response({'message': '自分自身をフォローできません'}, status=400)
+    followee = get_object_or_404(User, username=username)
+
+    old_friendships = request.user.followee_friendships.filter(followee=followee)
+    if old_friendships.exists():
+        old_friendships.first().delete()
+        message = 'フォローを解除しました'
+    else:
+        request.user.followee_friendships.create(followee=followee)
+        message = 'フォローしました'
+
+    return json_response({'message': message, 'isCreated': not old_friendships.exists()}, status=200)
+
+
+@require_GET
+@login_required
+def exist_friendship(request, username):
+    is_following = request.user.followee_friendships.filter(
+        followee__username=username
+    ).exists()
+    return json_response({'isFollowing': is_following}, status=200)

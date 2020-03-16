@@ -12,13 +12,17 @@
 * docker
 * docker-compose
 
-#### 開発サーバーの起動
+### 開発サーバーの起動
 ```bash
 $ sh ./scripts/setup.sh
 $ docker-compose up -d
 ```
 
-#### コマンド一覧
+### 管理者アカウント
+* ユーザー名: `test`
+* パスワード: `test`
+
+### コマンド一覧
 ```bash
 # 静止画サムネイル生成と動画のエンコード
 $ docker-compose run web python manage.py encode

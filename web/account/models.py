@@ -33,6 +33,11 @@ class User(AbstractUser):
 
     is_accept_mail = models.BooleanField('メール配信の許可', default=True)
 
+    followees = models.ManyToManyField('User', verbose_name='フォロー中のユーザー', through='ajax.FriendShip',
+                                       related_name='followings+', through_fields=('user', 'followee'))
+    followers = models.ManyToManyField('User', verbose_name='フォローされているユーザー', through='ajax.FriendShip',
+                                       related_name='followers+', through_fields=('followee', 'user'))
+
     contribution_point = models.PositiveIntegerField('貢献ポイント', default=0, blank=True)
     objects = UserManager()
 

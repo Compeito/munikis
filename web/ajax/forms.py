@@ -9,7 +9,7 @@ class CommentForm(forms.ModelForm):
     )
     is_anonymous = forms.BooleanField(
         label='名前を伏せてコメントする', required=False,
-        help_text='<a href=/pages/guide#comment>ユーザーガイド</a>をよく読んだ上でご利用下さい'
+        help_text='<a href=/pages/guide#匿名コメント>ユーザーガイド</a>をよく読んだ上でご利用下さい'
     )
 
     class Meta:

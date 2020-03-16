@@ -29,7 +29,6 @@ class VideoProfileForm(forms.ModelForm):
     )
     allows_anonymous_comment = forms.BooleanField(
         label='匿名のコメントを許可する', required=False,
-        help_text='拒否設定にした時点で追加されていたコメントは全て匿名設定がオフになります'
     )
     release_type = forms.ChoiceField(
         label='公開状態', choices=VideoProfile.ReleaseType.choices[:-1],

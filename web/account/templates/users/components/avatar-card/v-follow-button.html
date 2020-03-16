@@ -1,0 +1,12 @@
+{% load render_bundle from webpack_loader %}
+<button
+  id="v-follow-button"
+  class="button is-pulled-right"
+  :class="className"
+  @click="toggleFavorite"
+  ref="followButton"
+  data-followee-username="{{ account.username }}"
+  >
+    フォロー<span v-cloak>[[ label ]]</span>
+</button>
+{% render_bundle 'account/follow' %}

@@ -16,6 +16,8 @@
         <a href="/settings/edit" class="is-pulled-right">
           <i class="fas fa-edit with-text"></i>編集
         </a>
+      {% else %}
+        {% include 'users/components/avatar-card/v-follow-button.html' %}
       {% endif %}
       <h1>
         <a href="/u/{{ account.username }}">{{ account.name }}</a>

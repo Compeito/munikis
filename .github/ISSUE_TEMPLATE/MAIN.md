@@ -1,9 +1,6 @@
 ---
 name: 汎用テンプレ
 about: 汎用的なIssueテンプレート
-title: ''
-labels: ''
-assignees: mkizka
 
 ---
 

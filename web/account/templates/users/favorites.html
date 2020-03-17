@@ -1,8 +1,12 @@
-{% extends 'users/profile.html' %}
+{% extends 'users/user.html' %}
 
-{% block page_title %}お気に入りリスト|{{ account.name }}@{{ account.username }}{% endblock %}
-{% block ogp_title %}お気に入りリスト|{{ account.name }}@{{ account.username }}{% endblock %}
+{% block page_title %}お気に入りリスト | {{ account.name }}@{{ account.username }}{% endblock %}
+{% block ogp_title %}お気に入りリスト | {{ account.name }}@{{ account.username }}{% endblock %}
 
 {% block head %}
   <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block user_content %}
+  {% include 'browse/components/video-list.html' %}
 {% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load render_bundle from webpack_loader %}
+
+{% block page_title %}{{ account.name }}@{{ account.username }}{% endblock %}
+{% block ogp_title %}{{ account.name }}@{{ account.username }}{% endblock %}
+{% block description %}{{ account.description }}{% endblock %}
+{% block ogp_description %}{{ account.description }}{% endblock %}
+{% block ogp_image %}{{ account.profile_icon_url }}{% endblock %}
+{% block ogp_twitter_card %}summary{% endblock %}
+{% block ogp_twitter_creator %}
+  {% if account.has_twitter_auth %}
+    @{{ account.twitter_info.screen_name }}
+  {% endif %}
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+  <div class="column is-one-quarter">
+    {% include 'users/components/avatar-card.html' %}
+  </div>
+  <div class="column">
+    <div class="tabs">
+      <ul>
+        {% for tab in tabs %}
+          <li {% if tab.is_active %}class="is-active"{% endif %}><a href="{{ tab.href }}">{{ tab.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% block user_content %}{% endblock %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {% render_bundle 'account/follow' %}
+{% endblock %}

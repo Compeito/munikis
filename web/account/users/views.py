@@ -10,6 +10,8 @@ def get_tabs(n, username):
     tabs = [
         {'href': f'/u/{username}', 'title': '投稿動画', 'is_active': False},
         {'href': f'/u/{username}/favorites', 'title': 'お気に入りリスト', 'is_active': False},
+        {'href': f'/u/{username}/followees', 'title': 'フォロイー', 'is_active': False},
+        {'href': f'/u/{username}/followers', 'title': 'フォロワー', 'is_active': False},
     ]
     tabs[n]['is_active'] = True
     return tabs
@@ -59,3 +61,46 @@ class FavoritesList(AltPaginationListView):
 
 
 favorites_list = FavoritesList.as_view()
+
+
+class FolloweesList(AltPaginationListView):
+    template_name = 'users/followees.html'
+    context_object_name = 'accounts'
+    paginate_by = 9
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        return User.objects.filter(follower_friendships__user__username=username)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        account = get_object_or_404(User, username=self.kwargs['username'])
+        context['account'] = account
+        context['tabs'] = get_tabs(2, account.username)
+
+        return context
+
+
+followees_list = FolloweesList.as_view()
+
+class FollowersList(AltPaginationListView):
+    template_name = 'users/followers.html'
+    context_object_name = 'accounts'
+    paginate_by = 9
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        return User.objects.filter(followee_friendships__followee__username=username)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        account = get_object_or_404(User, username=self.kwargs['username'])
+        context['account'] = account
+        context['tabs'] = get_tabs(3, account.username)
+
+        return context
+
+
+followers_list = FollowersList.as_view()

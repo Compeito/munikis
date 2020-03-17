@@ -1,0 +1,12 @@
+<div class="columns is-multiline">
+  {% for account in accounts %}
+    <div class="column {{ column_classes|default:'is-one-third' }}">
+      {% include 'users/components/avatar-card.html' with slim=True %}
+    </div>
+  {% empty %}
+    <div class="column has-text-centered">
+      <p>ユーザーはいません</p>
+    </div>
+  {% endfor %}
+</div>
+{% include 'base/components/pagination.html' %}

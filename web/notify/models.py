@@ -77,10 +77,11 @@ class Notification(models.Model):
         return False
 
     def is_available_mail(self):
-        return not settings.DEBUG and \
-               self.pk is None and \
-               self.recipient.is_accept_mail and \
-               not self.is_barrage
+        return (
+            self.pk is None and  # 新規作成時のみ送信するため
+            self.recipient.is_accept_mail and
+            not self.is_barrage
+        )
 
     def save(self, *args, **kwargs):
         if self.is_available_mail():

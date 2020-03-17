@@ -134,11 +134,13 @@ def toggle_friendship(request, username):
     if old_friendships.exists():
         old_friendships.first().delete()
         message = 'フォローを解除しました'
+        is_following = False
     else:
         request.user.followee_friendships.create(followee=followee)
         message = 'フォローしました'
+        is_following = True
 
-    return json_response({'message': message, 'isCreated': not old_friendships.exists()}, status=200)
+    return json_response({'message': message, 'isFollowing': is_following}, status=200)
 
 
 @require_GET

@@ -45,7 +45,7 @@ ready(() => {
         axios.post(`/ajax/friendships/toggle/${this.username}`, csrf())
           .then(response => {
             Notify.activate('success', response.data.results.message)
-            this.existFriendship()
+            this.isFollowing = response.data.results.isFollowing
           })
           .finally(() => {
             this.isLoading = false

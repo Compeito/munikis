@@ -1,0 +1,7 @@
+{% load core_tags %}
+<strong>
+  <a href="{{ '/u/'|add:notification.sender.username|to_absolute_path }}">
+    {{ notification.sender.name }}(@{{ notification.sender.username }})
+  </a>
+  さんがあなたをフォローしました
+</strong>

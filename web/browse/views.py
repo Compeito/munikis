@@ -4,6 +4,7 @@ import random
 
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 from .utils import safe_videos
 from .models import Ranking, Label
@@ -29,6 +30,18 @@ class Recent(AltPaginationListView):
 
 
 recent = Recent.as_view()
+
+
+class Timeline(AltPaginationListView):
+    template_name = 'browse/timeline.html'
+    context_object_name = 'videos'
+    paginate_by = 12
+
+    def get_queryset(self):
+        return safe_videos().filter(user__follower_friendships__user=self.request.user).order_by('-published_at')
+
+
+timeline = login_required(Timeline.as_view())
 
 
 class Search(AltPaginationListView):

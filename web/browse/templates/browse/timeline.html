@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load core_tags %}
+
+{% block page_title %}フォロー新着{% endblock %}
+{% block ogp_page_title %}フォロー新着{% endblock %}
+
+{% block content_2col %}
+  <div class="column">
+    <h1 class="title">フォロー新着</h1>
+    {% include 'browse/components/video-list.html' %}
+  </div>
+{% endblock %}

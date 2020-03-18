@@ -6,12 +6,12 @@ from browse.utils import safe_videos, unsafe_videos
 from core.utils import AltPaginationListView
 
 
-def get_tabs(n, username):
+def get_tabs(n, account: User):
     tabs = [
-        {'href': f'/u/{username}', 'title': '投稿動画', 'is_active': False},
-        {'href': f'/u/{username}/favorites', 'title': 'お気に入りリスト', 'is_active': False},
-        {'href': f'/u/{username}/followees', 'title': 'フォロイー', 'is_active': False},
-        {'href': f'/u/{username}/followers', 'title': 'フォロワー', 'is_active': False},
+        {'href': f'/u/{account.username}', 'title': '投稿動画', 'is_active': False},
+        {'href': f'/u/{account.username}/favorites', 'title': 'お気に入りリスト', 'is_active': False},
+        {'href': f'/u/{account.username}/followees', 'title': f'{account.followees.count()}フォロイー', 'is_active': False},
+        {'href': f'/u/{account.username}/followers', 'title': f'{account.followers.count()}フォロワー', 'is_active': False},
     ]
     tabs[n]['is_active'] = True
     return tabs
@@ -33,7 +33,7 @@ class Profile(AltPaginationListView):
 
         account = get_object_or_404(User, username=self.kwargs['username'])
         context['account'] = account
-        context['tabs'] = get_tabs(0, account.username)
+        context['tabs'] = get_tabs(0, account)
 
         return context
 
@@ -55,7 +55,7 @@ class FavoritesList(AltPaginationListView):
 
         account = get_object_or_404(User, username=self.kwargs['username'])
         context['account'] = account
-        context['tabs'] = get_tabs(1, account.username)
+        context['tabs'] = get_tabs(1, account)
 
         return context
 
@@ -77,7 +77,7 @@ class FolloweesList(AltPaginationListView):
 
         account = get_object_or_404(User, username=self.kwargs['username'])
         context['account'] = account
-        context['tabs'] = get_tabs(2, account.username)
+        context['tabs'] = get_tabs(2, account)
 
         return context
 
@@ -98,7 +98,7 @@ class FollowersList(AltPaginationListView):
 
         account = get_object_or_404(User, username=self.kwargs['username'])
         context['account'] = account
-        context['tabs'] = get_tabs(3, account.username)
+        context['tabs'] = get_tabs(3, account)
 
         return context
 

@@ -38,7 +38,7 @@ class Timeline(AltPaginationListView):
     paginate_by = 12
 
     def get_queryset(self):
-        return safe_videos().filter(user__follower_friendships__user=self.request.user).order_by('-published_at')
+        return safe_videos().filter(user__followers=self.request.user).order_by('-published_at')
 
 
 timeline = login_required(Timeline.as_view())

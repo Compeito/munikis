@@ -68,7 +68,7 @@ class FolloweesList(UserMixin, AltPaginationListView):
     tab_index = 2
 
     def get_queryset(self):
-        return User.objects.filter(follower_friendships__user=self.account)
+        return User.objects.filter(followers=self.account)
 
 
 followees_list = FolloweesList.as_view()
@@ -81,7 +81,7 @@ class FollowersList(UserMixin, AltPaginationListView):
     tab_index = 3
 
     def get_queryset(self):
-        return User.objects.filter(followee_friendships__followee=self.account)
+        return User.objects.filter(followees=self.account)
 
 
 followers_list = FollowersList.as_view()

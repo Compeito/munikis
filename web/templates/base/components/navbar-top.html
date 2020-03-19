@@ -35,8 +35,10 @@
             <strong>@{{ user.username }}</strong>
           </a>
           <div class="navbar-dropdown is-right">
-            <a class="navbar-item" href="/u/{{ user.username }}"><i class="fas fa-home"></i>マイページ</a>
-            <a class="navbar-item" href="/account/logout"><i class="fas fa-sign-out-alt"></i>ログアウト</a>
+            <a class="navbar-item" href="/u/{{ user.username }}"><i class="fas fa-home with-text"></i>マイページ</a>
+            <a class="navbar-item" href="/upload"><i class="fas fa-upload with-text"></i>投稿する</a>
+            <a class="navbar-item" href="/settings/edit"><i class="fas fa-edit with-text"></i>設定</a>
+            <a class="navbar-item" href="/account/logout"><i class="fas fa-sign-out-alt with-text"></i>ログアウト</a>
             {% if user.is_staff %}
               <a class="navbar-item" href="/admin/"><i class="fas fa-hammer"></i>管理画面</a>
             {% endif %}

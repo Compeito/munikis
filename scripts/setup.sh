@@ -26,4 +26,4 @@ docker-compose run --no-deps --rm web python manage.py seed
 echo "ランキング作成"
 docker-compose run --no-deps --rm web python manage.py ranking
 
-ocker-compose up -d --force-recreate
+docker-compose up -d --force-recreate

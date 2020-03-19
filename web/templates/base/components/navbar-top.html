@@ -17,6 +17,10 @@
         <i class="fas fa-home with-text"></i>
         新着順
       </a>
+      <a class="navbar-item" href="/timeline">
+        <i class="fas fa-film with-text"></i>
+        フォロー新着
+      </a>
       <a class="navbar-item" href="/ranking">
         <i class="fas fa-crown with-text"></i>
         ランキング
@@ -25,18 +29,16 @@
         <i class="fas fa-bell with-text"></i>
         通知{{ not_reads_count|safe_number_display:"9"|default:"" }}
       </a>
-      <a class="navbar-item" href="/upload">
-        <i class="fas fa-upload with-text"></i>
-        アップロード
-      </a>
       {% if user.is_authenticated %}
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
             <strong>@{{ user.username }}</strong>
           </a>
           <div class="navbar-dropdown is-right">
-            <a class="navbar-item" href="/u/{{ user.username }}"><i class="fas fa-home"></i>マイページ</a>
-            <a class="navbar-item" href="/account/logout"><i class="fas fa-sign-out-alt"></i>ログアウト</a>
+            <a class="navbar-item" href="/u/{{ user.username }}"><i class="fas fa-home with-text"></i>マイページ</a>
+            <a class="navbar-item" href="/upload"><i class="fas fa-upload with-text"></i>投稿する</a>
+            <a class="navbar-item" href="/settings/edit"><i class="fas fa-edit with-text"></i>設定</a>
+            <a class="navbar-item" href="/account/logout"><i class="fas fa-sign-out-alt with-text"></i>ログアウト</a>
             {% if user.is_staff %}
               <a class="navbar-item" href="/admin/"><i class="fas fa-hammer"></i>管理画面</a>
             {% endif %}

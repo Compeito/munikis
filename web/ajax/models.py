@@ -91,3 +91,16 @@ class Favorite(CustomModel):
         super().save(**kwargs)
         if not self.user == self.video.user:
             Notification.objects.create(recipient=self.video.user, sender=self.user, target=self)
+
+
+class FriendShip(CustomModel):
+    user = models.ForeignKey('account.User', on_delete=models.CASCADE, related_name='followee_friendships')
+    followee = models.ForeignKey('account.User', on_delete=models.CASCADE, related_name='follower_friendships')
+
+    def save(self, **kwargs):
+        super().save(**kwargs)
+        if not self.user == self.followee:
+            Notification.objects.create(recipient=self.followee, sender=self.user, target=self)
+
+    class Meta:
+        unique_together = ('user', 'followee')

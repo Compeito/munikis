@@ -10,4 +10,6 @@ urlpatterns = [
     path('points/list/<slug:slug>', views.list_points),
     path('favorites/toggle/<slug:slug>', views.toggle_favorite),
     path('favorites/list/<slug:slug>', views.list_favorites),
+    path('friendships/toggle/<str:username>', views.toggle_friendship),
+    path('friendships/exist/<str:username>', views.exist_friendship),
 ]

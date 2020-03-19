@@ -44,20 +44,23 @@ class Command(BaseCommand):
         return Faker('ja_JP')
 
     def handle(self, *args, **options) -> None:
-        test_user = User.objects.create_superuser(
-            username='test',
-            email='test@example.com',
-            password='test',
-            name='test',
-        )
+        for i in range(3):
+            User.objects.create_superuser(
+                username=f'test{i + 1}',
+                email=f'test{i + 1}@example.com',
+                password=f'test{i + 1}',
+                name=f'test{i + 1}',
+            )
         print(f'管理者ユーザー作成')
 
         fake_users = []
         for i in range(20):
             fake_profile = self.fake.profile()
+            fake_username = self.unique_username()
             fake_user = User(
-                username=self.unique_username(),
+                username=fake_username,
                 name=fake_profile['name'],
+                email=f'{fake_username}@example.com',
                 description=self.fake.text(),
                 is_accept_mail=self.random_bool(),
                 contribution_point=random.randint(100, 1000)
@@ -169,7 +172,7 @@ class Command(BaseCommand):
         fake_pages = []
         for i in range(20):
             fake_page = Page(
-                author=test_user,
+                author_id=1,
                 title=self.fake.sentence(),
                 text=self.fake.text(),
                 slug=self.unique_slug(),

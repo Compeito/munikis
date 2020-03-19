@@ -1,0 +1,12 @@
+{% extends 'users/user.html' %}
+
+{% block page_title %}フォロワー | {{ account.name }}@{{ account.username }}{% endblock %}
+{% block ogp_title %}フォロワー | {{ account.name }}@{{ account.username }}{% endblock %}
+
+{% block head %}
+  <meta name="robots" content="noindex">
+{% endblock %}
+
+{% block user_content %}
+  {% include 'users/components/avatar-list.html' %}
+{% endblock %}

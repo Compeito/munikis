@@ -12,10 +12,14 @@
       </figure>
     </a>
     <div class="avatar-name">
-      {% if user == account %}
-        <a href="/settings/edit" class="is-pulled-right">
-          <i class="fas fa-edit with-text"></i>編集
-        </a>
+      {% if not slim %}
+        {% if user == account %}
+          <a href="/settings/edit" class="is-pulled-right">
+            <i class="fas fa-edit with-text"></i>編集
+          </a>
+        {% else %}
+          {% include 'users/components/avatar-card/v-follow-button.html' %}
+        {% endif %}
       {% endif %}
       <h1>
         <a href="/u/{{ account.username }}">{{ account.name }}</a>
@@ -25,22 +29,24 @@
       </h1>
       <small><a href="/u/{{ account.username }}">@{{ account.username }}</a></small>
     </div>
-    <div class="content">
-      {% autoescape off %}
-        <p>{{ account.description|activate_url }}</p>
-      {% endautoescape %}
-    </div>
-    <div class="columns is-multiline is-mobile">
-      {% for rel in account.trophyuserrelation_set.all %}
-        <div class="column is-narrow">
-          <figure
-            class="image is-32x32 tooltipRef"
-            data-tooltip="「{{ rel.trophy.title }}」{{ rel.trophy.description }}"
-          >
-            <object data="{{ rel.trophy.file.url }}"></object>
-          </figure>
-        </div>
-      {% endfor %}
-    </div>
+    {% if not slim %}
+      <div class="content">
+        {% autoescape off %}
+          <p>{{ account.description|activate_url }}</p>
+        {% endautoescape %}
+      </div>
+      <div class="columns is-multiline is-mobile">
+        {% for rel in account.trophyuserrelation_set.all %}
+          <div class="column is-narrow">
+            <figure
+                    class="image is-32x32 tooltipRef"
+                    data-tooltip="「{{ rel.trophy.title }}」{{ rel.trophy.description }}"
+            >
+              <object data="{{ rel.trophy.file.url }}"></object>
+            </figure>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </div>

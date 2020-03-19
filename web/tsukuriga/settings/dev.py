@@ -13,6 +13,8 @@ INSTALLED_APPS.extend([
     'debug_toolbar',
 ])
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # django-debug-toolbar
 MIDDLEWARE += 'debug_toolbar.middleware.DebugToolbarMiddleware',
 

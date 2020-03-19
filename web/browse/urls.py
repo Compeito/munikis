@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.home),
     path('recent', views.recent),
+    path('timeline', views.timeline),
     path('search', views.search),
     path('ranking', views.ranking),
     path('ranking/<slug:type>', views.ranking),

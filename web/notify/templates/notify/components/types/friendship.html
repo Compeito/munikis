@@ -1,0 +1,7 @@
+{% load core_tags %}
+<strong>
+  <a href="{{ '/u/'|add:target.user.username|to_absolute_path }}">
+    {{ target.user.name }}(@{{ target.user.username }})
+  </a>
+  さんがあなたをフォローしました
+</strong>

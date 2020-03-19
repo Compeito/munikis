@@ -17,7 +17,7 @@
           <a href="/settings/edit" class="is-pulled-right">
             <i class="fas fa-edit with-text"></i>編集
           </a>
-        {% else %}
+        {% elif user.is_authenticated %}
           {% include 'users/components/avatar-card/v-follow-button.html' %}
         {% endif %}
       {% endif %}

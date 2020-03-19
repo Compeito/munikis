@@ -15,6 +15,11 @@ class PointAdmin(admin.ModelAdmin):
     list_display = ('user', 'video', 'ip', 'count', 'created_at')
 
 
+class FriendshipAdmin(admin.ModelAdmin):
+    list_display = ('user', 'followee')
+
+
 admin.site.register(models.Comment, CommentAdmin)
 admin.site.register(models.Favorite, FavoriteAdmin)
 admin.site.register(models.Point, PointAdmin)
+admin.site.register(models.FriendShip, FriendshipAdmin)

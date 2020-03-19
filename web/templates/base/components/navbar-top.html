@@ -29,10 +29,6 @@
         <i class="fas fa-bell with-text"></i>
         通知{{ not_reads_count|safe_number_display:"9"|default:"" }}
       </a>
-      <a class="navbar-item" href="/upload">
-        <i class="fas fa-upload with-text"></i>
-        アップロード
-      </a>
       {% if user.is_authenticated %}
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">

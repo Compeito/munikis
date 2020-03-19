@@ -20,8 +20,8 @@ $ docker-compose up -d
 ```
 
 ### 管理者アカウント
-* ユーザー名: `test`
-* パスワード: `test`
+* ユーザー名: `test1` `test2`, `test3`
+* パスワード: `test1` `test2`, `test3`
 
 ### コマンド一覧
 ```bash

@@ -26,7 +26,7 @@ class StaticViewSitemap(sitemaps.Sitemap):
     priority = 0.7
 
     def items(self):
-        return ['/', '/pages', '/recent', '/ranking']
+        return ['/', '/pages', '/ranking']
 
     def location(self, item):
         return item

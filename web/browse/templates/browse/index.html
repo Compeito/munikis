@@ -10,14 +10,10 @@
   <div class="column">
     <section class="section">
       {% include 'browse/components/section-title.html' with title="ラベル" %}
-      <div class="columns is-multiline is-mobile is-centered">
+      <div class="columns is-multiline is-mobile">
         {% for label in labels %}
-          <div class="column is-narrow is-narrow-padding">
-            <a href="/label/{{ label.slug }}">
-              <div class="{{ label.css_classes }} is-size-5-desktop is-size-6">
-                {{ label }}
-              </div>
-            </a>
+          <div class="column is-3-tablet is-6-mobile">
+            <a href="/label/{{ label.slug }}" class="button is-{{ label.color }} is-large is-fullwidth">{{ label }}</a>
           </div>
         {% endfor %}
       </div>

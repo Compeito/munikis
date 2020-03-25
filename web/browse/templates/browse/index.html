@@ -6,40 +6,18 @@
 {% block ogp_title %}ツクリガ -Tsukuriga- 自主制作アニメ、パラパラ漫画の投稿プラットフォーム{% endblock %}
 {% block ogp_image %}{{ '/assets/images/ogp.png'|to_absolute_path }}{% endblock %}
 
-{% block head %}
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css"/>
-{% endblock %}
-
 {% block content_2col %}
   <div class="column">
-    <div class="columns is-vcentered">
-      <div class="column">
-        {% include 'browse/components/featured-swiper.html' %}
+    <section class="section">
+      {% include 'browse/components/section-title.html' with title="ラベル" %}
+      <div class="columns is-multiline is-mobile">
+        {% for label in labels %}
+          <div class="column is-3-tablet is-6-mobile">
+            <a href="/label/{{ label.slug }}" class="button is-{{ label.color }} is-large is-fullwidth">{{ label }}</a>
+          </div>
+        {% endfor %}
       </div>
-      <div class="column">
-        <div class="columns is-multiline is-mobile is-centered">
-          {% for label in labels %}
-            <div class="column is-narrow is-narrow-padding">
-              <a href="/label/{{ label.slug }}">
-                <div class="{{ label.css_classes }} is-size-5-desktop is-size-6">
-                  {{ label }}
-                </div>
-              </a>
-            </div>
-            {% if forloop.last %}
-              <div class="column is-narrow is-narrow-padding">
-                <a href="/label">
-                  <div class="tag is-rounded is-grey-lighter is-size-5-desktop is-size-6">
-                    <i class="fas fa-arrow-right with-text"></i>
-                    もっと見る
-                  </div>
-                </a>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    </div>
+    </section>
     <section class="section">
       {% include 'browse/components/section-title.html' with title="ピックアップ" %}
       {% include 'browse/components/video-list.html' with videos=pickup_videos column_classes='is-one-third' %}
@@ -55,17 +33,3 @@
   </div>
 {% endblock %}
 
-{% block scripts %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
-  <script>
-  new Swiper('.swiper-container', {
-    loop: true,
-    autoplay: {
-      delay: 7000,
-    },
-    pagination: {
-      el: '.swiper-pagination',
-    },
-  })
-  </script>
-{% endblock %}

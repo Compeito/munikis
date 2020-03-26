@@ -14,19 +14,23 @@
 
     <div class="navbar-end">
       <a class="navbar-item" href="/timeline">
+        <i class="fas fa-search with-text"></i>
+        検索
+      </a>
+      <a class="navbar-item is-hidden-mobile" href="/timeline">
         <i class="fas fa-film with-text"></i>
         フォロー新着
       </a>
-      <a class="navbar-item" href="/ranking">
+      <a class="navbar-item is-hidden-mobile" href="/ranking">
         <i class="fas fa-crown with-text"></i>
         ランキング
       </a>
-      <a class="navbar-item {% if not_reads_count %}has-text-info{% endif %}" href="/notify">
+      <a class="navbar-item is-hidden-mobile {% if not_reads_count %}has-text-info{% endif %}" href="/notify">
         <i class="fas fa-bell with-text"></i>
         通知{{ not_reads_count|safe_number_display:"9"|default:"" }}
       </a>
       {% if user.is_authenticated %}
-        <div class="navbar-item has-dropdown is-hoverable">
+        <div class="navbar-item has-dropdown is-hoverable is-hidden-mobile">
           <a class="navbar-link">
             <strong>@{{ user.username }}</strong>
           </a>
@@ -41,7 +45,7 @@
           </div>
         </div>
       {% else %}
-        <a class="navbar-item has-text-info" href="/account/login">
+        <a class="navbar-item has-text-info is-hidden-mobile" href="/account/login">
           <i class="fas fa-sign-in-alt with-text"></i>
           ログイン
         </a>

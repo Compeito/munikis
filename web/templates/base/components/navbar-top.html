@@ -30,14 +30,18 @@
         <i class="fas fa-crown with-text"></i>
         ランキング
       </a>
+      <a class="navbar-item" href="/upload">
+        <i class="fas fa-upload with-text"></i>
+        投稿する
+      </a>
       <a class="navbar-item is-hidden-mobile {% if not_reads_count %}has-text-info{% endif %}" href="/notify">
         <i class="fas fa-bell with-text"></i>
-        通知{{ not_reads_count|safe_number_display:"9"|default:"" }}
+        {{ not_reads_count|safe_number_display:"9" }}
       </a>
       {% if user.is_authenticated %}
         <div class="navbar-item has-dropdown is-hoverable is-hidden-mobile">
           <a class="navbar-link">
-            <strong>@{{ user.username }}</strong>
+            <img src="{{ user.profile_icon_url }}" alt="{{ user.username }}">
           </a>
           <div class="navbar-dropdown is-right">
             <a class="navbar-item" href="/u/{{ user.username }}"><i class="fas fa-home with-text"></i>マイページ</a>

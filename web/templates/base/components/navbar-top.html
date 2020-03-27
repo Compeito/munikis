@@ -7,9 +7,9 @@
   </div>
 
   <div id="navbar" class="navbar-menu">
-    <div class="navbar-center">
+    <div class="navbar-end">
       <div class="navbar-item">
-        <form method="get" action="/search">
+        <form class="search-form" method="get" action="/search">
           <div class="field has-addons">
             <p class="control is-expanded">
               <input class="input" type="text" name="q" value="{{ request.GET.q }}" placeholder="検索" required>
@@ -22,9 +22,6 @@
           </div>
         </form>
       </div>
-    </div>
-
-    <div class="navbar-end">
       <a class="navbar-item is-hidden-mobile" href="/timeline">
         <i class="fas fa-film with-text"></i>
         フォロー新着

@@ -58,3 +58,11 @@ table th {
 [readonly] {
   background-color: #c3c3c3;
 }
+
+.search-form {
+  width: 240px;
+
+  input, button {
+    font-size: 12px;
+  }
+}

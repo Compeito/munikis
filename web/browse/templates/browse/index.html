@@ -8,14 +8,19 @@
 
 {% block content_2col %}
   <div class="column">
-    <section class="section">
+    <section class="section is-paddingless">
       {% include 'browse/components/section-title.html' with title="ラベル" %}
       <div class="columns is-multiline is-mobile">
         {% for label in labels %}
           <div class="column is-3-tablet is-6-mobile">
-            <a href="/label/{{ label.slug }}" class="button is-{{ label.color }} is-large is-fullwidth">{{ label }}</a>
+            <a href="/label/{{ label.slug }}" class="button is-{{ label.color }} is-fullwidth">{{ label }}</a>
           </div>
         {% endfor %}
+        <div class="column is-3-tablet is-6-mobile">
+          <a href="/label" class="button is-dark is-outlined is-fullwidth">ラベル一覧<span class="icon is-marginless">
+            <i class="fas fa-angle-right"></i>
+          </span></a>
+        </div>
       </div>
     </section>
     <section class="section">

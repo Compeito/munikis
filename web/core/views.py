@@ -64,7 +64,7 @@ def watch(request, slug):
 @login_required
 @users_video_required
 def edit(request, slug):
-    form = VideoProfileForm(request.POST or None, instance=request.video.profile)
+    form = VideoProfileForm(request.POST or None, request.FILES or None, instance=request.video.profile)
     formset = LabelInlineFormSet(request.POST or None, instance=request.video.profile)
 
     for formset_form in formset.forms:

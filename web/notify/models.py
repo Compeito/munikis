@@ -1,10 +1,11 @@
-from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.template.loader import get_template
 from django.utils import timezone
+
+from core.utils import retry
 
 
 class Notification(models.Model):
@@ -51,6 +52,7 @@ class Notification(models.Model):
         body = get_template('notify/mails/base.html').render({'content': content})
         return body
 
+    @retry(5)
     def send_mail(self):
         mail = EmailMultiAlternatives(
             subject=self.mail_subject,

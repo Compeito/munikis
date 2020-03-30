@@ -87,3 +87,17 @@ def activate_url_from(text):
     result = re.sub(rf'(\A|\s)@({username_regex})', r'<a href="/u/\2">@\2</a>', result)
     result = linebreaks(result)
     return result
+
+
+def retry(times, raise_error=False):
+    def decorator(func):
+        def wrapper(*args):
+            for i in range(times):
+                try:
+                    func(*args)
+                    break
+                except Exception as e:
+                    if raise_error and i == times - 1:
+                        raise e
+        return wrapper
+    return decorator

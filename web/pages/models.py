@@ -12,7 +12,7 @@ class Page(CustomModel):
     class Categories(models.TextChoices):
         news = 'news', 'お知らせ'
         update = 'update', '更新/変更'
-        learn = 'howto', 'アニメーションの書き方'
+        learn = 'learn', 'アニメーションの書き方'
         info = 'info', 'サービス情報'
         event = 'event', 'イベント'
 

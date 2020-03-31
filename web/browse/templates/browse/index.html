@@ -8,9 +8,9 @@
 
 {% block content_2col %}
   <div class="column">
-    <div class="container">
+    <div class="container has-margin-bottom">
       <div class="content">
-        <p class="title is-4">アニメーションを見る、学ぶ、作る</p>
+        <p class="title is-3">アニメーションを見る、学ぶ、作る</p>
         <p class="subtitle is-6">Tsukuriga(ツクリガ)は、自作アニメを共有するための動画投稿サイトです。</p>
         <div class="buttons">
           <a class="button is-dark is-outlined is-medium" href="/#labels">見る</a>
@@ -28,7 +28,7 @@
           </div>
         {% endfor %}
         <div class="column is-3-tablet is-6-mobile">
-          <a href="/label" class="button is-dark is-outlined is-fullwidth">ラベル一覧<span class="icon is-marginless">
+          <a href="/label" class="button is-grey-lighter is-fullwidth">ラベル一覧<span class="icon is-marginless">
             <i class="fas fa-angle-right"></i>
           </span></a>
         </div>
@@ -39,7 +39,7 @@
       {% include 'browse/components/video-list.html' with videos=pickup_videos column_classes='is-one-third' %}
     </section>
     <section class="section">
-      {% include 'browse/components/section-title.html' with title="ランダム新着" %}
+      {% include 'browse/components/section-title.html' with title="ランダム新着" href="/recent" %}
       {% include 'browse/components/video-list.html' with videos=recent_videos %}
     </section>
     <section class="section">

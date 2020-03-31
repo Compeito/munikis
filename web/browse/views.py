@@ -18,7 +18,7 @@ class Home(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'labels': self._get_labels(),
+            'labels': self.get_labels(),
             'recent_videos': self._get_recent_videos(),
             'ranking_videos': self._get_ranking_videos(),
             'pickup_videos': self._get_pickup_videos(),
@@ -26,7 +26,7 @@ class Home(TemplateView):
         return context
 
     @staticmethod
-    def _get_labels():
+    def get_labels():
         # https://docs.djangoproject.com/en/2.1/topics/db/aggregation/#order-by
         active_labels = Label.objects.filter(is_active=True)
         return active_labels.annotate(count=Count('videoprofilelabelrelation')).order_by('-count')
@@ -52,6 +52,7 @@ class Recent(AltPaginationListView):
     template_name = 'browse/recent.html'
     context_object_name = 'videos'
     paginate_by = 12
+    extra_context = {'labels': Home.get_labels()}
 
     def get_queryset(self):
         return safe_videos().order_by('-published_at')
@@ -141,6 +142,7 @@ class LabelList(AltPaginationListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['label'] = self.label
+        context['labels'] = Home.get_labels().exclude(id=self.label.id)
         return context
 
 

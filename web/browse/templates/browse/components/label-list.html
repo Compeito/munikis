@@ -1,0 +1,11 @@
+<div class="columns is-multiline is-mobile is-centered">
+  {% for label in labels %}
+    <div class="column is-narrow is-narrow-padding">
+      <a href="/label/{{ label.slug }}">
+        <div class="{{ label.css_classes }} is-size-5-desktop is-size-6">
+          {{ label }}
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</div>

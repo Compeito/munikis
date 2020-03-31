@@ -4,9 +4,12 @@
 {% block page_title %}新着順{% endblock %}
 {% block ogp_page_title %}新着順{% endblock %}
 
-{% block content_2col %}
-  <div class="column">
+{% block content %}
+  <div class="column is-3">
     <h1 class="title">新着順</h1>
+    {% include 'browse/components/label-list.html' %}
+  </div>
+  <div class="column">
     {% include 'browse/components/video-list.html' %}
   </div>
 {% endblock %}

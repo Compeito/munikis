@@ -6,12 +6,27 @@ from .models import Page
 
 
 class PagesList(AltPaginationListView):
-    paginate_by = 6
+    paginate_by = 8
     template_name = 'pages/index.html'
     context_object_name = 'pages'
 
     def get_queryset(self):
-        return Page.objects.filter(is_published=True).order_by('-created_at')
+        category = self.request.GET.get('category', None)
+        pages = Page.objects.filter(is_published=True)
+        if category:
+            pages = pages.filter(category=category)
+        return pages.order_by('-created_at')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['Categories'] = Page.Categories
+
+        category = self.request.GET.get('category', None)
+        if category:
+            context['category'] = Page.Categories[category].label
+        else:
+            context['category'] = 'カテゴリを選択'
+        return context
 
 
 pages_list = PagesList.as_view()

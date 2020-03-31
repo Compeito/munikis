@@ -9,10 +9,18 @@ from .utils import markdownify
 
 
 class Page(CustomModel):
+    class Categories(models.TextChoices):
+        news = 'news', 'お知らせ'
+        update = 'update', '更新/変更'
+        learn = 'howto', 'アニメーションの書き方'
+        info = 'info', 'サービス情報'
+        event = 'event', 'イベント'
+
     author = models.ForeignKey('account.User', verbose_name='筆者', null=True,
                                on_delete=models.SET_NULL, limit_choices_to={'is_staff': True})
     title = models.CharField('タイトル', max_length=255)
     text = MarkdownxField('本文')
+    category = models.SlugField('カテゴリ', default=Categories.news, choices=Categories.choices)
     slug = models.SlugField('スラッグ')
     featured_order = models.PositiveSmallIntegerField('トップ表示順', default=0)
     is_published = models.BooleanField('公開する', default=True)

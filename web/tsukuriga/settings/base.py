@@ -94,7 +94,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'core.context_processors.common',
                 'account.context_processors.contribution_ranking',
-                'browse.context_processors.labels',
                 'pages.context_processors.pages',
                 'notify.context_processors.notification',
             ],

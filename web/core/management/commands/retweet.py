@@ -23,12 +23,13 @@ class Command(BaseCommand):
                 ')',
                 '-from:tsukuriga',
                 '-from:ugo_compeito',
+                '-from:exsy_ugomemo',
                 '-filter:retweets'
             )
             tweets = tsukuriga_user.api.GetSearch(term=' '.join(terms), count=50)
             count = 0
             for tweet in tweets[::-1]:
-                if count >= 15:
+                if count >= 10:
                     break
                 try:
                     if not tweet.retweeted:

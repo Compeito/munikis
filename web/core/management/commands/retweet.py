@@ -28,7 +28,7 @@ class Command(BaseCommand):
             tweets = tsukuriga_user.api.GetSearch(term=' '.join(terms), count=50)
             count = 0
             for tweet in tweets[::-1]:
-                if count >= 5:
+                if count >= 15:
                     break
                 try:
                     if not tweet.retweeted:

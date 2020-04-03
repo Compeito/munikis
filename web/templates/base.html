@@ -35,7 +35,7 @@
     <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
     <meta
       property="og:image"
-            content="{% block ogp_image %}{{ '/assets/images/ogp.png'|to_absolute_path }}{% endblock %}"
+      content="{% block ogp_image %}{{ '/assets/images/ogp.png'|to_absolute_path }}{% endblock %}"
     />
     <meta name="twitter:card" content="{% block ogp_twitter_card %}summary_large_image{% endblock %}"/>
     <meta name="twitter:site" content="{% block ogp_twitter_site %}@ugo_compeito{% endblock %}"/>
@@ -67,11 +67,7 @@
     </div>
   </div>
   <footer class="footer">
-    <div class="container">
-      <div class="content has-text-centered">
-        2019 ©COMPEITO
-      </div>
-    </div>
+    {% include 'base/components/footer.html' %}
   </footer>
   {{ user.json|json_script:"userJson" }}
   {% block scripts %}{% endblock %}

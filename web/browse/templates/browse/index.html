@@ -24,7 +24,8 @@
       <div class="columns is-multiline is-mobile">
         {% for label in labels %}
           <div class="column is-3-tablet is-6-mobile">
-            <a href="/label/{{ label.slug }}" class="button is-{{ label.color }} is-fullwidth">{{ label }}</a>
+            <a href="/label/{{ label.slug }}" class="button is-{{ label.color }} is-fullwidth">
+              <i class="{{ label.icon }} with-text"></i>{{ label }}</a>
           </div>
         {% endfor %}
         <div class="column is-3-tablet is-6-mobile">

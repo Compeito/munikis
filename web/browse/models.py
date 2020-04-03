@@ -145,6 +145,7 @@ class Label(models.Model):
         ("grey-lighter", "grey-lighter"),
     )
     slug = models.SlugField('スラッグ')
+    icon = models.SlugField('アイコン', default='fas fa-star')
     color = models.CharField('色', max_length=20, choices=COLOR_SET)
     title = models.CharField('タイトル', max_length=50)
     description = models.TextField('説明')

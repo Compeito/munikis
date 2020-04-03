@@ -54,7 +54,7 @@
           </div>
         </div>
       {% else %}
-        <a class="navbar-item has-text-info is-hidden-mobile" href="/account/login">
+        <a class="navbar-item has-text-info is-hidden-mobile" href="/account/login?next={{ request.path }}">
           <i class="fas fa-sign-in-alt with-text"></i>
           ログイン
         </a>

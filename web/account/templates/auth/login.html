@@ -18,7 +18,8 @@
         </form>
         <a href="/account/password/reset">パスワードのリセット</a>
         <h3>SNSアカウントでログイン</h3>
-        <a href="/login/twitter/" class="button is-info"><i class="fab fa-twitter with-text"></i>ツイッター</a>
+        <a href="/login/twitter/?next={{ request.GET.next }}" class="button is-info">
+          <i class="fab fa-twitter with-text"></i>ツイッター</a>
         <h3>アカウント作成</h3>
         <a href="/account/signup" class="button is-primary"><i class="fas fa-envelope with-text"></i>メールアドレスで登録</a>
       </div>

@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='page',
             name='category',
-            field=models.SlugField(choices=[('news', 'お知らせ'), ('update', '更新/変更'), ('learn', 'アニメーションの書き方'), ('info', 'サービス情報'), ('event', 'イベント')], default='news', verbose_name='カテゴリ'),
+            field=models.SlugField(choices=[('news', 'お知らせ'), ('learn', 'アニメーションの書き方'), ('event', 'イベント'), ('other', 'その他')], default='news', verbose_name='カテゴリ'),
         ),
     ]

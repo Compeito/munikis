@@ -11,10 +11,9 @@ from .utils import markdownify
 class Page(CustomModel):
     class Categories(models.TextChoices):
         news = 'news', 'お知らせ'
-        update = 'update', '更新/変更'
         learn = 'learn', 'アニメーションの書き方'
-        info = 'info', 'サービス情報'
         event = 'event', 'イベント'
+        other = 'other', 'その他'
 
     author = models.ForeignKey('account.User', verbose_name='筆者', null=True,
                                on_delete=models.SET_NULL, limit_choices_to={'is_staff': True})

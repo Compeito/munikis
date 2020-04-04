@@ -4,7 +4,8 @@
 
 #main-container {
   max-width: 980px;
-  margin: 1rem auto 1rem auto;
+  margin: 1rem auto;
+  min-height: 50vh;
 }
 
 #notify-container {

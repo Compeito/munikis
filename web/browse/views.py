@@ -84,7 +84,9 @@ class Search(AltPaginationListView):
 
         return safe_videos().filter(
             functools.reduce(operator.and_, (Q(profile__title__contains=item) for item in q_list)) |
-            functools.reduce(operator.and_, (Q(profile__description__contains=item) for item in q_list))
+            functools.reduce(operator.and_, (Q(profile__description__contains=item) for item in q_list)) |
+            functools.reduce(operator.and_, (Q(user__name__contains=item) for item in q_list)) |
+            functools.reduce(operator.and_, (Q(user__username__contains=item) for item in q_list))
         ).order_by('-published_at')
 
 

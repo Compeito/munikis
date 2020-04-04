@@ -155,7 +155,7 @@ class Video(models.Model):
         return self.published_at.strftime('%Y-%m-%d_%H:%M:%S')
 
     def __str__(self):
-        return self.profile.title + f'(id:{self.slug})'
+        return self.slug
 
     def delete(self, **kwargs):
         if hasattr(self, 'profile'):
@@ -277,6 +277,10 @@ class VideoProfile(CustomModel):
             return suffix
 
         return self.description + ' ' + suffix
+
+    @property
+    def labels_str(self):
+        return ','.join([l.title for l in self.labels.all()])
 
     def __str__(self):
         return self.video.__str__() + 'のプロフィール'

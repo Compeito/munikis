@@ -10,7 +10,9 @@
 
 {% block messages %}
   {{ block.super }}
-  <div style="width: 80%;">
-    <canvas style="margin: 30px; width: 60%; height: 50%;" id="chart"></canvas>
-  </div>
+  {% if chart_data %}
+    <div style="width: 80%;">
+      <canvas style="margin: 30px; width: 60%; height: 50%;" id="chart"></canvas>
+    </div>
+  {% endif %}
 {% endblock %}

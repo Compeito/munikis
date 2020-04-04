@@ -69,9 +69,9 @@ class Video(models.Model):
         type_icons = {
             'twitter': 'fab fa-twitter',
             'altwug': 'fas fa-frog',
-            'limited': 'fas fa-lock',
         }
         release_icons = {
+            'limited': 'fas fa-lock',
             'unpublished': 'fas fa-exclamation-triangle',
         }
         badges = []

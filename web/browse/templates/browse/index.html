@@ -23,12 +23,12 @@
       {% include 'browse/components/section-title.html' with title="ラベル" %}
       <div class="columns is-multiline is-mobile">
         {% for label in labels %}
-          <div class="column is-3-tablet is-6-mobile">
+          <div class="column is-3-tablet is-6-mobile is-narrow-padding">
             <a href="/label/{{ label.slug }}" class="button is-{{ label.color }} is-fullwidth">
               <i class="{{ label.icon }} with-text"></i>{{ label }}</a>
           </div>
         {% endfor %}
-        <div class="column is-3-tablet is-6-mobile">
+        <div class="column is-3-tablet is-6-mobile is-narrow-padding">
           <a href="/label" class="button is-grey-lighter is-fullwidth">ラベル一覧<span class="icon is-marginless">
             <i class="fas fa-angle-right"></i>
           </span></a>

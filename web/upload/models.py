@@ -135,7 +135,11 @@ class Video(models.Model):
 
     @property
     def favorites_count(self):
-        return len(self.favorite_set.all())
+        return self.favorite_set.count()
+
+    @property
+    def comments_count(self):
+        return self.comment_set.count()
 
     @property
     def commentators_count(self):

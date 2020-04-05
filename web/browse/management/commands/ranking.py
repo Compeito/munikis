@@ -11,6 +11,6 @@ class Command(BaseCommand):
         Ranking.objects.all().delete()
 
         rankings = []
-        for video in safe_videos().prefetch_related('comment_set'):
+        for video in safe_videos():
             rankings += video.calculate_rankings()
         Ranking.objects.bulk_create(rankings)

@@ -4,7 +4,7 @@ from upload.models import Video
 def safe_videos():
     return (
         Video.objects
-            .prefetch_related('user', 'profile', 'data', 'point_set', 'favorite_set')
+            .prefetch_related('user', 'profile', 'data', 'point_set', 'favorite_set', 'comment_set')
             .filter(
                 is_ban=False,
                 profile__release_type='published',
@@ -17,6 +17,6 @@ def safe_videos():
 def unsafe_videos():
     return (
         Video.objects
-            .prefetch_related('user', 'profile', 'data', 'point_set', 'favorite_set')
+            .prefetch_related('user', 'profile', 'data', 'point_set', 'favorite_set', 'comment_set')
             .filter(profile__isnull=False)
     )

@@ -3,9 +3,9 @@
 @import "./scss/styles";
 
 #main-container {
-  max-width: 980px;
+  max-width: 1050px;
   margin: 1rem auto;
-  min-height: 50vh;
+  min-height: calc(100vh - #{$navbar-height} - 300px);
 }
 
 #notify-container {

@@ -39,10 +39,12 @@ i.with-text {
 
 // pages以下でリンクアンカーがnavbarに隠れないようにする
 h1[id], h2[id], h3[id], h4[id], h5[id], h6[id] {
+  $target-offset: 1rem;
+
   &:target {
     display: block;
-    padding-top: $navbar-height;
-    margin-top: -$navbar-height;
+    padding-top: $navbar-height + $target-offset;
+    margin-top: -$navbar-height - $target-offset;
   }
 }
 

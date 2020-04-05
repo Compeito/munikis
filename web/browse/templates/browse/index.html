@@ -13,14 +13,14 @@
         <p class="title is-3">アニメーションしよう</p>
         <p class="subtitle is-6">Tsukuriga(ツクリガ)は、2D/3Dの自作アニメやパラパラ漫画を共有するための動画投稿サイトです。</p>
         <div class="buttons">
-          <a class="button is-medium" href="/recent">見る</a>
-          <a class="button is-medium" href="/pages">学ぶ</a>
+          <a class="button is-medium" href="#labels">見る</a>
+          <a class="button is-medium" href="/pages?category=learn">作る</a>
           <a class="button is-medium" href="/upload">投稿する</a>
         </div>
       </div>
     </div>
-    <section id="labels" class="section">
-      {% include 'browse/components/section-title.html' with title="ラベル" %}
+    <section class="section">
+      {% include 'browse/components/section-title.html' with id="labels" title="ラベル" %}
       <div class="columns is-multiline is-mobile">
         {% for label in labels %}
           <div class="column is-3-tablet is-6-mobile is-narrow-padding">

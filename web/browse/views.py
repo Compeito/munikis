@@ -3,27 +3,56 @@ import operator
 import random
 
 from django.shortcuts import get_object_or_404, render
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
 
 from .utils import safe_videos
 from .models import Ranking, Label
 from core.utils import AltPaginationListView
 
 
-def home(request):
-    recent_videos = safe_videos().order_by('-published_at')[:50]
-    recent_videos = sorted(recent_videos, key=lambda x: random.random())[:8]
-    ranking_videos = RankingList().get_queryset()[:8]
-    pickup_videos = safe_videos().filter(is_pickup=True).order_by('-published_at')[:6]
-    return render(request, 'browse/index.html',
-                  {'recent_videos': recent_videos, 'ranking_videos': ranking_videos, 'pickup_videos': pickup_videos})
+class Home(TemplateView):
+    template_name = 'browse/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'labels': self.get_labels(),
+            'recent_videos': self._get_recent_videos(),
+            'ranking_videos': self._get_ranking_videos(),
+            'pickup_videos': self._get_pickup_videos(),
+        })
+        return context
+
+    @staticmethod
+    def get_labels():
+        # https://docs.djangoproject.com/en/2.1/topics/db/aggregation/#order-by
+        active_labels = Label.objects.filter(is_active=True)
+        return active_labels.annotate(count=Count('videoprofilelabelrelation')).order_by('-count')
+
+    @staticmethod
+    def _get_recent_videos():
+        recent_videos = safe_videos().order_by('-published_at')[:50]
+        return sorted(recent_videos, key=lambda x: random.random())[:8]
+
+    @staticmethod
+    def _get_ranking_videos():
+        return RankingList().get_queryset()[:8]
+
+    @staticmethod
+    def _get_pickup_videos():
+        return safe_videos().filter(is_pickup=True).order_by('-published_at')[:6]
+
+
+home = Home.as_view()
 
 
 class Recent(AltPaginationListView):
     template_name = 'browse/recent.html'
     context_object_name = 'videos'
     paginate_by = 12
+    extra_context = {'labels': Home.get_labels()}
 
     def get_queryset(self):
         return safe_videos().order_by('-published_at')
@@ -55,7 +84,9 @@ class Search(AltPaginationListView):
 
         return safe_videos().filter(
             functools.reduce(operator.and_, (Q(profile__title__contains=item) for item in q_list)) |
-            functools.reduce(operator.and_, (Q(profile__description__contains=item) for item in q_list))
+            functools.reduce(operator.and_, (Q(profile__description__contains=item) for item in q_list)) |
+            functools.reduce(operator.and_, (Q(user__name__contains=item) for item in q_list)) |
+            functools.reduce(operator.and_, (Q(user__username__contains=item) for item in q_list))
         ).order_by('-published_at')
 
 
@@ -113,6 +144,7 @@ class LabelList(AltPaginationListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['label'] = self.label
+        context['labels'] = Home.get_labels().exclude(id=self.label.id)
         return context
 
 

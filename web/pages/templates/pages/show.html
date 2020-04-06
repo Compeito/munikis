@@ -18,18 +18,23 @@
   <div class="column">
     <div class="box">
       <h1 class="title">{{ page.title }}</h1>
-      <div class="subtitle">
-        <div class="is-size-6">{{ page.created_at }}作成</div>
-        <div class="is-size-7">{{ page.updated_at }}更新</div>
-        {% if user.is_staff %}
-          <a class="button is-small is-pulled-right" href="/admin/pages/page/{{ page.id }}/change/">編集</a>
-        {% endif %}
-      </div>
+      {% if user.is_staff %}
+        <a class="button is-small is-pulled-right" href="/admin/pages/page/{{ page.id }}/change/">編集</a>
+      {% endif %}
+      <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+          <li><a href="/pages">記事一覧</a></li>
+          <li><a href="/pages?category={{ page.category }}">{{ page.get_category_display }}</a></li>
+          <li class="is-active"><a href="/pages/{{ page.slug }}" aria-current="page">{{ page.title }}</a></li>
+        </ul>
+      </nav>
       <div class="content">
         {% autoescape off %}
           {{ page.body }}
         {% endautoescape %}
       </div>
+      <div class="is-size-6">{{ page.created_at }}作成</div>
+      <div class="is-size-7">{{ page.updated_at }}更新</div>
     </div>
   </div>
 {% endblock %}

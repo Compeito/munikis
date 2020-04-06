@@ -4,11 +4,11 @@
     <div class="video-thumbnail">
       <figure class="image is-16by9">
         <img
-                class="video-thumbnail-image"
-                src="{{ video.image_urls.thumbnail }}"
-                alt="{{ video.profile.title }}"
-                data-thumbnail="{{ video.image_urls.thumbnail }}"
-                data-gif="{{ video.image_urls.gif }}"
+          class="video-thumbnail-image"
+          src="{{ video.image_urls.thumbnail }}"
+          alt="{{ video.profile.title }}"
+          data-thumbnail="{{ video.image_urls.thumbnail }}"
+          data-gif="{{ video.image_urls.gif }}"
         >
       </figure>
       <div class="video-thumbnail-display is-top">
@@ -30,19 +30,15 @@
         {{ video.profile.title }}
       </a>
     </h3>
-    <div class="video-user">
-      <a href="/u/{{ video.user.username }}">{{ video.user.name }}</a>
-    </div>
-    <div class="vidmeo-footer-display has-text-right">
-      {% if video.points_count > 10 %}
-        <span class="tag is-warning">
-          <i class="fas fa-star with-text"></i>{{ video.points_count|to_tight_count }}over
-        </span>
+    <div class="has-text-grey">
+      {% if video.points_count %}
+        <span><i class="fas fa-star with-text"></i>{{ video.points_count }}</span>
       {% endif %}
       {% if video.favorites_count %}
-        <span class="tag is-primary">
-          <i class="fas fa-plus with-text"></i>{{ video.favorites_count }}
-        </span>
+        <span><i class="fas fa-plus with-text"></i>{{ video.favorites_count }}</span>
+      {% endif %}
+      {% if video.comments_count %}
+        <span><i class="fas fa-comments with-text"></i>{{ video.comments_count }}</span>
       {% endif %}
     </div>
   </div>

@@ -1,6 +1,7 @@
-<div class="hero is-primary is-small has-margin-bottom">
-  <div class="hero-body">
-    {% if href %}<a class="is-pulled-right" href="{{ href }}">もっと見る</a>{% endif %}
-    <h3 class="title is-5">{{ title }}</h3>
-  </div>
-</div>
+<h3 id="{{ id }}" class="title is-4">{{ title }}</h3>
+{% if href %}<h4 class="subtitle is-6">
+  <a class="has-text-grey-dark" href="{{ href }}">もっと見る<span class="icon">
+    <i class="fas fa-angle-right"></i>
+  </span>
+  </a>
+</h4>{% endif %}

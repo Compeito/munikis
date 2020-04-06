@@ -9,18 +9,12 @@ ready(() => {
    * 2重サブミット対策
    *
    */
-  const $submitButtons = docAll('button[type=submit]')
-  $submitButtons.forEach($button => {
-    $button.addEventListener('click', e => {
-      $button.classList.add('is-loading')
-    })
-  })
   const $submitForm = docAll('form.submit-form')
   $submitForm.forEach($form => {
+    const $button = $form.querySelector('button[type=submit]')
     $form.addEventListener('submit', e => {
-      $submitButtons.forEach($submitButton => {
-        $submitButton.disabled = true
-      })
+      $button.classList.add('is-loading')
+      $button.disabled = true
     })
   })
 

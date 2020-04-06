@@ -69,9 +69,9 @@ class Video(models.Model):
         type_icons = {
             'twitter': 'fab fa-twitter',
             'altwug': 'fas fa-frog',
-            'limited': 'fas fa-lock',
         }
         release_icons = {
+            'limited': 'fas fa-lock',
             'unpublished': 'fas fa-exclamation-triangle',
         }
         badges = []
@@ -135,7 +135,11 @@ class Video(models.Model):
 
     @property
     def favorites_count(self):
-        return len(self.favorite_set.all())
+        return self.favorite_set.count()
+
+    @property
+    def comments_count(self):
+        return self.comment_set.count()
 
     @property
     def commentators_count(self):
@@ -155,7 +159,7 @@ class Video(models.Model):
         return self.published_at.strftime('%Y-%m-%d_%H:%M:%S')
 
     def __str__(self):
-        return self.profile.title + f'(id:{self.slug})'
+        return self.slug
 
     def delete(self, **kwargs):
         if hasattr(self, 'profile'):
@@ -277,6 +281,10 @@ class VideoProfile(CustomModel):
             return suffix
 
         return self.description + ' ' + suffix
+
+    @property
+    def labels_str(self):
+        return ','.join([l.title for l in self.labels.all()])
 
     def __str__(self):
         return self.video.__str__() + 'のプロフィール'

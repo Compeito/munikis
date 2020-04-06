@@ -45,7 +45,6 @@
     "bulmaswatch": "^0.7.2",
     "chart.js": "^2.9.3",
     "chartjs-plugin-zoom": "^0.7.5",
-    "swiper": "^4.5.0",
     "tooltip.js": "^1.3.1",
     "video.js": "^7.4.1",
     "vue": "^2.6.7"

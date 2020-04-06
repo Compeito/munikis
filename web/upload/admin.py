@@ -9,65 +9,57 @@ class ReadOnlyMixin:
         return False
 
 
-class LabelInline(admin.TabularInline):
-    model = VideoProfileLabelRelation
-
-
-class VideoProfileInline(admin.StackedInline):
-    model = models.VideoProfile
-
-
-class VideoDataInline(ReadOnlyMixin, admin.StackedInline):
-    model = models.VideoData
-
-
 class VideoAdmin(admin.ModelAdmin):
-    list_display_custom = [
-        ('動画ID', 'slug', str),
-        ('タイトル', 'profile__title', str),
-        ('再生回数', 'views_count', int),
-        ('公開状態', 'profile__get_release_type_display', str),
-        ('BAN', 'is_ban', bool),
-        ('作成日', 'profile__created_at', None)
-    ]
+    class VideoProfileInline(admin.StackedInline):
+        model = models.VideoProfile
+
+    class VideoDataInline(ReadOnlyMixin, admin.StackedInline):
+        model = models.VideoData
+
+    list_display = (
+        'id', 'user', 'slug',
+        'is_pickup', 'is_ban', 'published_at',
+        'views_count', 'type', 'source_url'
+    )
+    list_filter = ('is_pickup', 'type')
     inlines = (VideoProfileInline, VideoDataInline)
 
-    def get_list_display(self, request):
 
-        def get_field_and_function(attr_path):
-            attrs = attr_path.split('__')
-
-            def field_func(instance):
-                r = instance
-                for attr in attrs:
-                    if hasattr(r, attr):
-                        r = getattr(r, attr)
-                    else:
-                        r = None
-                        break
-                return r if not callable(r) else r()
-
-            return attrs[-1], field_func
-
-        list_display = []
-        for field_title, field_attr, field_type in self.list_display_custom:
-            field, field_function = get_field_and_function(field_attr)
-
-            field_function.short_description = field_title
-            if field_type == bool:
-                field_function.boolean = True
-            setattr(self, field, field_function)
-
-            list_display.append(field)
-
-        return list_display
+class UploadedPureVideo(admin.ModelAdmin):
+    list_display = (
+        'id', 'created_at', 'updated_at',
+        'video', 'file', 'is_encoding',
+        'is_failed',
+    )
 
 
 class VideoProfileAdmin(admin.ModelAdmin):
+    class LabelInline(admin.TabularInline):
+        model = VideoProfileLabelRelation
+
+    list_display = (
+        'id', 'created_at', 'updated_at',
+        'release_type', 'video', 'title',
+        'file', 'ordered_fps', 'is_loop',
+        'allows_anonymous_comment', 'labels_str'
+    )
+    search_fields = ('title',)
+    list_filter = ('labels',)
     inlines = (LabelInline,)
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('video').prefetch_related('labels')
+
+
+class VideoDataAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'video', 'thumbnail',
+        'gif', 'file', 'fps',
+        'duration'
+    )
 
 
 admin.site.register(models.Video, VideoAdmin)
-admin.site.register(models.UploadedPureVideo)
+admin.site.register(models.UploadedPureVideo, UploadedPureVideo)
 admin.site.register(models.VideoProfile, VideoProfileAdmin)
-admin.site.register(models.VideoData)
+admin.site.register(models.VideoData, VideoDataAdmin)

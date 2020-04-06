@@ -6,33 +6,42 @@
     </a>
   </div>
 
-  <div id="navbar" class="navbar-menu is-hidden-touch">
-    <div class="navbar-start">
-      <a class="navbar-item">
-      </a>
-    </div>
-
+  <div id="navbar" class="navbar-menu">
     <div class="navbar-end">
-      <a class="navbar-item" href="/recent">
-        <i class="fas fa-home with-text"></i>
-        新着順
-      </a>
-      <a class="navbar-item" href="/timeline">
+      <div class="navbar-item">
+        <form class="submit-form search-form" method="get" action="/search">
+          <div class="field has-addons">
+            <p class="control is-expanded">
+              <input class="input" type="text" name="q" value="{{ request.GET.q }}" placeholder="検索" required>
+            </p>
+            <p class="control">
+              <button type="submit" class="button is-grey">
+                <i class="fas fa-search"></i>
+              </button>
+            </p>
+          </div>
+        </form>
+      </div>
+      <a class="navbar-item is-hidden-mobile" href="/timeline">
         <i class="fas fa-film with-text"></i>
         フォロー新着
       </a>
-      <a class="navbar-item" href="/ranking">
+      <a class="navbar-item is-hidden-mobile" href="/ranking">
         <i class="fas fa-crown with-text"></i>
         ランキング
       </a>
-      <a class="navbar-item {% if not_reads_count %}has-text-info{% endif %}" href="/notify">
+      <a class="navbar-item is-hidden-mobile" href="/upload">
+        <i class="fas fa-upload with-text"></i>
+        投稿する
+      </a>
+      <a class="navbar-item is-hidden-mobile {% if not_reads_count %}has-text-info{% endif %}" href="/notify">
         <i class="fas fa-bell with-text"></i>
-        通知{{ not_reads_count|safe_number_display:"9"|default:"" }}
+        {{ not_reads_count|safe_number_display:"9" }}
       </a>
       {% if user.is_authenticated %}
-        <div class="navbar-item has-dropdown is-hoverable">
+        <div class="navbar-item has-dropdown is-hoverable is-hidden-mobile">
           <a class="navbar-link">
-            <strong>@{{ user.username }}</strong>
+            <img src="{{ user.profile_icon_url }}" alt="{{ user.username }}">
           </a>
           <div class="navbar-dropdown is-right">
             <a class="navbar-item" href="/u/{{ user.username }}"><i class="fas fa-home with-text"></i>マイページ</a>
@@ -45,7 +54,7 @@
           </div>
         </div>
       {% else %}
-        <a class="navbar-item has-text-info" href="/account/login">
+        <a class="navbar-item has-text-info is-hidden-mobile" href="/account/login?next={{ request.path }}">
           <i class="fas fa-sign-in-alt with-text"></i>
           ログイン
         </a>

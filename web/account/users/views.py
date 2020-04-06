@@ -18,10 +18,8 @@ class UserMixin:
         tabs = [
             {'href': f'/u/{account.username}', 'title': '投稿動画', 'is_active': False},
             {'href': f'/u/{account.username}/favorites', 'title': 'お気に入りリスト', 'is_active': False},
-            {'href': f'/u/{account.username}/followees', 'title': f'{account.followees.count()}フォロイー',
-             'is_active': False},
-            {'href': f'/u/{account.username}/followers', 'title': f'{account.followers.count()}フォロワー',
-             'is_active': False},
+            {'href': f'/u/{account.username}/followees', 'title': f'フォロイー', 'is_active': False},
+            {'href': f'/u/{account.username}/followers', 'title': f'フォロワー', 'is_active': False},
         ]
         tabs[self.tab_index]['is_active'] = True
         return tabs

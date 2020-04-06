@@ -1,11 +1,10 @@
 import Chart from 'chart.js'
 import 'chartjs-plugin-zoom'
 
-const VIEW_COUNT = 20
-
 document.addEventListener('DOMContentLoaded', () => {
   const chartDataJSON = document.getElementById('chartData')
   const chartData = JSON.parse(chartDataJSON.innerText)
+  const viewCount = chartData.video.length > 20 ? 20 : chartData.video.length
 
   const ctx = document.getElementById('chart').getContext('2d')
   new Chart(ctx, {
@@ -47,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
               },
             },
             ticks: {
-              min: chartData.video[chartData.video.length - VIEW_COUNT].x,
+              min: chartData.video[chartData.video.length - viewCount].x,
               max: chartData.video[chartData.video.length - 1].x,
             }
           },

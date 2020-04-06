@@ -12,7 +12,7 @@ from account.validators import username_regex
 
 
 class AltPaginationListView(generic.ListView):
-    paginate_range = 2
+    paginate_range = 4
 
     def paginate_queryset(self, queryset, page_size):
         # (paginator, page, page.object_list, page.has_other_pages())
@@ -25,12 +25,6 @@ class AltPaginationListView(generic.ListView):
         next_range = page.number + self.paginate_range
         if next_range > paginator.num_pages:
             next_range = paginator.num_pages
-
-        if page.number > self.paginate_range + 1:
-            paginator.has_prev_dots = True
-
-        if paginator.num_pages - page.number > self.paginate_range:
-            paginator.has_next_dots = True
 
         # 結果をalt_page_rangeとして代入
         paginator.alt_page_range = range(prev_range, next_range + 1)

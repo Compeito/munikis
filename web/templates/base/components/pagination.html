@@ -1,19 +1,23 @@
+{% load core_tags %}
 {% if page_obj.paginator.alt_page_range|length > 1 %}
   <nav class="pagination is-rounded is-centered" aria-label="pagination">
-    <a
-      class="pagination-previous" href="{{ queries }}page=1"
-      {% if not page_obj.has_previous %}disabled{% endif %}
-    >
-      <i class="fas fa-step-backward"></i>
-    </a>
-
     <ul class="pagination-list">
-      {% if page_obj.paginator.has_prev_dots %}
-        <li><span class="pagination-link">&hellip;</span></li>
-      {% endif %}
+      <li>
+        <a class="pagination-link"
+          {% if page_obj.has_previous %}
+            href="{{ queries }}page=1"
+          {% else %}
+            disabled
+          {% endif %}
+        >
+          <i class="fas fa-step-backward"></i>
+        </a>
+      </li>
+
+      <li><span class="pagination-ellipsis">&hellip;</span></li>
 
       {% for num in page_obj.paginator.alt_page_range %}
-        <li>
+        <li class="{% if num < page_obj.number|add:-2 or num > page_obj.number|add:2  %}is-hidden-mobile{% endif %}">
           {% if page_obj.number == num %}
             <span class="pagination-link is-current">{{ num }}</span>
           {% else %}
@@ -22,16 +26,19 @@
         </li>
       {% endfor %}
 
-      {% if page_obj.paginator.has_next_dots %}
-        <li><span class="pagination-link">&hellip;</span></li>
-      {% endif %}
-    </ul>
+      <li><span class="pagination-ellipsis">&hellip;</span></li>
 
-    <a
-      class="pagination-next" href="{{ queries }}page={{ page_obj.paginator.num_pages }}"
-      {% if not page_obj.has_next %}disabled{% endif %}
-    >
-      <i class="fas fa-step-forward"></i>
-    </a>
+      <li>
+        <a class="pagination-link"
+          {% if page_obj.has_next %}
+            href="{{ queries }}page={{ page_obj.number|add:1 }}"
+          {% else %}
+            disabled
+          {% endif %}
+        >
+          <i class="fas fa-step-forward"></i>
+        </a>
+      </li>
+    </ul>
   </nav>
 {% endif %}

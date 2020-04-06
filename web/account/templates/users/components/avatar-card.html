@@ -39,8 +39,8 @@
         {% for rel in account.trophyuserrelation_set.all %}
           <div class="column is-narrow">
             <figure
-                    class="image is-32x32 tooltipRef"
-                    data-tooltip="「{{ rel.trophy.title }}」{{ rel.trophy.description }}"
+              class="image is-32x32 tooltipRef"
+              data-tooltip="「{{ rel.trophy.title }}」{{ rel.trophy.description }}"
             >
               <object data="{{ rel.trophy.file.url }}"></object>
             </figure>
@@ -49,4 +49,26 @@
       </div>
     {% endif %}
   </div>
+  {% if not slim %}
+    <footer class="card-footer">
+      <div class="card-footer-item has-text-centered">
+        <div>
+          <p><strong>{{ account.video_set.count }}</strong></p>
+          <p class="heading">投稿動画</p>
+        </div>
+      </div>
+      <div class="card-footer-item has-text-centered">
+        <div>
+          <p><strong>{{ account.contribution_point }}</strong></p>
+          <p class="heading is-7">ユーザー<br>ポイント</p>
+        </div>
+      </div>
+      <div class="card-footer-item has-text-centered">
+        <div>
+          <p><strong>{{ account.followers.count }}</strong></p>
+          <p class="heading">フォロワー</p>
+        </div>
+      </div>
+    </footer>
+  {% endif %}
 </div>

@@ -38,6 +38,7 @@ $addColors: (
         "grey-lighter": ($grey-lighter, findColorInvert($grey-lighter)),
 );
 $colors: map-merge($colors, $addColors);
+$navbar-breakpoint: 0px;
 
 @import "~bulma/bulma";
 

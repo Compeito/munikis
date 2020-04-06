@@ -66,7 +66,10 @@ ready(() => {
   doc('#prev-frame').addEventListener('click', back_frame)
 
   document.addEventListener('keydown', e => {
-    if (document.activeElement.tagName === 'TEXTAREA' || e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return
+    if (
+      ['TEXTAREA', 'INPUT'].indexOf(document.activeElement.tagName) > -1
+      || e.shiftKey || e.altKey || e.ctrlKey || e.metaKey
+    ) return
 
     switch (e.code) {
       case 'ArrowRight':

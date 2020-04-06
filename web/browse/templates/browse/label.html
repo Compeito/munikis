@@ -4,10 +4,13 @@
 {% block page_title %}{{ label }}の動画一覧{% endblock %}
 {% block ogp_page_title %}{{ label }}の動画一覧{% endblock %}
 
-{% block content_2col %}
-  <div class="column">
+{% block content %}
+  <div class="column is-3">
     <h1 class="title"><span class="{{ label.css_classes }} is-size-4">{{ label }}</span> の動画一覧</h1>
     <div class="subtitle">{{ label.description|activate_url|safe }}</div>
+    {% include 'browse/components/label-list.html' %}
+  </div>
+  <div class="column">
     {% include 'browse/components/video-list.html' %}
   </div>
 {% endblock %}

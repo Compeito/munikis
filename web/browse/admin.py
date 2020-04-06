@@ -7,7 +7,7 @@ class RankingAdmin(admin.ModelAdmin):
 
 
 class LabelAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'color', 'description')
+    list_display = ('title', 'slug', 'icon', 'color', 'description')
 
 
 class VideoProfileLabelRelationAdmin(admin.ModelAdmin):

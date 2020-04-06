@@ -1,9 +1,9 @@
 {% load core_tags %}
-<nav class="navbar is-fixed-bottom is-hidden-desktop" role="navigation">
+<nav class="navbar is-fixed-bottom is-hidden-tablet" role="navigation">
   <div class="navbar-center">
-    <a class="navbar-item is-expanded is-block has-text-centered" href="/recent">
+    <a class="navbar-item is-expanded is-block has-text-centered" href="/">
       <i class="fas fa-home"></i>
-      <p class="is-size-7">新着</p>
+      <p class="is-size-7">ホーム</p>
     </a>
     <a class="navbar-item is-expanded is-block has-text-centered" href="/timeline">
       <i class="fas fa-film"></i>
@@ -24,7 +24,7 @@
         <p class="is-size-7">マイページ</p>
       </a>
     {% else %}
-      <a class="navbar-item is-expanded is-block has-text-centered has-text-info" href="/account/login">
+      <a class="navbar-item is-expanded is-block has-text-centered has-text-info" href="/account/login?next={{ request.path }}">
         <i class="fas fa-sign-in-alt"></i>
         <p class="is-size-7">ログイン</p>
       </a>

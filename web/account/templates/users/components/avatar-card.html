@@ -42,7 +42,7 @@
               class="image is-32x32 tooltipRef"
               data-tooltip="「{{ rel.trophy.title }}」{{ rel.trophy.description }}"
             >
-              <object data="{{ rel.trophy.file.url }}"></object>
+              <img src="{{ rel.trophy.file.url }}" alt="{{ rel.trophy.title }}">
             </figure>
           </div>
         {% endfor %}

@@ -9,6 +9,7 @@ alias docker-compose-prod='docker-compose -f docker-compose.yml -f docker-compos
 docker-compose-prod build
 
 # DB以外のボリュームの削除
+docker-compose-prod down
 docker volume rm tsukuriga_venv
 docker volume rm tsukuriga_node_modules
 docker volume rm tsukuriga_sock

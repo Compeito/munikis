@@ -1,0 +1,63 @@
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
+@import "~bulma/sass/utilities/derived-variables";
+
+$pink: #ffaea9;
+$orange-light: findLightColor($orange);
+$yellow-light: findLightColor($yellow);
+$green-light: findLightColor($green);
+$turquoise-light: findLightColor($turquoise);
+$cyan-light: findLightColor($cyan);
+$blue-light: findLightColor($blue);
+$purple-light: findLightColor($purple);
+$red-light: findLightColor($red);
+$pink-light: findLightColor($pink);
+$grey-light: findLightColor($grey);
+$orange-dark: findDarkColor($orange);
+$yellow-dark: findDarkColor($yellow);
+$green-dark: findDarkColor($green);
+$turquoise-dark: findDarkColor($turquoise);
+$cyan-dark: findDarkColor($cyan);
+$blue-dark: findDarkColor($blue);
+$purple-dark: findDarkColor($purple);
+$red-dark: findDarkColor($red);
+$pink-dark: findDarkColor($pink);
+$grey-dark: findDarkColor($grey);
+
+// browse.models.Label.COLOR_SETへの変換用正規表現
+// "(.+)":.+
+// ('$1', '$1'),
+$addColors: (
+  "orange": ($orange, findColorInvert($orange)),
+  "orange-dark": ($orange-dark, findColorInvert($orange-dark)),
+  "orange-light": ($orange-light, findColorInvert($orange-light)),
+  "yellow": ($yellow, findColorInvert($yellow)),
+  "yellow-dark": ($yellow-dark, findColorInvert($yellow-dark)),
+  "yellow-light": ($yellow-light, findColorInvert($yellow-light)),
+  "green": ($green, findColorInvert($green)),
+  "green-dark": ($green-dark, findColorInvert($green-dark)),
+  "green-light": ($green-light, findColorInvert($green-light)),
+  "turquoise": ($turquoise, findColorInvert($turquoise)),
+  "turquoise-dark": ($turquoise-dark, findColorInvert($turquoise-dark)),
+  "turqoise-light": ($turquoise-light, findColorInvert($turquoise-light)),
+  "cyan": ($cyan, findColorInvert($cyan)),
+  "cyan-dark": ($cyan-dark, findColorInvert($cyan-dark)),
+  "cyan-light": ($cyan-light, findColorInvert($cyan-light)),
+  "blue": ($blue, findColorInvert($blue)),
+  "blue-dark": ($blue-dark, findColorInvert($blue-dark)),
+  "blue-light": ($blue-light, findColorInvert($blue-light)),
+  "purple": ($purple, findColorInvert($purple)),
+  "purple-dark": ($purple-dark, findColorInvert($purple-dark)),
+  "purple-light": ($purple-light, findColorInvert($purple-light)),
+  "red": ($red, findColorInvert($red)),
+  "red-dark": ($red-dark, findColorInvert($red-dark)),
+  "red-light": ($red-light, findColorInvert($red-light)),
+  "pink": ($pink, findColorInvert($pink)),
+  "pink-dark": ($pink-dark, findColorInvert($pink-dark)),
+  "pink-light": ($pink-light, findColorInvert($pink-light)),
+  "grey": ($grey, findColorInvert($grey)),
+  "grey-dark": ($grey-dark, findColorInvert($grey-dark)),
+  "grey-light": ($grey-light, findColorInvert($grey-light)),
+);
+
+$colors: map-merge($colors, $addColors);

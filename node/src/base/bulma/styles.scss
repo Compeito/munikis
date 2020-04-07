@@ -14,32 +14,10 @@ $box-radius: 0;
 $navbar-height: 3.0rem;
 $navbar-item-color: white;
 $navbar-item-hover-color: darken(white, 20%);
-
-@import "~bulma/sass/utilities/initial-variables";
-@import "~bulma/sass/utilities/functions";
-@import "~bulma/sass/utilities/derived-variables";
-
-$pink: #ffaea9;
-// browse.models.Label.COLOR_SETへの変換用正規表現
-// "(.+)":.+
-// ('$1', '$1'),
-$addColors: (
-        "orange": ($orange, $orange-invert),
-        "yellow": ($yellow, $yellow-invert),
-        "green": ($green, $green-invert),
-        "turqoise": ($turquoise, $turquoise-invert),
-        "cyan": ($cyan, $cyan-invert),
-        "blue": ($blue, $blue-invert),
-        "purple": ($purple, $purple-invert),
-        "red": ($red, $red-invert),
-        "pink": ($pink, findColorInvert($pink)),
-        "grey": ($grey, findColorInvert($grey)),
-        "grey-light": ($grey-light, findColorInvert($grey-light)),
-        "grey-lighter": ($grey-lighter, findColorInvert($grey-lighter)),
-);
-$colors: map-merge($colors, $addColors);
 $navbar-breakpoint: 0px;
+$footer-background-color: $primary;
 
+@import "./colors";
 @import "~bulma/bulma";
 
 @import "~bulmaswatch/lux/overrides";

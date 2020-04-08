@@ -31,9 +31,8 @@ class Home(TemplateView):
         active_labels = Label.objects.filter(is_active=True)
         return active_labels.annotate(count=Count('videoprofilelabelrelation')).order_by('-count')
 
-    @staticmethod
-    def _get_recent_videos():
-        recent_videos = safe_videos().order_by('-published_at')[:50]
+    def _get_recent_videos(self):
+        recent_videos = safe_videos(self.request.user).order_by('-published_at')[:50]
         return sorted(recent_videos, key=lambda x: random.random())[:8]
 
     @staticmethod
@@ -55,7 +54,7 @@ class Recent(AltPaginationListView):
     extra_context = {'labels': Home.get_labels()}
 
     def get_queryset(self):
-        return safe_videos().order_by('-published_at')
+        return safe_videos(self.request.user).order_by('-published_at')
 
 
 recent = Recent.as_view()
@@ -139,7 +138,7 @@ class LabelList(AltPaginationListView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        return safe_videos().filter(profile__labels=self.label).order_by('-published_at')
+        return safe_videos(self.request.user).filter(profile__labels=self.label).order_by('-published_at')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

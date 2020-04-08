@@ -1,8 +1,9 @@
+from account.models import User
 from upload.models import Video
 
 
-def safe_videos():
-    return (
+def safe_videos(user: User = None):
+    videos = (
         Video.objects
             .prefetch_related('user', 'profile', 'data', 'point_set', 'favorite_set', 'comment_set')
             .filter(
@@ -12,6 +13,9 @@ def safe_videos():
                 data__isnull=False
             )
     )
+    if user is not None and user.is_authenticated:
+        videos = videos.exclude(user__in=user.mutes.all())
+    return videos
 
 
 def unsafe_videos():

@@ -150,3 +150,32 @@ def exist_friendship(request, username):
         followee__username=username
     ).exists()
     return json_response({'isFollowing': is_following}, status=200)
+
+
+@require_POST
+@login_required
+def add_mute(request, username):
+    if request.user.username == username:
+        return json_response({'message': '自分自身をミュートできません'}, status=400)
+    target = get_object_or_404(User, username=username)
+
+    old_mute = request.user.mute_relations.filter(target=target)
+    if old_mute.exists():
+        old_mute.first().delete()
+        message = f'@{username}のミュートを解除しました'
+        is_muted = False
+    else:
+        request.user.mute_relations.create(target=target)
+        message = f'@{username}をミュートしました'
+        is_muted = True
+
+    return json_response({'message': message, 'isMuted': is_muted}, status=200)
+
+
+@require_GET
+@login_required
+def exist_mute(request, username):
+    is_muted = request.user.mute_relations.filter(
+        target__username=username
+    ).exists()
+    return json_response({'isMuted': is_muted}, status=200)

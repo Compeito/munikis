@@ -104,3 +104,11 @@ class FriendShip(CustomModel):
 
     class Meta:
         unique_together = ('user', 'followee')
+
+
+class Mute(CustomModel):
+    user = models.ForeignKey('account.User', on_delete=models.CASCADE, related_name='mute_relations')
+    target = models.ForeignKey('account.User', on_delete=models.CASCADE, related_name='muted_relations')
+
+    class Meta:
+        unique_together = ('user', 'target')

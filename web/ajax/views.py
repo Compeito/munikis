@@ -50,7 +50,10 @@ def delete_comment(request, pk):
 @require_GET
 def list_comments(request, slug):
     video = get_object_or_404(Video, slug=slug)
-    return json_response([c.json(request.user) for c in video.comment_set.all().order_by('-created_at')])
+    comments = video.comment_set.all()
+    if request.user.is_authenticated:
+        comments = comments.exclude(user__in=request.user.mutes.all())
+    return json_response([c.json(request.user) for c in comments.order_by('-created_at')])
 
 
 @require_POST
@@ -162,11 +165,11 @@ def toggle_mute(request, username):
     old_mute = request.user.mute_relations.filter(target=target)
     if old_mute.exists():
         old_mute.first().delete()
-        message = f'@{username}のミュートを解除しました'
+        message = 'ミュートを解除しました'
         is_muted = False
     else:
         request.user.mute_relations.create(target=target)
-        message = f'@{username}をミュートしました'
+        message = 'ミュートしました'
         is_muted = True
 
     return json_response({'message': message, 'isMuted': is_muted}, status=200)

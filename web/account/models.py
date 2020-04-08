@@ -37,6 +37,8 @@ class User(AbstractUser):
                                        related_name='followings+', through_fields=('user', 'followee'))
     followers = models.ManyToManyField('User', verbose_name='フォローされているユーザー', through='ajax.FriendShip',
                                        related_name='followers+', through_fields=('followee', 'user'))
+    mutes = models.ManyToManyField('User', verbose_name='ミュート中のユーザー', through='ajax.Mute',
+                                   related_name='+', through_fields=('user', 'target'))
 
     contribution_point = models.PositiveIntegerField('貢献ポイント', default=0, blank=True)
     objects = UserManager()

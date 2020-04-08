@@ -154,7 +154,7 @@ def exist_friendship(request, username):
 
 @require_POST
 @login_required
-def add_mute(request, username):
+def toggle_mute(request, username):
     if request.user.username == username:
         return json_response({'message': '自分自身をミュートできません'}, status=400)
     target = get_object_or_404(User, username=username)

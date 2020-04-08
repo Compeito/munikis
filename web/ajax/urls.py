@@ -12,4 +12,6 @@ urlpatterns = [
     path('favorites/list/<slug:slug>', views.list_favorites),
     path('friendships/toggle/<str:username>', views.toggle_friendship),
     path('friendships/exist/<str:username>', views.exist_friendship),
+    path('mutes/toggle/<str:username>', views.toggle_mute),
+    path('mutes/exist/<str:username>', views.exist_mute),
 ]

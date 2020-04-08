@@ -1,10 +1,18 @@
-<button
-  id="v-follow-button"
-  class="button is-pulled-right"
-  :class="className"
-  @click="toggleFavorite"
-  ref="followButton"
-  data-followee-username="{{ account.username }}"
-  >
-    フォロー<span v-cloak>[[ label ]]</span>
-</button>
+<div class="dropdown is-hoverable is-small is-right">
+  <div class="dropdown-trigger">
+    <button class="button is-small" aria-haspopup="true" aria-controls="user-dropdown-menu">
+      <span class="icon"><i class="fas fa-ellipsis-h"></i></span>
+    </button>
+  </div>
+  <div class="dropdown-menu" id="user-dropdown-menu" role="menu">
+    <div class="dropdown-content">
+      <a
+        id="v-mute-button"
+        class="dropdown-item"
+        @click="toggleMute"
+        ref="muteButton"
+        data-target-username="{{ account.username }}"
+      >ミュート<span v-cloak>[[ label ]]</span></a>
+    </div>
+  </div>
+</div>

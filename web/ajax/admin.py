@@ -19,7 +19,12 @@ class FriendshipAdmin(admin.ModelAdmin):
     list_display = ('user', 'followee')
 
 
+class MuteAdmin(admin.ModelAdmin):
+    list_display = ('user', 'target')
+
+
 admin.site.register(models.Comment, CommentAdmin)
 admin.site.register(models.Favorite, FavoriteAdmin)
 admin.site.register(models.Point, PointAdmin)
 admin.site.register(models.FriendShip, FriendshipAdmin)
+admin.site.register(models.Mute, MuteAdmin)

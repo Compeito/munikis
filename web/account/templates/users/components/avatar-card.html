@@ -13,13 +13,16 @@
     </a>
     <div class="avatar-name">
       {% if not slim %}
-        {% if user == account %}
-          <a href="/settings/edit" class="is-pulled-right">
-            <i class="fas fa-edit with-text"></i>編集
-          </a>
-        {% elif user.is_authenticated %}
-          {% include 'users/components/avatar-card/v-follow-button.html' %}
-        {% endif %}
+        <div class="is-pulled-right">
+          {% if user == account %}
+            <a href="/settings/edit">
+              <i class="fas fa-edit with-text"></i>編集
+            </a>
+          {% elif user.is_authenticated %}
+            {% include 'users/components/avatar-card/v-follow-button.html' %}
+            {% include 'users/components/avatar-card/v-mute-button.html' %}
+          {% endif %}
+        </div>
       {% endif %}
       <h1>
         <a href="/u/{{ account.username }}">{{ account.name }}</a>

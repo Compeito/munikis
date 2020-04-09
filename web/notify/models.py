@@ -86,16 +86,11 @@ class Notification(models.Model):
         )
 
     def save(self, *args, **kwargs):
+        if self.sender in self.recipient.mutes.all():
+            return
         if self.is_available_mail():
             self.send_mail()
         return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.mail_subject + ('(削除済み)' if self.target is None else '')
-
-
-"""
-シンプルなメッセージを送信するモデル
-class Message(models.Model):
-    ...
-"""

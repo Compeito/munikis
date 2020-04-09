@@ -16,7 +16,7 @@
 {% block header %}{% endblock %}
 
 {% block content %}
-  <div class="column is-one-quarter">
+  <div class="column is-4">
     {% include 'users/components/avatar-card.html' %}
   </div>
   <div class="column">
@@ -33,4 +33,5 @@
 
 {% block scripts %}
   {% render_bundle 'account/follow' %}
+  {% render_bundle 'account/mute' %}
 {% endblock %}

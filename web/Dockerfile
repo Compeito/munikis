@@ -34,5 +34,7 @@ COPY pyproject.toml /code/
 COPY poetry.lock /code/
 RUN poetry install --no-dev --no-root
 
+COPY . /code/
+RUN chmod +x /code/start.sh
 ENTRYPOINT ["poetry", "run"]
-CMD ["uwsgi", "--ini", "/code/uwsgi.ini"]
+CMD ["/code/start.sh"]

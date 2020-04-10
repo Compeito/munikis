@@ -1,4 +1,5 @@
 .venv/
+media/
 assets/webpack-stats.json
 assets/bundles/
 __pycache__

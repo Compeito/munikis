@@ -114,8 +114,8 @@ DATABASES = {
         'NAME': 'django',
         'USER': 'root',
         'PASSWORD': env('MYSQL_ROOT_PASSWORD'),
-        'HOST': 'db',
-        'PORT': '3306',
+        'HOST': env('MYSQL_HOST', default='db'),
+        'PORT': env('MYSQL_PORT', default='3306'),
         'OPTIONS': {
             'charset': 'utf8mb4',
             'sql_mode': 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO,ONLY_FULL_GROUP_BY',

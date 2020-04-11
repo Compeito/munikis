@@ -1,4 +1,6 @@
 from .base import *
+import json
+from google.oauth2 import service_account
 
 DEBUG = False
 
@@ -32,16 +34,12 @@ X_FRAME_OPTIONS = 'DENY'
 SESSION_COOKIE_SAMESITE = None
 
 # django-storage-swift
-DEFAULT_FILE_STORAGE = 'swift.storage.SwiftStorage'
-SWIFT_AUTH_URL = 'https://identity.tyo1.conoha.io/v2.0'
-SWIFT_BASE_URL = 'https://storage.tsukuriga.net'
-SWIFT_AUTO_BASE_URL = False
-SWIFT_TENANT_NAME = env('SWIFT_TENANT_NAME', default='')
-SWIFT_USERNAME = env('SWIFT_USERNAME', default='')
-SWIFT_PASSWORD = env('SWIFT_PASSWORD', default='')
-SWIFT_AUTO_CREATE_CONTAINER_PUBLIC = True
-SWIFT_AUTO_CREATE_CONTAINER = True
-SWIFT_CONTAINER_NAME = 'media'
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'tsukuriga-test-bucket'
+GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+    json.load(env('RUN_SA_KEY')),
+)
 
 # mail
 EMAIL_USE_SSL = True

@@ -36,15 +36,21 @@ X_FRAME_OPTIONS = 'DENY'
 # https://github.com/python-social-auth/social-core/issues/250#issuecomment-436832460
 SESSION_COOKIE_SAMESITE = None
 
-# django-storage-swift
+# django-storages
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'tsukuriga-test-bucket'
-RUN_SA_KEY_BASE64 = env('RUN_SA_KEY_BASE64')
-RUN_SA_KEY = base64.b64decode(RUN_SA_KEY_BASE64).decode('utf-8')
-GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
-    json.loads(RUN_SA_KEY)
-)
+GS_DEFAULT_ACL = 'publicRead'
+RUN_SA_KEY_BASE64 = env('RUN_SA_KEY_BASE64', default=None)
+if RUN_SA_KEY_BASE64:
+    RUN_SA_KEY = base64.b64decode(RUN_SA_KEY_BASE64).decode('utf-8')
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+        json.loads(RUN_SA_KEY)
+    )
+else:
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        os.path.join(BASE_DIR, 'serviceAccountKeys.json')
+    )
 
 # mail
 EMAIL_USE_SSL = True

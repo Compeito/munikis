@@ -15,6 +15,7 @@ docker-compose up -d --no-deps db
 
 echo "パッケージのインストール"
 docker-compose run --no-deps --rm web poetry install --no-root
+docker-compose run --no-deps --rm node yarn install
 echo "データベースのマイグレーション"
 docker-compose run --no-deps --rm web python manage.py migrate
 echo "データベースの初期化"

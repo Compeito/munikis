@@ -4,9 +4,6 @@ ENV PYTHONUNBUFFERED 1
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-# https://qiita.com/fkshom/items/53de3a9b9278cd524099
-RUN sed -i.bak -e "s%http://[^ ]\+%http://ftp.jaist.ac.jp/pub/Linux/ubuntu/%g" /etc/apt/sources.list
-
 # python依存モジュールのインストール
 # https://www.python.jp/install/ubuntu/index.html
 RUN apt update

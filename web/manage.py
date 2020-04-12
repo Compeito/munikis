@@ -3,7 +3,7 @@ import os
 import sys
 
 if __name__ == '__main__':
-    settings = 'tsukuriga.settings.' + ('dev' if os.environ['DEBUG'] == 'true' else 'prod')
+    settings = 'tsukuriga.settings.' + ('dev' if os.environ.get('DEBUG') == 'true' else 'prod')
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings)
     try:
         from django.core.management import execute_from_command_line

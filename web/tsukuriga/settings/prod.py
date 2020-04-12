@@ -1,5 +1,8 @@
 from .base import *
+
+import base64
 import json
+
 from google.oauth2 import service_account
 
 DEBUG = False
@@ -37,8 +40,10 @@ SESSION_COOKIE_SAMESITE = None
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'tsukuriga-test-bucket'
+RUN_SA_KEY_BASE64 = env('RUN_SA_KEY_BASE64')
+RUN_SA_KEY = base64.b64decode(RUN_SA_KEY_BASE64).decode('utf-8')
 GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
-    json.load(env('RUN_SA_KEY')),
+    json.loads(RUN_SA_KEY)
 )
 
 # mail

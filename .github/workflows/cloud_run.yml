@@ -9,7 +9,10 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
-  RUN_REGION: asia-northeast2
+  RUN_REGION: ${{ secrets.RUN_REGION }}
+  RUN_SA_KEY: ${{ secrets.RUN_SA_KEY }}
+  SQL_CONNECTION_NAME: ${{ secrets.SQL_CONNECTION_NAME }}
+  SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
   SERVICE_NAME: tsukuriga-cd-test
 
 jobs:
@@ -21,13 +24,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v1
+      - name: setup Node.js
+        uses: actions/setup-node@v1
+
       - name: yarn install and build
-      run: |
-        yarn install
-        yarn build
-        cp -rf assets/bundle ../web/assets/bundle
-      working-directory: ./node
+        run: |
+          cd node
+          yarn install
+          yarn build
+          cp -rf ./assets/* ../web/assets/
 
       # Setup gcloud CLI
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -41,22 +46,31 @@ jobs:
       - run: gcloud auth configure-docker --quiet
 
       # Build and push image to Google Container Registry
-      - name: Build
+      - name: Build and Push
         run: |
           docker build -t "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" ./web
           docker push "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
 
-      - name: collectstatic and push to CGS
+      - name: collectstatic
         run: |
-          - docker run -e DEBUG=false "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
-            python manage.py collectstatic --no-input
+          RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
+          docker run -e DEBUG=false -e RUN_SA_KEY_BASE64="$RUN_SA_KEY_BASE64" "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+          python manage.py collectstatic --no-input
 
       # Deploy image to Cloud Run
       - name: Deploy
         run: |
+          RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
           gcloud run deploy "$SERVICE_NAME" \
             --quiet \
             --region "$RUN_REGION" \
             --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+            --update-env-vars "DEBUG=false" \
+            --update-env-vars "RUN_SA_KEY_BASE64=$RUN_SA_KEY_BASE64" \
+            --update-env-vars "MYSQL_HOST=/cloudsql/$SQL_CONNECTION_NAME" \
+            --update-env-vars "MYSQL_PORT=" \
+            --update-env-vars "MYSQL_ROOT_PASSWORD=$SQL_PASSWORD" \
+            --update-env-vars "INSTANCE-CONNECTION-NAME=$SQL_CONNECTION_NAME" \
+            --add-cloudsql-instances "$SQL_CONNECTION_NAME" \
             --platform "managed" \
             --allow-unauthenticated

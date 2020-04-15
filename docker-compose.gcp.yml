@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  db:
+    image: gcr.io/cloudsql-docker/gce-proxy
+    command:
+      ["/cloud_sql_proxy",
+       "-instances=$SQL_CONNECTION_NAME=tcp:0.0.0.0:3306",
+       "-credential_file=/config/[KEY_FILE]"]
+    volumes:
+      - "web/serviceAccountKeys.json:/config/serviceAccountKeys.json"
+    ports:
+      - "3306:3306"

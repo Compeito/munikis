@@ -8,12 +8,16 @@ on:
       - '**'
 
 env:
-  PROJECT_ID: ${{ secrets.RUN_PROJECT }}
-  RUN_REGION: ${{ secrets.RUN_REGION }}
+  PROJECT_NAME: tsukuriga-pre
+  RUN_NAME: tsukuriga
+  RUN_IMAGE: gcr.io/${{ env.RUN_SA_KEY }}/${{ env.RUN_NAME }}:${{ github.sha }}
+  RUN_SA_EMAIL: ${{ secrets.RUN_SA_EMAIL }}
   RUN_SA_KEY: ${{ secrets.RUN_SA_KEY }}
   SQL_CONNECTION_NAME: ${{ secrets.SQL_CONNECTION_NAME }}
   SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
-  SERVICE_NAME: tsukuriga-cd-test
+  TWITTER_KEY: ${{ secrets.TWITTER_KEY }}
+  TWITTER_SECRET: ${{ secrets.TWITTER_SECRET }}
+  EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
 jobs:
   setup-build-deploy:
@@ -38,9 +42,9 @@ jobs:
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '286.0.0'
-          service_account_email: ${{ secrets.RUN_SA_EMAIL }}
-          service_account_key: ${{ secrets.RUN_SA_KEY }}
-          project_id: ${{ secrets.RUN_PROJECT }}
+          service_account_email: ${{ env.RUN_SA_EMAIL }}
+          service_account_key: ${{ env.RUN_SA_KEY }}
+          project_id: ${{ env.PROJECT_NAME }}
 
       # Configure docker to use the gcloud cli
       - run: gcloud auth configure-docker --quiet
@@ -48,28 +52,31 @@ jobs:
       # Build and push image to Google Container Registry
       - name: Build and Push
         run: |
-          docker build -t "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" ./web
-          docker push "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
+          docker build -t "$RUN_IMAGE" ./web
+          docker push "$RUN_IMAGE"
 
       - name: collectstatic
         run: |
           RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
-          docker run -e DEBUG=false -e RUN_SA_KEY_BASE64="$RUN_SA_KEY_BASE64" "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+          docker run -e DEBUG=false -e RUN_SA_KEY_BASE64="$RUN_SA_KEY_BASE64" "$RUN_IMAGE" \
           python manage.py collectstatic --no-input
 
       # Deploy image to Cloud Run
       - name: Deploy
         run: |
           RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
-          gcloud run deploy "$SERVICE_NAME" \
+          gcloud run deploy "$RUN_NAME" \
             --quiet \
-            --region "$RUN_REGION" \
-            --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
+            --region "us-west1-a" \
+            --image "$RUN_IMAGE" \
             --update-env-vars "DEBUG=false" \
             --update-env-vars "RUN_SA_KEY_BASE64=$RUN_SA_KEY_BASE64" \
             --update-env-vars "MYSQL_HOST=/cloudsql/$SQL_CONNECTION_NAME" \
             --update-env-vars "MYSQL_PORT=" \
             --update-env-vars "MYSQL_ROOT_PASSWORD=$SQL_PASSWORD" \
+            --update-env-vars "TWITTER_KEY=$TWITTER_KEY" \
+            --update-env-vars "TWITTER_SECRET=$TWITTER_SECRET" \
+            --update-env-vars "EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD" \
             --update-env-vars "INSTANCE-CONNECTION-NAME=$SQL_CONNECTION_NAME" \
             --add-cloudsql-instances "$SQL_CONNECTION_NAME" \
             --platform "managed" \

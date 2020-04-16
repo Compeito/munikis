@@ -9,8 +9,8 @@ on:
 
 env:
   PROJECT_NAME: tsukuriga-pre
-  PROJECT_ZONE: us-west1-a
   COMPUTE_NAME: tsukuriga-vm
+  COMPUTE_ZONE: us-west1-a
   RUN_NAME: tsukuriga
   RUN_IMAGE: gcr.io/tsukuriga-pre/tsukuriga:${{ github.sha }}
   RUN_SA_EMAIL: ${{ secrets.RUN_SA_EMAIL }}
@@ -73,9 +73,9 @@ jobs:
           "
           echo "$ENV_CONTENT" > .env
           gcloud compute scp .env $COMPUTE_NAME:~/tsukuriga/.env \
-            --zone $PROJECT_ZONE
+            --zone $COMPUTE_ZONE
           gcloud compute ssh $COMPUTE_NAME \
-            --zone $PROJECT_ZONE \
+            --zone $COMPUTE_ZONE \
             --command "
               cd ~/tsukuriga &&
               git fetch origin &&
@@ -88,7 +88,7 @@ jobs:
         run: |
           gcloud run deploy "$RUN_NAME" \
             --quiet \
-            --region "$PROJECT_ZONE" \
+            --region "us-west1" \
             --image "$RUN_IMAGE" \
             --update-env-vars "DEBUG=false" \
             --update-env-vars "SECRET_KEY=$DJANGO_SECRET" \

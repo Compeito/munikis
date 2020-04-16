@@ -70,7 +70,7 @@ jobs:
             MYSQL_PORT=
             MYSQL_ROOT_PASSWORD=$SQL_PASSWORD
           "
-          echo "$ENV_CONTENT" > .env
+          echo "$ENV_CONTENT" | tr -d " " > .env
           echo "$RUN_SA_KEY" > serviceAccountKeys.json
           gcloud compute scp .env $COMPUTE_NAME:~/tsukuriga/.env \
             --zone $COMPUTE_ZONE

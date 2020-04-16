@@ -48,7 +48,7 @@ jobs:
       - name: Container Registryへのデプロイ
         run: |
           gcloud auth configure-docker --quiet
-          docker build -t $RUN_IMAGE:${{ github.sha }} -t $RUN_IMAGE:latest./web
+          docker build -t $RUN_IMAGE:${{ github.sha }} -t $RUN_IMAGE:latest ./web
           docker push $RUN_IMAGE
 
       - name: Cloud Storageへのデプロイ

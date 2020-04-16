@@ -30,6 +30,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '286.0.0'
+          service_account_email: ${{ env.RUN_SA_EMAIL }}
+          service_account_key: ${{ env.RUN_SA_KEY }}
+          project_id: ${{ env.PROJECT_NAME }}
 
       - name: 静的ファイルのビルド
         run: |
@@ -37,13 +43,6 @@ jobs:
           yarn install
           yarn build
           cp -rf ./assets/* ../web/assets/
-
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: '286.0.0'
-          service_account_email: ${{ env.RUN_SA_EMAIL }}
-          service_account_key: ${{ env.RUN_SA_KEY }}
-          project_id: ${{ env.PROJECT_NAME }}
 
       - name: Container Registryへのデプロイ
         run: |

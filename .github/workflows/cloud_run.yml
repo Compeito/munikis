@@ -72,8 +72,10 @@ jobs:
             MYSQL_ROOT_PASSWORD=$SQL_PASSWORD
           "
           echo "$ENV_CONTENT" > .env
-          gcloud compute scp $COMPUTE_NAME:/tsukuriga/.env .env
-          gcloud compute ssh $COMPUTE_NAME --zone $PROJECT_ZONE \
+          gcloud compute scp $COMPUTE_NAME:/tsukuriga/.env .env \
+            --zone $PROJECT_ZONE
+          gcloud compute ssh $COMPUTE_NAME \
+            --zone $PROJECT_ZONE \
             --command "
             SCRIPT_PATH=/tsukuriga/scripts/cron.sh
             sudo chmod +x $SCRIPT_PATH

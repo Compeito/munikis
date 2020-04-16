@@ -1,7 +1,8 @@
 #!/bin/sh
 
 CRON="
-ENTRYPOINT=\"cd ~/tsukuriga && docker-compose run --rm -d web poetry run\"
+COMPOSE=/usr/local/bin/docker-compose -f ~/tsukuriga/docker-compose.yml -f ~/tsukuriga/docker-compose.gcp.yml
+ENTRYPOINT=\"cd ~/tsukuriga && \$COMPOSE run --rm -d web poetry run\"
 * * * * *   \$EXTRYPOINT encode
 */5 * * * * \$EXTRYPOINT gif
 0 1 * * *   \$EXTRYPOINT ranking

@@ -12,7 +12,7 @@ env:
   COMPUTE_NAME: tsukuriga-vm
   COMPUTE_ZONE: us-west1-a
   RUN_NAME: tsukuriga
-  RUN_IMAGE: gcr.io/tsukuriga-pre/tsukuriga:${{ github.sha }}
+  RUN_IMAGE: gcr.io/tsukuriga-pre/tsukuriga
   RUN_SA_EMAIL: ${{ secrets.RUN_SA_EMAIL }}
   RUN_SA_KEY: ${{ secrets.RUN_SA_KEY }}
   DJANGO_SECRET: ${{ secrets.DJANGO_SECRET }}
@@ -48,8 +48,8 @@ jobs:
       - name: Container Registryへのデプロイ
         run: |
           gcloud auth configure-docker --quiet
-          docker build -t "$RUN_IMAGE" ./web
-          docker push "$RUN_IMAGE"
+          docker build -t $RUN_IMAGE:${{ github.sha }} -t $RUN_IMAGE:latest./web
+          docker push $RUN_IMAGE
 
       - name: Cloud Storageへのデプロイ
         run: |
@@ -63,21 +63,23 @@ jobs:
 
       - name: Compute Engineへのデプロイ
         run: |
-          RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
           ENV_CONTENT="
             SECRET_KEY=$DJANGO_SECRET
             RUN_IMAGE=$RUN_IMAGE
-            RUN_SA_KEY_BASE64=$RUN_SA_KEY_BASE64
             MYSQL_HOST=/cloudsql/$SQL_CONNECTION_NAME
             MYSQL_PORT=
             MYSQL_ROOT_PASSWORD=$SQL_PASSWORD
           "
           echo "$ENV_CONTENT" > .env
+          echo "$RUN_SA_KEY" > serviceAccountKeys.json
           gcloud compute scp .env $COMPUTE_NAME:~/tsukuriga/.env \
+            --zone $COMPUTE_ZONE
+          gcloud compute scp serviceAccountKeys.json $COMPUTE_NAME:~/tsukuriga/web/serviceAccountKeys.json \
             --zone $COMPUTE_ZONE
           gcloud compute ssh $COMPUTE_NAME \
             --zone $COMPUTE_ZONE \
             --command "
+              docker pull $RUN_IMAGE
               cd ~/tsukuriga &&
               git fetch origin &&
               git reset --hard origin/migration/gcp-run &&
@@ -91,7 +93,7 @@ jobs:
           gcloud run deploy "$RUN_NAME" \
             --quiet \
             --region "us-west1" \
-            --image "$RUN_IMAGE" \
+            --image "$RUN_IMAGE:${{ github.sha }}" \
             --update-env-vars "DEBUG=false" \
             --update-env-vars "SECRET_KEY=$DJANGO_SECRET" \
             --update-env-vars "ADMIN_MAIL=compeitoon@gmail.com" \

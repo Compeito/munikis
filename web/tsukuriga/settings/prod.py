@@ -39,7 +39,7 @@ SESSION_COOKIE_SAMESITE = None
 # django-storages
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_BUCKET_NAME = 'tsukuriga-test-bucket'
+GS_BUCKET_NAME = 'tsukuriga-pre-bucket'
 GS_DEFAULT_ACL = 'publicRead'
 RUN_SA_KEY_BASE64 = env('RUN_SA_KEY_BASE64', default=None)
 if RUN_SA_KEY_BASE64:

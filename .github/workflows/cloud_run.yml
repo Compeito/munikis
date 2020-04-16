@@ -71,19 +71,17 @@ jobs:
             MYSQL_ROOT_PASSWORD=$SQL_PASSWORD
           "
           echo "$ENV_CONTENT" | tr -d " " > .env
-          echo "$RUN_SA_KEY" > serviceAccountKeys.json
-          gcloud compute scp .env $COMPUTE_NAME:~/tsukuriga/.env \
-            --zone $COMPUTE_ZONE
-          gcloud compute scp serviceAccountKeys.json $COMPUTE_NAME:~/tsukuriga/web/serviceAccountKeys.json \
-            --zone $COMPUTE_ZONE
-          gcloud compute ssh $COMPUTE_NAME \
+          echo "$RUN_SA_KEY" > keys.json
+          gcloud compute scp .env root@$COMPUTE_NAME:/tsukuriga/.env --zone $COMPUTE_ZONE
+          gcloud compute scp keys.json root@$COMPUTE_NAME:/tsukuriga/web/serviceAccountkeys.json --zone $COMPUTE_ZONE
+          gcloud compute ssh root@$COMPUTE_NAME \
             --zone $COMPUTE_ZONE \
             --command "
               docker pull $RUN_IMAGE
-              cd ~/tsukuriga &&
-              git fetch origin &&
-              git reset --hard origin/migration/gcp-run &&
-              chmod +x ./scripts/cron.sh &&
+              cd /tsukuriga
+              git fetch origin
+              git reset --hard origin/migration/gcp-run
+              chmod +x ./scripts/cron.sh
               ./scripts/cron.sh
             "
 

@@ -15,7 +15,7 @@ env:
   RUN_IMAGE: gcr.io/tsukuriga-pre/tsukuriga:${{ github.sha }}
   RUN_SA_EMAIL: ${{ secrets.RUN_SA_EMAIL }}
   RUN_SA_KEY: ${{ secrets.RUN_SA_KEY }}
-  DJANGO_KEY: ${{ secrets.DJANGO_KEY }}
+  DJANGO_SECRET: ${{ secrets.DJANGO_SECRET }}
   SQL_CONNECTION_NAME: ${{ secrets.SQL_CONNECTION_NAME }}
   SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
   TWITTER_KEY: ${{ secrets.TWITTER_KEY }}
@@ -56,7 +56,7 @@ jobs:
           RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
           docker run \
             -e DEBUG=false \
-            -e SECRET_KEY=$DJANGO_KEY \
+            -e SECRET_KEY=$DJANGO_SECRET \
             -e RUN_SA_KEY_BASE64="$RUN_SA_KEY_BASE64" \
             "$RUN_IMAGE" \
             python manage.py collectstatic --no-input
@@ -64,7 +64,7 @@ jobs:
       - name: Compute Engineへのデプロイ
         run: |
           ENV_CONTENT="
-            SECRET_KEY=$DJANGO_KEY
+            SECRET_KEY=$DJANGO_SECRET
             RUN_IMAGE=$RUN_IMAGE
             RUN_SA_KEY_BASE64=$RUN_SA_KEY_BASE64
             MYSQL_HOST=/cloudsql/$SQL_CONNECTION_NAME
@@ -87,7 +87,7 @@ jobs:
             --region "$PROJECT_ZONE" \
             --image "$RUN_IMAGE" \
             --update-env-vars "DEBUG=false" \
-            --update-env-vars "SECRET_KEY=$DJANGO_KEY" \
+            --update-env-vars "SECRET_KEY=$DJANGO_SECRET" \
             --update-env-vars "ADMIN_MAIL=compeitoon@gmail.com" \
             --update-env-vars "RUN_SA_KEY_BASE64=$RUN_SA_KEY_BASE64" \
             --update-env-vars "MYSQL_HOST=/cloudsql/$SQL_CONNECTION_NAME" \

@@ -12,7 +12,7 @@ env:
   PROJECT_ZONE: us-west1-a
   COMPUTE_NAME: tsukuriga-vm
   RUN_NAME: tsukuriga
-  RUN_IMAGE: gcr.io/${{ env.RUN_SA_KEY }}/${{ env.RUN_NAME }}:${{ github.sha }}
+  RUN_IMAGE: gcr.io/tsukuriga-pre/tsukuriga:${{ github.sha }}
   RUN_SA_EMAIL: ${{ secrets.RUN_SA_EMAIL }}
   RUN_SA_KEY: ${{ secrets.RUN_SA_KEY }}
   DJANGO_KEY: ${{ secrets.DJANGO_KEY }}

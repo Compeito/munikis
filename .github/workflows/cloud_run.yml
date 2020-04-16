@@ -70,7 +70,12 @@ jobs:
           "
           echo "$ENV_CONTENT" > .env
           gcloud compute scp $COMPUTE_NAME:/tsukuriga/.env .env
-          gcloud compute ssh $COMPUTE_NAME --zone $PROJECT_ZONE
+          gcloud compute ssh $COMPUTE_NAME --zone $PROJECT_ZONE \
+            --command "
+            SCRIPT_PATH=/tsukuriga/scripts/cron.sh
+            sudo chmod +x $SCRIPT_PATH
+            sudo $SCRIPT_PATH
+            "
 
       - name: Cloud Runへのデプロイ
         run: |

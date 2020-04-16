@@ -72,7 +72,7 @@ jobs:
             MYSQL_ROOT_PASSWORD=$SQL_PASSWORD
           "
           echo "$ENV_CONTENT" > .env
-          gcloud compute scp $COMPUTE_NAME:/tsukuriga/.env .env \
+          gcloud compute scp .env $COMPUTE_NAME:/tsukuriga/.env \
             --zone $PROJECT_ZONE
           gcloud compute ssh $COMPUTE_NAME \
             --zone $PROJECT_ZONE \

@@ -76,11 +76,11 @@ jobs:
           gcloud compute ssh root@$COMPUTE_NAME \
             --zone $COMPUTE_ZONE \
             --command "
-              docker pull $RUN_IMAGE
-              cd /tsukuriga
-              git fetch origin
-              git reset --hard origin/migration/gcp-run
-              chmod +x ./scripts/cron.sh
+              docker pull $RUN_IMAGE &&
+              cd /tsukuriga &&
+              git fetch origin &&
+              git reset --hard origin/migration/gcp-run &&
+              chmod +x ./scripts/cron.sh &&
               ./scripts/cron.sh
             "
 

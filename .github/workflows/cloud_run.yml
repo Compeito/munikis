@@ -56,6 +56,7 @@ jobs:
           RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
           docker run \
             -e DEBUG=false \
+            -e SECRET_KEY=$DJANGO_KEY \
             -e RUN_SA_KEY_BASE64="$RUN_SA_KEY_BASE64" \
             "$RUN_IMAGE" \
             python manage.py collectstatic --no-input

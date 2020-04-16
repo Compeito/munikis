@@ -72,14 +72,16 @@ jobs:
             MYSQL_ROOT_PASSWORD=$SQL_PASSWORD
           "
           echo "$ENV_CONTENT" > .env
-          gcloud compute scp .env $COMPUTE_NAME:/tsukuriga/.env \
+          gcloud compute scp .env $COMPUTE_NAME:~/tsukuriga/.env \
             --zone $PROJECT_ZONE
           gcloud compute ssh $COMPUTE_NAME \
             --zone $PROJECT_ZONE \
             --command "
-            SCRIPT_PATH=/tsukuriga/scripts/cron.sh
-            sudo chmod +x $SCRIPT_PATH
-            sudo $SCRIPT_PATH
+              cd ~/tsukuriga &&
+              git fetch origin &&
+              git reset --hard origin/migration/gcp-run &&
+              chmod +x ./scripts/cron.sh &&
+              ./scripts/cron.sh
             "
 
       - name: Cloud Runへのデプロイ

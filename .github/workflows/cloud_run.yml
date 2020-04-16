@@ -63,6 +63,7 @@ jobs:
 
       - name: Compute Engineへのデプロイ
         run: |
+          RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
           ENV_CONTENT="
             SECRET_KEY=$DJANGO_SECRET
             RUN_IMAGE=$RUN_IMAGE
@@ -86,6 +87,7 @@ jobs:
 
       - name: Cloud Runへのデプロイ
         run: |
+          RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
           gcloud run deploy "$RUN_NAME" \
             --quiet \
             --region "us-west1" \

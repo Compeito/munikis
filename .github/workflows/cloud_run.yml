@@ -79,5 +79,6 @@ jobs:
             --update-env-vars "EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD" \
             --update-env-vars "INSTANCE-CONNECTION-NAME=$SQL_CONNECTION_NAME" \
             --add-cloudsql-instances "$SQL_CONNECTION_NAME" \
+            --memory 1G \
             --platform "managed" \
             --allow-unauthenticated

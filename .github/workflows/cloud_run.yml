@@ -68,11 +68,12 @@ jobs:
             MYSQL_HOST=/cloudsql/$SQL_CONNECTION_NAME
             MYSQL_PORT=
             MYSQL_ROOT_PASSWORD=$SQL_PASSWORD
+            SQL_CONNECTION_NAME=$SQL_CONNECTION_NAME
           "
           echo "$ENV_CONTENT" | tr -d " " > .env
           echo "$RUN_SA_KEY" > keys.json
           gcloud compute scp .env root@$COMPUTE_NAME:/tsukuriga/.env --zone $COMPUTE_ZONE
-          gcloud compute scp keys.json root@$COMPUTE_NAME:/tsukuriga/web/serviceAccountkeys.json --zone $COMPUTE_ZONE
+          gcloud compute scp keys.json root@$COMPUTE_NAME:/tsukuriga/web/serviceAccountKeys.json --zone $COMPUTE_ZONE
           gcloud compute ssh root@$COMPUTE_NAME \
             --zone $COMPUTE_ZONE \
             --command "

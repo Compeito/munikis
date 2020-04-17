@@ -13,8 +13,6 @@ services:
       - ./web/serviceAccountKeys.json:/config/serviceAccountKeys.json
 
   web:
-    image: $RUN_IMAGE
-    command: ":"
     environment:
       - "DEBUG=false"
 

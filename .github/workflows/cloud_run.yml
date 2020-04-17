@@ -60,29 +60,6 @@ jobs:
             "$RUN_IMAGE" \
             python manage.py collectstatic --no-input
 
-      - name: Compute Engineへのデプロイ
-        run: |
-          ENV_CONTENT="
-            SECRET_KEY=$DJANGO_SECRET
-            RUN_IMAGE=$RUN_IMAGE
-            MYSQL_ROOT_PASSWORD=$SQL_PASSWORD
-            SQL_CONNECTION_NAME=$SQL_CONNECTION_NAME
-          "
-          echo "$ENV_CONTENT" | tr -d " " > .env
-          echo "$RUN_SA_KEY" > keys.json
-          gcloud compute scp .env root@$COMPUTE_NAME:/tsukuriga/.env --zone $COMPUTE_ZONE
-          gcloud compute scp keys.json root@$COMPUTE_NAME:/tsukuriga/web/serviceAccountKeys.json --zone $COMPUTE_ZONE
-          gcloud compute ssh root@$COMPUTE_NAME \
-            --zone $COMPUTE_ZONE \
-            --command "
-              docker pull $RUN_IMAGE &&
-              cd /tsukuriga &&
-              git fetch origin &&
-              git reset --hard origin/migration/gcp-run &&
-              chmod +x ./scripts/cron.sh &&
-              ./scripts/cron.sh
-            "
-
       - name: Cloud Runへのデプロイ
         run: |
           RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)

@@ -65,8 +65,6 @@ jobs:
           ENV_CONTENT="
             SECRET_KEY=$DJANGO_SECRET
             RUN_IMAGE=$RUN_IMAGE
-            MYSQL_HOST=/cloudsql/$SQL_CONNECTION_NAME
-            MYSQL_PORT=
             MYSQL_ROOT_PASSWORD=$SQL_PASSWORD
             SQL_CONNECTION_NAME=$SQL_CONNECTION_NAME
           "

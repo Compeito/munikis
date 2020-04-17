@@ -8,6 +8,7 @@ import requests
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
+from django.core.management import call_command
 from django.db.models import Q
 from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -167,3 +168,14 @@ class Archive(AltPaginationListView):
         archives = json.loads(response.text)
         name = self.request.GET.get('name', '')
         return list(filter(lambda j: name in j['user'] or name in j['username'], archives))
+
+
+def job_endpoint(request, command):
+    allowed_commands = [
+        'encode', 'gif', 'ranking',
+        'contrib', 'ping_google', 'retweet'
+    ]
+    result = ''
+    if command in allowed_commands:
+        result = call_command(command)
+    return HttpResponse(result)

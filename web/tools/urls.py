@@ -9,4 +9,5 @@ urlpatterns = [
     path('para/callback', views.para_callback),
     path('para/tweet', views.para_tweet),
     path('statistics/csv', views.statistics_csv),
+    path('job/<str:command>', views.job_endpoint),
 ]

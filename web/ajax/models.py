@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from notify.models import Notification
 from core.utils import created_at2str, CustomModel, activate_url_from
+from core.templatetags.core_tags import to_staticfile_url
 from .utils import get_anonymous_name
 
 
@@ -28,7 +29,7 @@ class Comment(models.Model):
     @property
     def user_profile_icon_url(self):
         if self.is_anonymous:
-            return '/assets/images/default-icon.png'
+            return to_staticfile_url('images/default-icon.png')
         return self.user.profile_icon_url
 
     def json(self, user):

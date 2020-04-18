@@ -77,7 +77,6 @@ jobs:
             --update-env-vars "TWITTER_SECRET=$TWITTER_SECRET" \
             --update-env-vars "EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD" \
             --add-cloudsql-instances "$SQL_CONNECTION_NAME" \
-            --service-account "$RUN_SA_EMAIL" \
             --memory 1024M \
             --platform "managed" \
             --allow-unauthenticated

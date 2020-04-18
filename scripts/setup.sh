@@ -3,6 +3,11 @@
 set -e
 cd `dirname $0`/../
 
+if [ ! -n "`cat .env | grep DEBUG=true`" ]; then
+  echo "DEBUG=trueでないと実行できません"
+  exit 1
+fi
+
 echo "データ全て削除して開発用初期データを挿入します。よろしいですか？[y/N]"
 read ANSWER
 if [ "$ANSWER" != "y" ]; then

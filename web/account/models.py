@@ -6,6 +6,7 @@ from django.utils import timezone
 import os
 from uuid import uuid4
 from core.utils import CustomModel
+from core.templatetags.core_tags import to_staticfile_url
 from .validators import UsernameValidator
 from .ranking import Contribution
 
@@ -47,13 +48,13 @@ class User(AbstractUser):
     def profile_icon_url(self):
         if self.profile_icon:
             return self.profile_icon.url
-        return '/assets/images/default-icon.png'
+        return to_staticfile_url('images/default-icon.png')
 
     @property
     def profile_banner_url(self):
         if self.profile_banner:
             return self.profile_banner.url
-        return '/assets/images/default-banner.png'
+        return to_staticfile_url('images/default-banner.png')
 
     @property
     def has_twitter_auth(self):

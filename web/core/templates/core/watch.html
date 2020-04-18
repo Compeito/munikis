@@ -11,7 +11,7 @@
   {% if not video.is_ban %}
     {{ video.data.thumbnail.url }}
   {% else %}
-    {{ '/assets/images/ogp.png'|to_absolute_path }}
+    {{ 'images/ogp.png'|to_staticfile_url }}
   {% endif %}
 {% endblock %}
 

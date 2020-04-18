@@ -1,5 +1,10 @@
 from .base import *
 
+import base64
+import json
+
+from google.oauth2 import service_account
+
 DEBUG = False
 
 WEBPACK_LOADER['DEFAULT']['CACHE'] = not DEBUG
@@ -31,22 +36,26 @@ X_FRAME_OPTIONS = 'DENY'
 # https://github.com/python-social-auth/social-core/issues/250#issuecomment-436832460
 SESSION_COOKIE_SAMESITE = None
 
-# django-storage-swift
-DEFAULT_FILE_STORAGE = 'swift.storage.SwiftStorage'
-SWIFT_AUTH_URL = 'https://identity.tyo1.conoha.io/v2.0'
-SWIFT_BASE_URL = 'https://storage.tsukuriga.net'
-SWIFT_AUTO_BASE_URL = False
-SWIFT_TENANT_NAME = env('SWIFT_TENANT_NAME', default='')
-SWIFT_USERNAME = env('SWIFT_USERNAME', default='')
-SWIFT_PASSWORD = env('SWIFT_PASSWORD', default='')
-SWIFT_AUTO_CREATE_CONTAINER_PUBLIC = True
-SWIFT_AUTO_CREATE_CONTAINER = True
-SWIFT_CONTAINER_NAME = 'media'
+# django-storages
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'gcs.tsukuriga.net'
+GS_DEFAULT_ACL = 'publicRead'
+RUN_SA_KEY_BASE64 = env('RUN_SA_KEY_BASE64', default=None)
+if RUN_SA_KEY_BASE64:
+    RUN_SA_KEY = base64.b64decode(RUN_SA_KEY_BASE64).decode('utf-8')
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_info(
+        json.loads(RUN_SA_KEY)
+    )
+else:
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+        os.path.join(BASE_DIR, 'serviceAccountKeys.json')
+    )
 
 # mail
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.muumuu-mail.com'
-EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='mail@tsukuriga.net')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 EMAIL_PORT = 465
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

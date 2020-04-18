@@ -1,4 +1,3 @@
-import mimetypes
 import os
 import random
 from uuid import uuid4
@@ -176,8 +175,7 @@ class UploadedPureVideo(CustomModel):
     video = models.OneToOneField(Video, verbose_name='動画', on_delete=models.CASCADE, related_name='pure')
 
     file_validator = FileValidator(allowed_extensions=['mp4', 'avi', 'gif', 'mov'], max_size=100 * 1024 * 1024)
-    file = models.FileField('動画ファイル', upload_to=temp_upload_to, storage=FileSystemStorage(),
-                            validators=[file_validator, video_file_validator])
+    file = models.FileField('動画ファイル', upload_to=temp_upload_to, validators=[file_validator, video_file_validator])
 
     is_encoding = models.BooleanField('エンコード開始済み', default=False)
     is_failed = models.BooleanField('エンコード失敗', default=False)
@@ -185,10 +183,10 @@ class UploadedPureVideo(CustomModel):
 
     @cached_property
     def clip(self):
-        return VideoFileClip(self.file.path)
-
-    def is_mp4(self):
-        return mimetypes.guess_type(self.file.path)[0] == 'video/mp4'
+        with self.file.open('rb') as f:
+            _, ext = os.path.splitext(self.file.name)
+            encoded_path = get_tempfile(ext, file=f)
+        return VideoFileClip(encoded_path)
 
     def create_thumbnail(self):
         filepath = get_tempfile('.jpg')
@@ -218,11 +216,6 @@ class UploadedPureVideo(CustomModel):
             )
 
         self.clip.close()
-
-    def delete(self, **kwargs):
-        if os.path.exists(self.file.path):
-            os.remove(self.file.path)
-        return super().delete(**kwargs)
 
 
 class VideoProfile(CustomModel):

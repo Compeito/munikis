@@ -1,12 +1,14 @@
 import pathlib
 
 from django import template
+from django.core.files.storage import default_storage
 from django.contrib.sites.models import Site
+from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 from bulma.templatetags.bulma_tags import is_input
 
 from core.utils import created_at2str, activate_url_from
-from pages.utils import markdownify
 
 register = template.Library()
 
@@ -49,6 +51,14 @@ def to_absolute_path(path: str, is_secure=True):
     path = '' if path == '/' else path
     scheme = 'https' if is_secure else 'http'
     return scheme + '://' + current_site.domain + path
+
+
+@register.filter
+def to_staticfile_url(path: str):
+    storage = default_storage
+    if settings.DEBUG:
+        storage = staticfiles_storage
+    return storage.url(path)
 
 
 @register.filter

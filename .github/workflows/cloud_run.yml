@@ -1,0 +1,83 @@
+# https://github.com/GoogleCloudPlatform/github-actions/blob/master/example-workflows/cloud-run/.github/workflows/cloud-run.yml
+
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      master
+
+env:
+  PROJECT_NAME: tsukuriga
+  RUN_NAME: tsukuriga
+  RUN_REGION: asia-northeast1
+  RUN_IMAGE: asia.gcr.io/tsukuriga/tsukuriga
+  RUN_SA_EMAIL: ${{ secrets.RUN_SA_EMAIL }}
+  RUN_SA_KEY: ${{ secrets.RUN_SA_KEY }}
+  DJANGO_SECRET: ${{ secrets.DJANGO_SECRET }}
+  SQL_CONNECTION_NAME: ${{ secrets.SQL_CONNECTION_NAME }}
+  SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
+  TWITTER_KEY: ${{ secrets.TWITTER_KEY }}
+  TWITTER_SECRET: ${{ secrets.TWITTER_SECRET }}
+  EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+
+jobs:
+  setup-build-deploy:
+    name: Setup, Build, and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '286.0.0'
+          service_account_email: ${{ env.RUN_SA_EMAIL }}
+          service_account_key: ${{ env.RUN_SA_KEY }}
+          project_id: ${{ env.PROJECT_NAME }}
+
+      - name: 静的ファイルのビルド
+        run: |
+          cd node
+          yarn install
+          yarn build
+          cp -rf ./assets/* ../web/assets/
+
+      - name: Container Registryへのデプロイ
+        run: |
+          gcloud auth configure-docker --quiet
+          docker build -t $RUN_IMAGE:${{ github.sha }} -t $RUN_IMAGE:latest ./web
+          docker push $RUN_IMAGE
+
+      - name: Cloud Storageへのデプロイ
+        run: |
+          RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
+          docker run \
+            -e DEBUG=false \
+            -e SECRET_KEY=$DJANGO_SECRET \
+            -e RUN_SA_KEY_BASE64="$RUN_SA_KEY_BASE64" \
+            "$RUN_IMAGE" \
+            python manage.py collectstatic --no-input
+
+      - name: Cloud Runへのデプロイ
+        run: |
+          RUN_SA_KEY_BASE64=$(echo $RUN_SA_KEY | openssl enc -e -base64)
+          gcloud run deploy "$RUN_NAME" \
+            --quiet \
+            --region "$RUN_REGION" \
+            --image "$RUN_IMAGE:${{ github.sha }}" \
+            --update-env-vars "DEBUG=false" \
+            --update-env-vars "SECRET_KEY=$DJANGO_SECRET" \
+            --update-env-vars "ADMIN_MAIL=compeitoon@gmail.com" \
+            --update-env-vars "RUN_SA_KEY_BASE64=$RUN_SA_KEY_BASE64" \
+            --update-env-vars "MYSQL_HOST=/cloudsql/$SQL_CONNECTION_NAME" \
+            --update-env-vars "MYSQL_PORT=" \
+            --update-env-vars "MYSQL_ROOT_PASSWORD=$SQL_PASSWORD" \
+            --update-env-vars "TWITTER_KEY=$TWITTER_KEY" \
+            --update-env-vars "TWITTER_SECRET=$TWITTER_SECRET" \
+            --update-env-vars "EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD" \
+            --add-cloudsql-instances "$SQL_CONNECTION_NAME" \
+            --service-account "$RUN_SA_EMAIL"
+            --memory 1024M \
+            --platform "managed" \
+            --allow-unauthenticated

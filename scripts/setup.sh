@@ -3,6 +3,11 @@
 set -e
 cd `dirname $0`/../
 
+if [ ! -n "`cat .env | grep DEBUG=true`" ]; then
+  echo "DEBUG=trueでないと実行できません"
+  exit 1
+fi
+
 echo "データ全て削除して開発用初期データを挿入します。よろしいですか？[y/N]"
 read ANSWER
 if [ "$ANSWER" != "y" ]; then
@@ -15,6 +20,7 @@ docker-compose up -d --no-deps db
 
 echo "パッケージのインストール"
 docker-compose run --no-deps --rm web poetry install --no-root
+docker-compose run --no-deps --rm node yarn install
 echo "データベースのマイグレーション"
 docker-compose run --no-deps --rm web python manage.py migrate
 echo "データベースの初期化"

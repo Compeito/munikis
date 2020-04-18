@@ -26,7 +26,7 @@ env = environ.Env()
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', default='z4dmv4gx*^lqkgmly!3-v3-w!f(tg+9ru1bh75)hm_+h%ac%fy')
+SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = env('ALLOWED_HOST', default='*').split(',')
 
@@ -113,9 +113,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django',
         'USER': 'root',
-        'PASSWORD': env('MYSQL_ROOT_PASSWORD'),
-        'HOST': 'db',
-        'PORT': '3306',
+        'PASSWORD': env('MYSQL_ROOT_PASSWORD', default='password000'),
+        'HOST': env('MYSQL_HOST', default='db'),
+        'PORT': env('MYSQL_PORT', default='3306'),
         'OPTIONS': {
             'charset': 'utf8mb4',
             'sql_mode': 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO,ONLY_FULL_GROUP_BY',
@@ -157,19 +157,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
-
 STATIC_URL = '/assets/'
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "assets"),
 )
 
-STATIC_ROOT = '/assets'
-
 SITE_ID = 1
 
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # パラツク

@@ -11,9 +11,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>{% block title %}{% block page_title %}{% endblock %} | ツクリガ -Tsukuriga-{% endblock %}</title>
-  <link rel="shortcut icon" href="/assets/images/favicon.ico">
-  <link rel="icon" type="image/png" href="/assets/images/icon-192x192.png">
-  <link rel="apple-touch-icon" type="image/png" href="/assets/images/apple-touch-icon-180x180.png">
+  <link rel="shortcut icon" href="{{ 'images/favicon.ico'|to_staticfile_url }}">
+  <link rel="icon" type="image/png" href="{{ 'images/icon-192x192.png'|to_staticfile_url }}">
+  <link rel="apple-touch-icon" type="image/png" href="{{ 'images/apple-touch-icon-180x180.png'|to_staticfile_url }}">
   {% block meta %}
     <meta
       name="description"

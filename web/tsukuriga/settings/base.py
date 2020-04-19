@@ -244,7 +244,7 @@ PWA_APP_ORIENTATION = 'portrait-primary'
 PWA_APP_START_URL = '/?pwa'
 PWA_APP_ICONS = [
     {
-        'src': 'https://gcs.tsukruiga.net/images/icon-192x192.png',
+        'src': 'https://gcs.tsukuriga.net/images/icon-192x192.png',
         'sizes': '192x192'
     }
 ]

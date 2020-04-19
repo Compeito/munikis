@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 import re
 
@@ -48,7 +49,7 @@ class Page(CustomModel):
         img = re.search(r'!\[.*\]\((?P<uri>.+)\)', self.text)
         if img:
             return img.group('uri')
-        return 'https://tsukuriga.net/assets/images/ogp.png'
+        return staticfiles_storage.url('images/ogp.png')
 
     def __str__(self):
         return self.title

@@ -53,11 +53,11 @@ else:
     )
 
 # mail
-EMAIL_USE_SSL = True
-EMAIL_HOST = 'smtp.muumuu-mail.com'
-EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='mail@tsukuriga.net')
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'in-v3.mailjet.com'
+EMAIL_HOST_USER = env('EMAIL_HOST_PASSWORD', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
-EMAIL_PORT = 465
+EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'Tsukuriga <mail@tsukuriga.net>'
 

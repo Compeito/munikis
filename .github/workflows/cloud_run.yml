@@ -19,6 +19,7 @@ env:
   SQL_PASSWORD: ${{ secrets.SQL_PASSWORD }}
   TWITTER_KEY: ${{ secrets.TWITTER_KEY }}
   TWITTER_SECRET: ${{ secrets.TWITTER_SECRET }}
+  EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
   EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
 jobs:
@@ -75,6 +76,7 @@ jobs:
             --update-env-vars "MYSQL_ROOT_PASSWORD=$SQL_PASSWORD" \
             --update-env-vars "TWITTER_KEY=$TWITTER_KEY" \
             --update-env-vars "TWITTER_SECRET=$TWITTER_SECRET" \
+            --update-env-vars "EMAIL_HOST_USER=$EMAIL_HOST_USER" \
             --update-env-vars "EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD" \
             --add-cloudsql-instances "$SQL_CONNECTION_NAME" \
             --service-account "$RUN_SA_EMAIL" \

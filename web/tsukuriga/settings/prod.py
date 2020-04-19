@@ -55,7 +55,7 @@ else:
 # mail
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'in-v3.mailjet.com'
-EMAIL_HOST_USER = env('EMAIL_HOST_PASSWORD', default='')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
 EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

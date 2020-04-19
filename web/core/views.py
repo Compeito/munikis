@@ -10,6 +10,7 @@ from django.http.response import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_POST
+from django.contrib.staticfiles.storage import staticfiles_storage
 
 from account.models import User
 from ajax.forms import CommentForm, AddPointForm
@@ -148,7 +149,7 @@ def framebyframe(request):
     media_matched = re.search(r'https://storage\.tsukuriga\.net/altwug/.+/movie\.mp4', url)
 
     file_url = ''
-    thumbnail_url = 'https://tsukuriga.net/assets/images/ogp.png'
+    thumbnail_url = staticfiles_storage.url('images/ogp.png')
     if twitter_matched:
         tweet_id = twitter_matched.group('id')
         admin_user: User = User.objects.filter(is_staff=True).first()

@@ -39,6 +39,7 @@ SESSION_COOKIE_SAMESITE = None
 # django-storages
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_CUSTOM_ENDPOINT = 'https://gcs.tsukuriga.net'
 GS_BUCKET_NAME = 'gcs.tsukuriga.net'
 GS_DEFAULT_ACL = 'publicRead'
 RUN_SA_KEY_BASE64 = env('RUN_SA_KEY_BASE64', default=None)

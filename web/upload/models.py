@@ -4,10 +4,10 @@ from uuid import uuid4
 
 from django.conf import settings
 from django.core.files import File
-from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
+from django.contrib.staticfiles.storage import staticfiles_storage
 from moviepy.editor import VideoFileClip
 
 from browse.models import Ranking, Label, VideoProfileLabelRelation
@@ -102,7 +102,7 @@ class Video(models.Model):
 
     @property
     def image_urls(self):
-        thumbnail = 'https://tsukuriga.net/assets/images/ogp.png'
+        thumbnail = staticfiles_storage.url('images/ogp.png')
         gif = ''
         if hasattr(self, 'data') and not self.is_ban:
             if self.data.thumbnail:

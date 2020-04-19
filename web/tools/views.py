@@ -164,7 +164,7 @@ class Archive(AltPaginationListView):
     paginate_by = 16
 
     def get_queryset(self):
-        response = requests.get('https://storage.googleapis.com/gcs.tsukuriga.net/altwug/dump.json')
+        response = requests.get('https://gcs.tsukuriga.net/altwug/dump.json')
         archives = json.loads(response.text)
         name = self.request.GET.get('name', '')
         return list(filter(lambda j: name in j['user'] or name in j['username'], archives))

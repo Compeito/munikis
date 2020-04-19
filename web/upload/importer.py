@@ -55,7 +55,7 @@ class ImportFile(RequestFile):
 
 
 class TwitterImporter:
-    pattern = r'^https://twitter\.com/\w+/status/(?P<id>\d+)$'
+    pattern = r'^https://twitter\.com/\w+/status/(?P<id>\d+)(\?.+)$'
 
     def __init__(self, tweet_id, user):
         self.user = user

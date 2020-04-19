@@ -146,7 +146,7 @@ def embed(request, slug):
 def framebyframe(request):
     url = request.GET.get('url', '')
     twitter_matched = re.search(TwitterImporter.pattern, url)
-    media_matched = re.search(r'https://storage\.tsukuriga\.net/altwug/.+/movie\.mp4', url)
+    media_matched = re.search(r'https://gcs\.tsukuriga\.net/altwug/.+/movie\.mp4', url)
 
     file_url = ''
     thumbnail_url = staticfiles_storage.url('images/ogp.png')

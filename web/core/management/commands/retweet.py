@@ -27,19 +27,18 @@ class Command(BaseCommand):
                 '-filter:retweets'
             )
             tweets = tsukuriga_user.api.GetSearch(term=' '.join(terms), count=50)
-            count = 0
+            retweeted = False
             for tweet in tweets[::-1]:
-                if count >= 10:
-                    break
                 try:
                     if not tweet.retweeted:
                         tsukuriga_user.api.PostRetweet(tweet.id)
                         print(f'RT: https://twitter.com/_/status/{tweet.id}')
-                        count += 1
+                        retweeted = True
                     if not tweet.user.following:
                         tsukuriga_user.api.CreateFriendship(tweet.user.id, follow=False)
                         print(f'FOLLOW: https://twitter.com/{tweet.user.screen_name}')
-                    sleep(5 * 60)
+                    if retweeted:
+                        break
                 except KeyboardInterrupt:
                     break
                 except:

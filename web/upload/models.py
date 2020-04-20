@@ -86,6 +86,18 @@ class Video(models.Model):
                 'icon': release_icons[self.profile.release_type],
                 'label': self.profile.get_release_type_display,
             })
+        if self.is_pickup:
+            badges.append({
+                'css': 'is-pickup',
+                'icon': 'fas fa-star',
+                'label': 'ピックアップ'
+            })
+        if self.is_ban:
+            badges.append({
+                'css': 'is-ban',
+                'icon': 'fas fa-ban',
+                'label': '運営による非公開'
+            })
         return badges
 
     @property

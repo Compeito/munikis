@@ -40,7 +40,15 @@
         }
 
         &.is-unpublished {
+          background-color: $red;
+        }
+
+        &.is-pickup {
           background-color: $yellow;
+        }
+
+        &.is-ban {
+          background-color: $red-dark;
         }
 
         &.is-twitter {

@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 {% load core_tags %}
 
-{% block page_title %}ピックアップ作品一覧{% endblock %}
-{% block ogp_page_title %}ピックアップ作品一覧{% endblock %}
+{% block page_title %}ピックアップ作品{% endblock %}
+{% block ogp_page_title %}ピックアップ作品{% endblock %}
 
-{% block content_2col %}
+{% block content %}
   <div class="column">
-    {% include 'browse/components/video-list.html' %}
+    <h1 class="title">ピックアップ作品</h1>
+    {% include 'browse/components/video-list.html' with column_classes='is-4' %}
   </div>
 {% endblock %}

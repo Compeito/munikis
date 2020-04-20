@@ -75,7 +75,7 @@ timeline = login_required(Timeline.as_view())
 class Pickup(AltPaginationListView):
     template_name = 'browse/pickup.html'
     context_object_name = 'videos'
-    paginate_by = 12
+    paginate_by = 9
 
     def get_queryset(self):
         return safe_videos().filter(is_pickup=True).order_by('-published_at')

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load core_tags %}
+
+{% block page_title %}ピックアップ作品一覧{% endblock %}
+{% block ogp_page_title %}ピックアップ作品一覧{% endblock %}
+
+{% block content_2col %}
+  <div class="column">
+    {% include 'browse/components/video-list.html' %}
+  </div>
+{% endblock %}

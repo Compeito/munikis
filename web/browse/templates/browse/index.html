@@ -36,11 +36,11 @@
       </div>
     </section>
     <section class="section">
-      {% include 'browse/components/section-title.html' with title="ピックアップ" %}
+      {% include 'browse/components/section-title.html' with title="ピックアップ" href="/pickup" %}
       {% include 'browse/components/video-list.html' with videos=pickup_videos column_classes='is-one-third' %}
     </section>
     <section class="section">
-      {% include 'browse/components/section-title.html' with title="ランダム新着" href="/recent" %}
+      {% include 'browse/components/section-title.html' with title="新着作品" href="/recent" %}
       {% include 'browse/components/video-list.html' with videos=recent_videos %}
     </section>
     <section class="section">

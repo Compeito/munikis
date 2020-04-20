@@ -41,7 +41,7 @@ class Home(TemplateView):
 
     @staticmethod
     def _get_pickup_videos():
-        return safe_videos().filter(is_pickup=True).order_by('-published_at')[:6]
+        return safe_videos().filter(is_pickup=True).order_by('?')[:6]
 
 
 home = Home.as_view()
@@ -70,6 +70,18 @@ class Timeline(AltPaginationListView):
 
 
 timeline = login_required(Timeline.as_view())
+
+
+class Pickup(AltPaginationListView):
+    template_name = 'browse/pickup.html'
+    context_object_name = 'videos'
+    paginate_by = 12
+
+    def get_queryset(self):
+        return safe_videos().filter(is_pickup=True).order_by('-published_at')
+
+
+pickup = Pickup.as_view()
 
 
 class Search(AltPaginationListView):

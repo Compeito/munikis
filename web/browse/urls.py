@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.home),
     path('recent', views.recent),
     path('timeline', views.timeline),
+    path('pickup', views.pickup),
     path('search', views.search),
     path('ranking', views.ranking),
     path('ranking/<slug:type>', views.ranking),

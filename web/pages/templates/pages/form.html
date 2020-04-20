@@ -1,3 +1,4 @@
+{% load core_tags %}
 {% load render_bundle from webpack_loader %}
 {% render_bundle 'base/app' %}
 <div class="markdownx columns" style="width: 100%!important;">
@@ -6,7 +7,7 @@
   </div>
   <div class="column">
     <div class="markdownx-preview"></div>
-    <script src="/assets/embed.js"></script>
+    <script src="{{ 'embed.js'|to_staticfile_url }}"></script>
     <script>
     setInterval(() => {
       for (el of document.querySelectorAll('blockquote')) {

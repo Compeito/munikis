@@ -40,7 +40,7 @@
 {% endblock %}
 
 {% block scripts %}
-  <script src="/assets/embed.js"></script>
+  <script src="{{ 'embed.js'|to_staticfile_url }}"></script>
   <script>
   for (el of document.querySelectorAll('blockquote')) {
     el.classList.add('twitter-tweet')

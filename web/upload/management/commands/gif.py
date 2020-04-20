@@ -6,5 +6,5 @@ from upload.models import VideoData
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        for video in VideoData.objects.filter(Q(gif__isnull=True) | Q(gif__exact=''), duration__gte=3):
-            video.update_gif()
+        video = VideoData.objects.filter(Q(gif__isnull=True) | Q(gif__exact=''), duration__gte=3).first()
+        video.update_gif()

@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         pure = UploadedPureVideo.objects.first()
-        if pure.is_encoding:
+        if pure is None or pure.is_encoding:
             return
 
         try:

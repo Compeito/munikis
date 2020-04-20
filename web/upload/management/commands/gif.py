@@ -7,4 +7,5 @@ from upload.models import VideoData
 class Command(BaseCommand):
     def handle(self, *args, **options):
         video = VideoData.objects.filter(Q(gif__isnull=True) | Q(gif__exact=''), duration__gte=3).first()
-        video.update_gif()
+        if video is not None:
+            video.update_gif()

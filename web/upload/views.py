@@ -32,14 +32,17 @@ def upload(request):
 
         if form.is_valid():
             video = Video.objects.create(user=request.user)
-            pure_video = form.save(commit=False)
-            pure_video.video = video
-            pure_video.save()
-
             VideoProfile.objects.create(
                 video=video,
                 title=request.user.name + 'さんの作品'
             )
+            try:
+                pure_video = form.save(commit=False)
+                pure_video.video = video
+                pure_video.save()
+            except Exception as e:
+                video.delete()
+                raise e
 
             return redirect(f'/upload/detail/{video.slug}')
 

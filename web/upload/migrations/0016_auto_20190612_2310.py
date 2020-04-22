@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='videoprofile',
             name='file',
-            field=models.FileField(blank=True, help_text='動画出力前のデータ(pclx, kwzなど)を配布したい方向け。zip形式のみ対応で100MBまで', null=True,
+            field=models.FileField(blank=True, help_text='動画出力前のデータ(pclx, kwzなど)を配布したい方向け。zip形式のみ対応で30MBまで', null=True,
                                    upload_to=upload.models.profile_upload_to, validators=[
                     upload.validators.FileValidator(allowed_extensions=['zip'], max_size=104857600),
                     upload.validators.zip_validator], verbose_name='添付ファイル'),

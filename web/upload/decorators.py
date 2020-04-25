@@ -19,7 +19,7 @@ def users_video_required(view):
 
 def upload_limitation(view):
     def wrapper(request, *args, **kwargs):
-        if not request.user.is_uploadable:
+        if not request.user.is_staff and not request.user.is_uploadable:
             localdate_uploadble = timezone.localtime(request.user.date_uploadable)
             localdate_uploadble_str = localdate_uploadble.strftime('%Y/%m/%d %H:%M:%S')
             messages.error(request, f'新規アカウントは連続投稿が制限されています。{localdate_uploadble_str}までお待ち下さい')

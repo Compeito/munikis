@@ -15,10 +15,10 @@
           {% include 'core/components/video-menu/framebyframe-input.html' %}
         </div>
         <div class="level-right">
-          <form class="submit-form" method="post">
+          <form id="thumbnail-form" method="post">
             {% csrf_token %}
             {{ form }}
-            <button type="submit" class="button is-info">決定</button>
+            <button type="button" class="button is-info">決定</button>
           </form>
         </div>
       </div>

@@ -4,7 +4,7 @@
           class='video-js vjs-big-play-centered'
           controls
           {% if video.profile.is_loop %}loop{% endif %}
-          preload='auto'
+          preload='metadata'
           poster='{{ video.data.thumbnail.url }}'
           data-video-id="{{ video.slug }}"
           data-fps="{{ video.profile.fps }}"

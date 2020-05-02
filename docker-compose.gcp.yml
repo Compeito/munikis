@@ -1,7 +1,11 @@
 version: '3'
 
+volumes:
+  venv-prod:
+  assets-prod:
+
 services:
-  db:
+  db-prod:
     image: gcr.io/cloudsql-docker/gce-proxy
     command:
       [
@@ -12,9 +16,10 @@ services:
     volumes:
       - ./web/serviceAccountKeys.json:/config/serviceAccountKeys.json
 
-  web:
-    environment:
-      - "DEBUG=false"
-
-  node:
-    command: ""
+  web-prod:
+    image: asia.gcr.io/tsukuriga/tsukuriga
+    env_file: .env
+    volumes:
+      - ./web:/code
+      - venv-prod:/code/.venv
+      - assets-prod:/code/assets

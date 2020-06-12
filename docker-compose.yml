@@ -36,7 +36,7 @@ services:
     restart: always
 
   node:
-    image: node
+    image: node:13-alpine
     command: yarn dev
     volumes:
       - ./node:/code

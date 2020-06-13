@@ -76,11 +76,11 @@ ready(() => {
 
     switch (e.code) {
       case 'ArrowRight':
-        push_frame()
+        video.ready().push_frame()
         e.preventDefault()
         break
       case 'ArrowLeft':
-        back_frame()
+        video.ready().back_frame()
         e.preventDefault()
         break
       case 'Space':

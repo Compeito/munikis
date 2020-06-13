@@ -1,1 +1,1 @@
-require('./watch/videojs-setup')
+require('./watch/player-setup')

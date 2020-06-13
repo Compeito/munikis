@@ -1,2 +1,2 @@
-require('./watch/videojs-setup')
+require('./watch/player-setup')
 require('./watch/framebyframe')

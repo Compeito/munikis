@@ -59,11 +59,14 @@ class Video {
 ready(() => {
   const video = new Video('video')
 
-  const push_frame = () => video.ready().push_frame()
-  const back_frame = () => video.ready().back_frame()
-
-  doc('#next-frame').addEventListener('click', push_frame)
-  doc('#prev-frame').addEventListener('click', back_frame)
+  doc('#next-frame').addEventListener('click', e => {
+    e.preventDefault()
+    video.ready().push_frame()
+  })
+  doc('#prev-frame').addEventListener('click', e => {
+    e.preventDefault()
+    video.ready().back_frame()
+  })
 
   document.addEventListener('keydown', e => {
     if (

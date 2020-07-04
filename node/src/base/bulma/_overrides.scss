@@ -51,3 +51,14 @@ div.columns {
 .column.is-narrow-padding {
   padding: 0.30rem;
 }
+
+// https://github.com/jgthms/bulma/issues/2503#issuecomment-519650331
+@include desktop {
+    .navbar-item {
+        &.is-hoverable:hover {
+            .navbar-dropdown {
+                display: block;
+            }
+        }
+    }
+}

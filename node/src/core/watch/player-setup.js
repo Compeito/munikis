@@ -6,6 +6,7 @@ import { ready } from '../../utils'
 ready(() => {
   const player = new Plyr('#video-player', {
     ratio: '16:9',
+    autoplay: true,
     keyboard: {focused: false, global: false},
     speed: {
       selected: 1,

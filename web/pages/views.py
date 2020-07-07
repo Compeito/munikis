@@ -23,6 +23,8 @@ class PagesList(AltPaginationListView):
 
         category = self.request.GET.get('category', None)
         if category:
+            if category not in Page.Categories:
+                raise Http404
             context['category'] = Page.Categories[category].label
         else:
             context['category'] = 'カテゴリを選択'

@@ -5,7 +5,7 @@ from . import views
 
 
 def closed(request):
-    return HttpResponse('このページは現在利用できません', status=503)
+    return HttpResponse('このページは現在利用できません')
 
 
 urlpatterns = [

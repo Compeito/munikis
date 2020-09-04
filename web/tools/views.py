@@ -125,7 +125,8 @@ def statistics_csv(request):
         '総スター人数': 'point_users_count',
         '総コメント人数': 'commentators_count',
         '総いいね数': 'favorites_count',
-        '投稿日': 'published_at_str'
+        '投稿日': 'published_at_str',
+        '動画ファイル': 'data.file.url'
     }
     writer.writerow(columns.keys())
 

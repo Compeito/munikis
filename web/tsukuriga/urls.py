@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
+from django.http.response import HttpResponse
 
 from .sitemap import *
 
@@ -29,6 +30,11 @@ sitemaps = {
     'user': UserSitemap
 }
 
+
+def closed(request):
+    return HttpResponse('このページは現在利用できません', status=503)
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('pwa.urls')),
@@ -39,7 +45,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('', include('browse.urls')),
     path('', include('tools.urls')),
-    path('upload', include('upload.urls')),
+    path('upload', closed),
     path('notify', include('notify.urls')),
     path('ajax/', include('ajax.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),

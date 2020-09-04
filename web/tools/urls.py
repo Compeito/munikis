@@ -1,9 +1,16 @@
 from django.urls import path
+from django.http.response import HttpResponse
+
 from . import views
 
+
+def closed(request):
+    return HttpResponse('このページは現在利用できません', status=503)
+
+
 urlpatterns = [
-    path('chat', views.Chat.as_view()),
-    path('archive', views.Archive.as_view()),
+    path('chat', closed),
+    path('archive', closed),
     path('para/encode', views.para_encoding),
     path('para/auth', views.para_authentication),
     path('para/callback', views.para_callback),

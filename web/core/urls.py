@@ -1,6 +1,12 @@
 from django.urls import path
+from django.http.response import HttpResponse
 
 from . import views
+
+
+def closed(request):
+    return HttpResponse('このページは現在利用できません', status=503)
+
 
 urlpatterns = [
     path('watch/<slug:slug>', views.watch),
@@ -8,5 +14,5 @@ urlpatterns = [
     path('thumbnail/<slug:slug>', views.edit_thumbnail),
     path('delete/<slug:slug>', views.delete),
     path('embed/<slug:slug>', views.embed),
-    path('framebyframe', views.framebyframe),
+    path('framebyframe', closed),
 ]

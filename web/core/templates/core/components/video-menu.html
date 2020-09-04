@@ -11,13 +11,13 @@
       </div>
       <div class="dropdown-menu" id="video-dropdown-menu" role="menu">
         <div class="dropdown-content">
-          {% if video.data.file.url %}
-            <a class="dropdown-item" href="{{ video.data.file.url }}" download="{{ video.slug }}.mp4">
-              <i class="fas fa-download with-text"></i>
-              動画のダウンロード
-            </a>
-          {% endif %}
           {% if video.user == request.user %}
+            {% if video.data.file.url %}
+              <a class="dropdown-item" href="{{ video.data.file.url }}" download="{{ video.slug }}.mp4">
+                <i class="fas fa-download with-text"></i>
+                動画のダウンロード
+              </a>
+            {% endif %}
             <a class="dropdown-item" href="/edit/{{ video.slug }}">
               <i class="fas fa-edit with-text"></i>
               動画情報の編集

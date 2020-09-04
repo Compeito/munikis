@@ -63,6 +63,8 @@ class Video(models.Model):
     type = models.CharField('動画タイプ', max_length=20, choices=VideoType.choices, default=VideoType.normal)
     source_url = models.URLField('インポート元URL', null=True, blank=True)
 
+    is_ban2 = True
+
     @property
     def badges(self):
         type_icons = {
@@ -92,7 +94,7 @@ class Video(models.Model):
                 'icon': 'fas fa-star',
                 'label': 'ピックアップ'
             })
-        if self.is_ban:
+        if self.is_ban2:
             badges.append({
                 'css': 'is-ban',
                 'icon': 'fas fa-ban',
@@ -266,7 +268,7 @@ class VideoProfile(CustomModel):
 
     @property
     def release_type_display(self):
-        if self.video.is_ban:
+        if self.video.is_ban2:
             return '運営による非公開'
         return self.get_release_type_display()
 

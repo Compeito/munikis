@@ -8,7 +8,7 @@
 {% block ogp_description %}{{ video.profile.meta_description }}{% endblock %}
 
 {% block ogp_image %}
-  {% if not video.is_ban %}
+  {% if not video.is_ban2 %}
     {{ video.data.thumbnail.url }}
   {% else %}
     {{ 'images/ogp.png'|to_staticfile_url }}
